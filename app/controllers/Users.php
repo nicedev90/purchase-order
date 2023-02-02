@@ -13,7 +13,7 @@
 			}
 		}
 
-		public function forgot() {
+		public function forgot() { 
 			if (!isset($_SESSION['user_rol'])) {
 				$this->view('pages/forgot');
 			} else {
