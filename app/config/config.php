@@ -5,6 +5,6 @@
 	define('DB_NAME', 'purchase');
 
 	define('APPROOT', dirname(dirname(__FILE__)));
-	define('URLROOT', 'http://192.168.8.100/purchase-order');
+	define('URLROOT', 'http://localhost/purchase-order');
 	define('APPNAME', 'Purchase Orders System');
 ?>
