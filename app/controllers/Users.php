@@ -1,5 +1,5 @@
 <?php 
-	class Users extends Controller {
+	class Users extends Controller {	
 		public function __construct() {
 			$this->model = $this->model('User');
 		}
@@ -32,6 +32,12 @@
 		}
 
 		
+		public function sendMail() {
+
+
+			$this->view('pages/enviado');
+			// enviar el email
+		}
 
 		public function createSession($user) {
 			$_SESSION['user_rol'] = $user->rol;

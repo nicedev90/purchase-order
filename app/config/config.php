@@ -6,5 +6,5 @@
 
 	define('APPROOT', dirname(dirname(__FILE__)));
 	define('URLROOT', 'http://localhost/purchase-order');
-	define('APPNAME', 'Purchase Orders System');
+	define('APPNAME', 'SAC CLONSA');
 ?>
