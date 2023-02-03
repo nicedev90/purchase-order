@@ -19,11 +19,11 @@
                     <h2 class="title">Inicia Sesión </h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" name ="usuario" placeholder="Nombre de Usuario" />
+                        <input type="text" name="usuario" placeholder="Nombre de Usuario" required/>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name ="password" placeholder="Contraseña" />
+                        <input type="password" name="password" placeholder="Contraseña" required />
                     </div>
                     <input type="submit" value="Inicia Sesión" class="btn solid" />
                     <p class="social-text">Proximamente con nuestras plataformas sociales</p>

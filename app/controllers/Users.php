@@ -41,7 +41,7 @@
 							$this->createSession($userLogged);
 						} else {
 							// redirigir a login.php : Usuario no esta activo
-							$_SESSION['alerta'] = 'warning';
+							$_SESSION['alerta'] = 'danger';
 							$_SESSION['mensaje'] = 'Usuario no esta Activo.';
 							redirect('users/login');
 								}
