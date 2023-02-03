@@ -20,9 +20,9 @@
 			}
 		}
 
-		public function findUserByEmail($email) {
-			$this->db->query('SELECT email FROM usuarios WHERE email = :email');
-			$this->db->bind(':email', $email);
+		public function findUser($usuario) {
+			$this->db->query('SELECT usuario FROM usuarios WHERE usuario = :usuario');
+			$this->db->bind(':usuario', $usuario);
 			$this->db->getSingle();
 
 			if ($this->db->rows() > 0) {

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/login.css" />
+    <!-- <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/bootstrap.min.css" /> -->
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/bootstrap-icons.css" />
+
     <title>SAC CLONSA INGENIERIA </title>
 </head>
 <body>
@@ -12,6 +15,7 @@
         <div class="forms-container">
             <div class="signin-signup">
                 <form action="<?php echo URLROOT; ?>/users/login" method="POST" class="sign-in-form" autocomplete="off" >
+                    <?php showAlert(); ?>
                     <h2 class="title">Inicia Sesión </h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
