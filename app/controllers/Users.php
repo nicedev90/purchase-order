@@ -13,6 +13,29 @@
 			}
 		}
 
+		public function login() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+			$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+			$usuario = $_POST['usuario'];
+			$password = $_POST['password'];
+
+			$user = $this->model->login($usuario, $password);
+
+				if ($user) {
+					$this->createSession($user);
+				} else {
+					$this->view('pages/login');
+				}
+			
+
+
+			} else {
+				$this->view('pages/login');
+			}
+
+		}
+
 		public function forgot() { 
 			if (!isset($_SESSION['user_rol'])) {
 				$this->view('pages/forgot');

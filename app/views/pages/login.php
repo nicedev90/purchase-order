@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/login.css" />
     <title>SAC CLONSA INGENIERIA </title>
 </head>
-
 <body>
     <div class="container">
         <div class="forms-container">
@@ -44,7 +42,7 @@
                     <h2 class="title">Registrate</h2> 
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Nombre de usurio" name="nombre" required/>
+                        <input type="text" placeholder="Nombre de usuario" name="nombre" required/>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
@@ -85,7 +83,7 @@
               Registrate
             </button>
                 </div>
-                <img src="<? echo URLROOT; ?>/img/log.svg" class="image" alt="" />
+                <img src="<?php echo URLROOT; ?>/img/log.svg" class="image" alt="" />
             </div>
             <div class="panel right-panel">
                 <div class="content">
@@ -97,7 +95,7 @@
               Inicia Sesión
             </button>
                 </div>
-                <img src="<? echo URLROOT; ?>/img/register.svg" class="image" alt="" />
+                <img src="<?php echo URLROOT; ?>/img/register.svg" class="image" alt="" />
             </div>
         </div>
     </div>

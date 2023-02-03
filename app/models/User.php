@@ -6,9 +6,9 @@
 			$this->db = new Database;
 		}
 
-		public function login($email, $password) {
-			$this->db->query('SELECT * FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id WHERE u.email = :email');
-			$this->db->bind(':email', $email);
+		public function login($usuario, $password) {
+			$this->db->query('SELECT * FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id WHERE u.usuario = :usuario');
+			$this->db->bind(':usuario', $usuario);
 
 			$userData = $this->db->getSingle();
 			$userPass = $userData->password;
