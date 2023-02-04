@@ -121,13 +121,13 @@
                 <h5 class="card-title">Nueva Orden de Servicio</h5>
                 <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
 
-                <form action="<?php echo URLROOT; ?>/administrador/crearOrden" class="col-md-12 needs-validation" novalidate method="POST">
+                <form action="<?php echo URLROOT; ?>/administrador/crear/<?php echo $data['id']; ?>" class="col-md-12 needs-validation" novalidate method="POST">
                 <div class="row mb-3">
                     <!-- INICIO SELECT GUIA DE COSTOS -->
                     <div class="col-md-6 position-relative">
                     <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
                     <select name="centro_costo" class="form-select" id="mina" required>
-                        <option selected disabled value="">Selecciona...</option> 
+                        <option selected value="<?php echo $data['centro_costo']; ?>"><?php echo $data['centro_costo']; ?></option> 
                         <?php foreach($data['minas'] as $mina): ?>
                              <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
                         <?php endforeach; ?>
@@ -143,8 +143,10 @@
                         <label for="validationTooltip04" class="form-label">Categoría</label>
 
                         <select name="categoria" class="form-select" id="categoria" required>
-                            <option selected disabled value="">Selecciona ...</option>
-
+                            
+                            <?php foreach($data['categorias'] as $categoria): ?>
+                                <option value="<?php echo $categoria->categoria; ?>"> <?php echo $categoria->categoria; ?></option>
+                            <?php endforeach; ?>
                         </select>
                         <div class="invalid-tooltip">
                             Por favor selecciona una categoría.
