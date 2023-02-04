@@ -44,7 +44,7 @@
 							$_SESSION['alerta'] = 'danger';
 							$_SESSION['mensaje'] = 'Usuario no esta Activo.';
 							redirect('users/login');
-								}
+						}
 
 					} else {
 						// redirigir a login.php : Contrasela incorrecta
@@ -98,6 +98,7 @@
 			$_SESSION['user_nombre'] = $user->nombre;
 			$_SESSION['user_email'] = $user->email;
 			$_SESSION['user_usuario'] = $user->usuario;
+			$_SESSION['user_sede'] = $user->sede;
 
 			if ($user->rol == 'Administrador') {
 				redirect('administrador/index');

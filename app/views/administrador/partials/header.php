@@ -19,6 +19,8 @@
   <link href="<?php echo URLROOT; ?>/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo URLROOT; ?>/css/bootstrap-icons.css" rel="stylesheet">
   <link href="<?php echo URLROOT; ?>/css/boxicons.min.css" rel="stylesheet">
+  <link href="<?php echo URLROOT; ?>/quill/quill.snow.css" rel="stylesheet">
+  <link href="<?php echo URLROOT; ?>/quill/quill.bubble.css" rel="stylesheet">
   <link href="<?php echo URLROOT; ?>/css/remixicon/remixicon.css" rel="stylesheet">
   <link href="<?php echo URLROOT; ?>/css/simple-datatables.css" rel="stylesheet">
 
