@@ -115,7 +115,7 @@
         </div>
 
             <!-- ======= INICIO FORMULARIO ======= -->
-            <?php print_r($data); ?>
+            <!-- <?php print_r($data); ?> -->
     <div id="mitabla" class="card">
             <div class="card-body">
                 <h5 class="card-title">Nueva Orden de Servicio</h5>
