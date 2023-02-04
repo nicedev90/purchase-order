@@ -16,10 +16,8 @@
 			$mensaje = $_SESSION['mensaje'];
 
 			echo '<div class="alert-' . $alerta . '">
-               <i class="bi bi-exclamation-triangle fa-2x"></i>
-               ' . $mensaje . '
-               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
+				<i class="bi bi-exclamation-triangle fa-2x"></i>
+				' . $mensaje . '</div>';
 
 			unset($_SESSION['alerta']);
 			unset($_SESSION['mensaje']);

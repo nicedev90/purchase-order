@@ -12,9 +12,12 @@
 
   <!-- Vendor JS Files -->
   <script src="<?php echo URLROOT; ?>/js/apexcharts/apexcharts.min.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/bootstrap.bundle.min.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/boostrap/bootstrap.bundle.min.js"></script>
   <script src="<?php echo URLROOT; ?>/js/chart.umd.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/echarts/echarts.min.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/quill/quill.min.js"></script>
   <script src="<?php echo URLROOT; ?>/js/simple-datatables.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/tinymce/tinymce.min.js"></script>
   <script src="<?php echo URLROOT; ?>/js/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
