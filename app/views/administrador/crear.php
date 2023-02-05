@@ -116,7 +116,11 @@
 
             <!-- ======= INICIO FORMULARIO ======= -->
             <!-- <?php print_r($data); ?> -->
+<<<<<<< HEAD
     <div class="card">
+=======
+    <div id="mitabla" class="card">
+>>>>>>> 7733c7ec62f0df333e06d5d39c652c9ceb3afa13
             <div class="card-body">
                 <h5 class="card-title"> Nueva Orden de Servicio <b class="bg-warning">n° 0015</b> </h5>
                 <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>

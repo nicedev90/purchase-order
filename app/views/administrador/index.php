@@ -115,8 +115,8 @@
         </div>
 
             <!-- ======= INICIO FORMULARIO ======= -->
-            <?php print_r($data); ?>
-    <div id="mitabla" class="card">
+            <!-- <?php print_r($data); ?> -->
+    <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Nueva Orden de Servicio</h5>
                 <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
