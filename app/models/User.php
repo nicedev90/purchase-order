@@ -7,7 +7,7 @@
 		}
 
 		public function login($usuario, $password) {
-			$this->db->query('SELECT * FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id WHERE u.usuario = :usuario');
+			$this->db->query('SELECT * FROM usuarios u INNER JOIN roles r ON u.rol_id = r.id INNER JOIN sedes s ON u.sede_id = s.id WHERE u.usuario = :usuario');
 			$this->db->bind(':usuario', $usuario);
 
 			$userData = $this->db->getSingle();

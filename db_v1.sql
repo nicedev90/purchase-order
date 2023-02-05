@@ -12,25 +12,39 @@ INSERT INTO roles (rol) VALUES ('Administrador');
 INSERT INTO roles (rol) VALUES ('Encargado');
 INSERT INTO roles (rol) VALUES ('Usuario');
 
+CREATE TABLE sedes (
+id INT NOT NULL AUTO_INCREMENT,
+sede VARCHAR(20) NOT NULL,
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
+
+INSERT INTO sedes (sede) VALUES ('Peru');
+INSERT INTO sedes (sede) VALUES ('Chile');
+
 create table usuarios (
   id INT NOT NULL AUTO_INCREMENT,
   rol_id INT NOT NULL,
+  sede_id INT NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   usuario VARCHAR(50) NOT NULL,
   email VARCHAR(60) NOT NULL,
   password VARCHAR(150) NOT NULL,
-  sede VARCHAR(10) NOT NULL,
   estado VARCHAR(20) NOT NULL,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT fk_rol
   FOREIGN KEY (rol_id)
-  REFERENCES roles (id)
+  REFERENCES roles (id),
+  CONSTRAINT fk_sede
+  FOREIGN KEY (sede_id)
+  REFERENCES sedes (id)
 )ENGINE=INNODB;
 
-INSERT INTO usuarios (rol_id,nombre,usuario,email,password,sede,estado) VALUES (1,'Administrador','admin','admin@clonsa.com','123','Peru','Activo');
-INSERT INTO usuarios (rol_id,nombre,usuario,email,password,sede,estado) VALUES (2,'Encargado','encargado','enc@clonsa.com','123','Peru','Activo');
-INSERT INTO usuarios (rol_id,nombre,usuario,email,password,sede,estado) VALUES (3,'Usuario','usuario','usuario@clonsa.com','123','Peru','Activo');
+INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUES 
+(1, 1, 'Administrador','admin','admin@clonsa.com','123', 'Activo'),
+(2, 1, 'Encargado','encargado','enc@clonsa.com','123', 'Activo'),
+(3, 1, 'Usuario','usuario','usuario@clonsa.com','123', 'Activo');
 
 
 CREATE TABLE minas (

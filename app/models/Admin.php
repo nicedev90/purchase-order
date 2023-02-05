@@ -6,8 +6,9 @@
             $this->db = new Database;
         }
 
-        public function getMinas() {
-            $this->db->query('SELECT * FROM minas');
+        public function getMinas($sede) {
+            $this->db->query('SELECT * FROM minas WHERE pais = :sede');
+            $this->db->bind(':sede', $sede);
             $minas = $this->db->getSet();
             return $minas;
         }

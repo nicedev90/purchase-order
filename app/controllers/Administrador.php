@@ -1,42 +1,75 @@
 <?php 
     class Administrador extends Controller {
-        public function __construct() {
-            if (!userLoggedIn()) {
-                redirect('users/login');
-            }
+        private $admin;
 
+        public function __construct() {
             $this->admin = $this->model('Admin');
         }
 
         public function index() {
+            if (userLoggedIn() && $_SESSION['user_rol'] == 'Administrador') {
+
+                $sede = $_SESSION['user_sede'];
+
+                $minas = $this->admin->getMinas($sede);
+                $data = [
+                    'minas' => $minas
+                ];
+                
+                $this->view('administrador/index', $data);
+            } else {
+                $this->view('pages/error');
+            }            
+        }
+
+        public function historial() {
             $minas = $this->admin->getMinas();
             $data = [
                 'minas' => $minas
             ];
-			
-            $this->view('administrador/index', $data);
+            
+            $this->view('administrador/historial', $data);
         }
 
-        public function crear($id) {
+        // public function crear() {
+        //     $minas = $this->admin->getMinas();
+        //     $data = [
+        //         'minas' => $minas
+        //     ];
+            
+        //     $this->view('administrador/historial', $data);
+        // }
+
+
+        public function crear($id = null) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $sede = $_SESSION['user_sede'];
+
                 $centro = $_POST['centro_costo'];
                 $categoria = $_POST['categoria'];
+
                 echo $id . $centro . $categoria;
+
             } else {
 
-                $minas = $this->admin->getMinas();
-                $cc = $this->admin->getMinaByID($id)->nombre;
-                $categorias = $this->admin->getCategorias($id);
-                // $centro = $cc->nombre;
+                $sede = $_SESSION['user_sede'];
 
+                $minas = $this->admin->getMinas($sede);
+                if (is_null($id)) {
+                    $centro_costo = '';
+                    $categorias = '';
+                } else {
+                    $centro_costo = $this->admin->getMinaByID($id)->nombre;
+                    $categorias = $this->admin->getCategorias($id);
+                }
+                
                 $data = [
                     'id' => $id,
-                    'centro_costo' => $cc,
+                    'centro_costo' => $centro_costo,
                     'minas' => $minas,
                     'categorias' => $categorias
                 ];
                 $this->view('administrador/crear', $data);
-                
             }
         }
 

@@ -115,10 +115,10 @@
         </div>
 
             <!-- ======= INICIO FORMULARIO ======= -->
-            <?php print_r($data); ?>
-    <div id="mitabla" class="card">
+            <!-- <?php print_r($data); ?> -->
+    <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Nueva Orden de Servicio</h5>
+                <h5 class="card-title"> Nueva Orden de Servicio <b class="bg-warning">n° 0015</b> </h5>
                 <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
 
                 <form action="<?php echo URLROOT; ?>/administrador/crear/<?php echo $data['id']; ?>" class="col-md-12 needs-validation" novalidate method="POST">
@@ -157,11 +157,11 @@
 
                 <div class="row mb-3">
                     <div class="col-2">
-                        <button class="btn btn-success fw-bold" type="button">+ Agregar item</button>
+                        <button class="btn btn-info fw-bold" type="button">+ Agregar item</button>
                     </div>
 
                     <div class="col-2">
-                        <button class="btn btn-warning fw-bold" type="button">- Eliminar item</button>
+                        <button class="btn btn-danger fw-bold" type="button">- Eliminar item</button>
                     </div>
                 </div>
                 
@@ -302,7 +302,6 @@
 </section>
 
     </main><!-- End #main -->
-
 
 
 <?php require APPROOT . '/views/administrador/partials/footer.php'; ?>
