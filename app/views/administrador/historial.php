@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<h1>historial</h1>
-=======
 <?php require APPROOT . '/views/administrador/partials/header.php'; ?>
 
 <?php require APPROOT . '/views/administrador/partials/topbar.php'; ?>
@@ -38,4 +35,3 @@
 
 
 <?php require APPROOT . '/views/administrador/partials/footer.php'; ?>
->>>>>>> 7733c7ec62f0df333e06d5d39c652c9ceb3afa13

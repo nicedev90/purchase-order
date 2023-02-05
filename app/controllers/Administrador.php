@@ -18,7 +18,7 @@
                 
                 $this->view('administrador/index', $data);
             } else {
-                $this->view('pages/error');
+                $this->view('pages/login');
             }            
         }
 

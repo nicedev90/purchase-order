@@ -46,6 +46,11 @@ INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUE
 (2, 1, 'Encargado','encargado','enc@clonsa.com','123', 'Activo'),
 (3, 1, 'Usuario','usuario','usuario@clonsa.com','123', 'Activo');
 
+INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUES 
+(1, 2, 'Administrador','admin2','admin2@clonsa.com','123', 'Activo'),
+(2, 2, 'Encargado','encargado2','enc2@clonsa.com','123', 'Activo'),
+(3, 2, 'Usuario','usuario2','usuario2@clonsa.com','123', 'Activo');
+
 
 CREATE TABLE minas (
   id INT NOT NULL AUTO_INCREMENT,

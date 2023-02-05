@@ -118,6 +118,7 @@
 			unset($_SESSION['user_nombre']);
 			unset($_SESSION['user_email']);
 			unset($_SESSION['user_usuario']);
+			unset($_SESSION['user_sede']);
 
 			session_destroy();
 			redirect('users/login');
