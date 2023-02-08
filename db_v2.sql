@@ -1,6 +1,6 @@
-create database purchase character set utf8 collate utf8_general_ci;
+create database ordenes character set utf8 collate utf8_general_ci;
 
-use purchase;
+use ordenes;
 
 create table roles (
   id INT NOT NULL AUTO_INCREMENT,
@@ -52,7 +52,7 @@ INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUE
 (3, 2, 'Usuario','usuario2','usuario2@clonsa.com','123', 'Activo');
 
 
-CREATE TABLE minas (
+CREATE TABLE minas_cl (
   id INT NOT NULL AUTO_INCREMENT,
   codigo INT NOT NULL,
   nombre VARCHAR(100) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE minas (
   PRIMARY KEY (id)
 )ENGINE=INNODB;
 
-INSERT INTO minas (codigo, nombre, pais) VALUES 
+INSERT INTO minas_cl (codigo, nombre, pais) VALUES 
   (100, 'GERENCIA DE ADMINISTRACION Y FINANZAS', 'Chile'),
   (200, 'GERENCIA DE MARKETING', 'Chile'),
   (300, 'GERENCIA DE OPERACIONES', 'Chile'),
@@ -81,7 +81,16 @@ INSERT INTO minas (codigo, nombre, pais) VALUES
   (1800, 'CEMIN UVA', 'Chile'),
   (1900, 'LA COIPA ', 'Chile');
 
-INSERT INTO minas (codigo, nombre, pais) VALUES 
+
+CREATE TABLE minas_pe (
+  id INT NOT NULL AUTO_INCREMENT,
+  codigo INT NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
+  pais VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+INSERT INTO minas_pe (codigo, nombre, pais) VALUES 
   (100, 'ADMINISTRACION', 'Peru'),
   (200, 'MARCOBRE', 'Peru'),
   (300, 'CUAJONE', 'Peru'),
@@ -93,34 +102,30 @@ INSERT INTO minas (codigo, nombre, pais) VALUES
   (900, 'LAS BAMBAS', 'Peru'),
   (1000, 'ANTAMINA', 'Peru');
 
-CREATE TABLE categorias (
+CREATE TABLE categ_chile (
 id INT NOT NULL AUTO_INCREMENT,
-mina_id INT NOT NULL,
+mina_cl_id INT NOT NULL,
 codigo INT NOT NULL,
 categoria VARCHAR(255) NOT NULL,
 fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id),
-CONSTRAINT fk_mina
-FOREIGN KEY (mina_id)
-REFERENCES minas (id)
+CONSTRAINT fk_mina_cl
+FOREIGN KEY (mina_cl_id)
+REFERENCES minas_cl (id)
 )ENGINE=INNODB;
 
-
-
-CREATE TABLE ordenes_servicio (
+CREATE TABLE categ_peru (
 id INT NOT NULL AUTO_INCREMENT,
-num_os VARCHAR(30) NOT NULL,
-mina VARCHAR(50) NOT NULL,
+mina_pe_id INT NOT NULL,
+codigo INT NOT NULL,
 categoria VARCHAR(255) NOT NULL,
-item INT NOT NULL,
-cantidad VARCHAR(20) NOT NULL,
-unidad VARCHAR(20) NOT NULL,
-descripcion VARCHAR(250) NOT NULL,
-proveedor VARCHAR(100) NOT NULL,
-creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-acttualizado DATETIME DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (id)
+fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (id),
+CONSTRAINT fk_mina_pe
+FOREIGN KEY (mina_pe_id)
+REFERENCES minas_pe (id)
 )ENGINE=INNODB;
+
 
 CREATE TABLE os_chile (
 id INT NOT NULL AUTO_INCREMENT,

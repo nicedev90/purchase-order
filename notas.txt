@@ -1,0 +1,16 @@
+tabla accion_en_cotizacion (id, fech-accion,cotizaicion_id,tipo_accion_cotizacion, obser)
+tabla accion en orden compra(fecha, orde_compra_id,tipo_accion, obserb)
+
+
+tabla centro_costo_miembros (id, nombre, codigo, centro_costo_id)
+ CC -10001 . CC 200002, cc 20004
+
+ tabla contacto (id, nombre, rut, obser, proveedor )
+ tabla control_bodega (id, id_tem, id_os, cantidad-stock, estado, id_compra_interna, id_compra_externa, cantidad_requerida)
+ tabla ig_rendicion_estado ( id, descripcion)
+ tabla ig_temp_item_rendicion ()
+ tabla item_os (id, descr, cantidad. os_solicitante_costoref, fecha_cierre, aprobacion, provee_sugerido, estado, centro_costo)
+ tabla orden_compra (id,fecha-creasion, bombre-contacto,forma_cpotizacion, direccion, telefono, fomra_pago)
+
+ GERENCIA DE ADMINISTRACION Y FINANZAS
+ 

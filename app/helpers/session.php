@@ -25,13 +25,30 @@
 
 	}
 
-              //               <div class="alert alert-warning  alert-dismissible fade show" role="alert">
-              //   <h4 class="alert-heading">Warning Heading</h4>
-              //   <p>Et suscipit deserunt earum itaque dignissimos recusandae dolorem qui. Molestiae rerum perferendis laborum. Occaecati illo at laboriosam rem molestiae sint.</p>
-              //   <hr>
-              //   <p class="mb-0">Temporibus quis et qui aspernatur laboriosam sit eveniet qui sunt.</p>
-              //   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              // </div>
+	function submitAlert() {
+
+		if (!empty($_SESSION['alerta']) && !empty($_SESSION['mensaje'])) {
+			$alerta = $_SESSION['alerta'];
+			$mensaje = $_SESSION['mensaje'];
+
+			echo '<div class="alert alert-' . $alerta . ' alert-dismissible fade show" role="alert">
+        			<i class="bi bi-check-circle me-1"></i>
+              ' . $mensaje . '
+        			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      			</div>';
+
+			unset($_SESSION['alerta']);
+			unset($_SESSION['mensaje']);
+		}
+	}
+
+	function fixedFecha($date) {
+		setlocale(LC_TIME, "spanish");
+		$fecha = $date;
+		$fecha = str_replace("/", "-", $fecha); 
+		$fecha = strftime("%d-%m-%Y", strtotime($fecha));
+		return $fecha;
+	}
 
 
 ?>

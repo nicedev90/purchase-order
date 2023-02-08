@@ -1,0 +1,9 @@
+#numItem:hover {
+  background-color: #ccff;
+  color: #333;
+  cursor: pointer;
+}
+
+.selected-row {
+  background-color: #ccff;
+}

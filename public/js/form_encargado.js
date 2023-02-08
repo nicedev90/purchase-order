@@ -20,7 +20,7 @@ const getCategorias = (e) => {
 	const id = e.target.value
 	// console.log(id)
 
-	location.href = 'http://localhost/purchase-order/administrador/crear/'+id
+	location.href = 'http://localhost/purchase-order/encargados/crear/'+id
 
 }
 

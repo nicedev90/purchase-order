@@ -1,8 +1,8 @@
-<?php require APPROOT . '/views/administrador/partials/header.php'; ?>
+<?php require APPROOT . '/views/encargado/partials/header.php'; ?>
 
-<?php require APPROOT . '/views/administrador/partials/topbar.php'; ?>
+<?php require APPROOT . '/views/encargado/partials/topbar.php'; ?>
 
-<?php require APPROOT . '/views/administrador/partials/sidebar.php'; ?>
+<?php require APPROOT . '/views/encargado/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
 
@@ -26,16 +26,14 @@
                     <div class="card info-card sales-card">
                     <div class="card-body">
                         <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
-
                         <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-cart"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h6>145</h6>
-                            <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                        </div>
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-cart"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>145</h6>
+                                <span class="text-primary pt-1 fw-bold">12%</span>
+                            </div>
                         </div>
                     </div>
 
@@ -123,9 +121,9 @@
                 </div>
             </div>
 
-            <form action="<?php echo URLROOT; ?>/administrador/index" class="col-md-12 needs-validation" novalidate method="POST">
+            <form action="<?php echo URLROOT; ?>/encargados/index" class="col-md-12 needs-validation" novalidate method="POST">
                 <div class="row mb-3">
-                    <input type="hidden" name="num_os" value="<?php echo $data['numero_os']; ?>">
+                    <!-- <input type="hidden" name="num_os" value="<?php echo $data['numero_os']; ?>"> -->
                     <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
                     <!-- INICIO SELECT GUIA DE COSTOS -->
                     <div class="col-md-6 position-relative">
@@ -241,67 +239,45 @@
 
     <!-- Recent Sales -->
     <div class="col-12">
-            <div class="card recent-sales overflow-auto">
-
+        <div class="card recent-sales overflow-auto">
             <div class="card-body">
                 <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
 
-                <table class="table table-borderless datatable">
-                <thead>
-                    <tr>
-                    <th scope="col">N° Orden</th>
-                    <th scope="col">Creado por</th>
-                    <th scope="col">Detalle </th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Fecha de Creación</th>
-                    <th scope="col">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row"><a href="#">#2457</a></th>
-                    <td>Brandon Jacob</td>
-                    <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                    <td>$64</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                    </tr>
-                    <tr>
-                    <th scope="row"><a href="#">#2147</a></th>
-                    <td>Bridie Kessler</td>
-                    <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                    <td>$47</td>
-                    <td><span class="badge bg-warning">Pending</span></td>
-                    </tr>
-                    <tr>
-                    <th scope="row"><a href="#">#2049</a></th>
-                    <td>Ashleigh Langosh</td>
-                    <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                    <td>$147</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                    </tr>
-                    <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Angus Grady</td>
-                    <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                    <td>$67</td>
-                    <td><span class="badge bg-danger">Rejected</span></td>
-                    </tr>
-                    <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Raheem Lehner</td>
-                    <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                    <td>$165</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                    </tr>
-                </tbody>
+                <table class="table table-hover table-borderless datatable">
+                    <thead>
+                        <tr>
+                        <th scope="col">N° O.S.</th>
+                        <th scope="col">Creado por</th>
+                        <th scope="col">Detalle </th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Fecha de Creación</th>
+                        <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($data['ordenes'] as $orden): ?>
+                        <tr>
+                            <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
+                            <td><?php echo utf8_encode($orden->usuario); ?>Lorem ipsum dolor sit.</td>
+                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?>Lorem, ipsum dolor sit.</td>
+                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->proveedor); ?></span></td>
+                            <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
+                            <td class="d-flex justify-content-around">
+                                <a href="" class="btn btn-warning"><i class="lead bi bi-arrow-up-right-square"></i></a>
+                                <a href="" class="btn btn-danger"><i class="lead bi bi-trash-fill"></i></a>                             
+                            </td>
+                            
+                        </tr>
+                        <?php endforeach; ?>
+
+                    </tbody>
                 </table>
-
             </div>
-
-            </div>
+        </div>
     </div><!-- End Recent Sales -->
+
 </section>
 
 </main><!-- End #main -->
 
-<?php require APPROOT . '/views/administrador/partials/footer.php'; ?>
+<?php require APPROOT . '/views/encargado/partials/footer.php'; ?>
