@@ -116,8 +116,8 @@
             <div class="row d-flex justify-content-between align-items-center">
                 <div class="col-md-6">
                     <h5 class="card-title"> Nueva Orden de Servicio  
-                        <b class="lead p-2 fw-bold bg-warning"> N° - 
-                            <b id="numero_orden"><?php echo $data['numero_os']; ?></b>
+                        <b class="lead p-2 fw-bold bg-warning rounded"> N° - 
+                            <b id="numero_orden"><?php echo $data['numero_os']; ?></b><b> - 2023</b>
                         </b>
                     </h5>
                     <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
@@ -127,7 +127,8 @@
                 </div>
             </div>
 
-            <form action="<?php echo URLROOT; ?>/encargados/crear/<?php echo $data['id']; ?>" class="col-md-12 needs-validation" novalidate method="POST">
+            <form id="form_crear" action="<?php echo URLROOT; ?>/encargados/crear/<?php echo $data['id']; ?>" class="col-md-12 needs-validation" novalidate method="POST"  enctype="multipart/form-data">
+
                 <div class="row mb-3">
                     <input type="hidden" name="item[1][num_os]" value="<?php echo $data['numero_os']; ?>">
                     <input type="hidden" name="item[1][usuario]" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
@@ -227,25 +228,67 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <label for="inputNumber" class="col-sm-2 col-form-label">Adjuntar archivo</label>
-                        <div class="col-sm-4">
-                            <input name="adjunto" class="form-control" type="file" id="formFile">
+
+                <!-- INICIO SECCION ARCHIVOS -->
+                <div class="row my-5 alert alert-secondary mx-1">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="btn">
+                                <b>Adjuntar: </b>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button id="add_adjunto" class="btn btn-success" type="button"> + Agregar archivo</button>
+                        </div>
+
+                        <div class="col-md-2">
+                            <button id="delete_adjunto" class="btn btn-danger" type="button" hidden> - Eliminar archivo</button>
+                        </div>
+                    </div>
+
+                    <div id="lista_adjunto" class="col my-2">
+                        <div class="col my-1" id="adjunto_1" hidden>
+                            <div id="numAdjunto" class="btn fw-bold col-md-1">
+                                1
+                            </div>
+                            <label for="adjunto1" class="col-md-1"> 
+                                <span class="btn btn-primary">Cargar. <i class="bi bi-paperclip"></i>
+                                </span>
+                            </label>
+
+                            <input type='file' name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
+                            
+                            <div id="file_name" class="bg-light btn col-md-5">
+
+                            </div>
+
+                            <div id="file_size" class="bg-light btn col-md-2">
+
+                            </div>
+                            
+                            <div id="msg_valid" class="btn col-md-2 btn-danger">
+                                <i class="bi lead bi-check-circle"></i> Es mayor a 3 MB
+                                
+                               
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
+                <!-- FIN SECCION ARCHIVOS -->
+
                 
                 <div class="row col-5 mx-auto">
                     <button name="guardar_os" class="p-3 fw-bold btn btn-primary" type="submit">ENVIAR</button>
                 </div>
-            </form><!-- End Custom Styled Validation with Tooltips -->
+            </form>
+
         </div>
     </div>
     <!-- ======= FIN FORMULARIO ======= -->
 
-    <!-- Recent Sales -->
+    <!-- Inicio tabla resumen Ordenes -->
     <div class="col-12">
         <div class="card recent-sales overflow-auto">
             <div class="card-body">
@@ -266,13 +309,12 @@
                         <?php foreach($data['ordenes'] as $orden): ?>
                         <tr>
                             <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                            <td><?php echo utf8_encode($orden->usuario); ?>Lorem ipsum dolor sit.</td>
-                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?>Lorem, ipsum dolor sit.</td>
+                            <td><?php echo utf8_encode($orden->usuario); ?></td>
+                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?></td>
                             <td><button class="btn btn-success"><?php echo utf8_encode($orden->proveedor); ?></span></td>
                             <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
                             <td class="d-flex justify-content-around">
-                                <a href="" class="btn btn-warning"><i class="lead bi bi-arrow-up-right-square"></i></a>
-                                <a href="" class="btn btn-danger"><i class="lead bi bi-trash-fill"></i></a>                             
+                                <a href="" class="btn btn-warning"><i class="lead bi bi-search"></i></a>                         
                             </td>
                             
                         </tr>
@@ -282,7 +324,9 @@
                 </table>
             </div>
         </div>
-    </div><!-- End Recent Sales -->
+    </div>
+    <!-- Fin tabla resumen Ordenes -->
+
 </section>
 
 </main><!-- End #main -->

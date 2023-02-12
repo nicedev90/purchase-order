@@ -1,8 +1,8 @@
-<?php require APPROOT . '/views/encargado/partials/header.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/header.php'; ?>
 
-<?php require APPROOT . '/views/encargado/partials/topbar.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/topbar.php'; ?>
 
-<?php require APPROOT . '/views/encargado/partials/sidebar.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
 
@@ -15,7 +15,7 @@
             </ol>
         </nav>
     </div>
- 
+    
 <section class="section dashboard">
     <div class="row">
         <!-- Left side columns -->
@@ -26,14 +26,16 @@
                     <div class="card info-card sales-card">
                     <div class="card-body">
                         <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
+
                         <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-                                <span class="text-primary pt-1 fw-bold">12%</span>
-                            </div>
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-cart"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>145</h6>
+                            <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                        </div>
                         </div>
                     </div>
 
@@ -113,22 +115,27 @@
         <div class="card-body">
             <div class="row d-flex justify-content-between align-items-center">
                 <div class="col-md-6">
-                    <h5 class="card-title"> Nueva Orden de Servicio  </h5>
+                    <h5 class="card-title"> Nueva Orden de Servicio  
+                        <b class="lead p-2 fw-bold bg-warning rounded"> N° - 
+                            <b id="numero_orden"><?php echo $data['numero_os']; ?></b><b> - 2023</b>
+                        </b>
+                    </h5>
                     <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
                 </div>
-                <div class="col-md-4 lead fw-bold">
-                    <?php submitAlert(); ?>
+                <div class="col-md-2">
+                    <a href="<?php echo URLROOT; ?>/usuarios/index" class="btn btn-danger btn-lg fw-bold">Cancelar Orden</a>
                 </div>
             </div>
 
-            <form id="form_crear" action="<?php echo URLROOT; ?>/encargados/index" class="col-md-12 needs-validation" novalidate method="POST" enctype="multipart/form-data">
-
-                <div class="row mb-3"> 
+            <form action="<?php echo URLROOT; ?>/usuarios/crear/<?php echo $data['id']; ?>" class="col-md-12 needs-validation" novalidate method="POST">
+                <div class="row mb-3">
+                    <input type="hidden" name="item[1][num_os]" value="<?php echo $data['numero_os']; ?>">
+                    <input type="hidden" name="item[1][usuario]" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
                     <!-- INICIO SELECT GUIA DE COSTOS -->
                     <div class="col-md-6 position-relative">
                         <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
-                        <select name="mina" class="form-select" id="mina" required>
-                            <option selected disabled value="">Selecciona...</option> 
+                        <select name="item[1][mina]" class="form-select" id="mina" required>
+                            <option selected value="<?php echo $data['mina_codigo']; ?>"><?php echo $data['mina_nombre']; ?></option> 
                             <?php foreach($data['minas'] as $mina): ?>
                                  <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
                             <?php endforeach; ?>
@@ -138,13 +145,15 @@
                         </div>
                     </div>
                     <!-- FIN SELECT GUIA DE COSTOS -->
-
                     <!-- INICIO SELECT CATEGORIA -->
                     <div class="col-md-6 position-relative">
                         <label for="validationTooltip04" class="form-label">Categoría</label>
 
-                        <select name="categoria" class="form-select" id="categoria" required>
-                            <option selected disabled value="">Selecciona ...</option>
+                        <select name="item[1][categoria]" class="form-select" id="categoria" required>
+                            
+                            <?php foreach($data['mina_categ'] as $categoria): ?>
+                                <option value="<?php echo utf8_encode($categoria->codigo); ?>"> <?php echo utf8_encode($categoria->categoria); ?></option>
+                            <?php endforeach; ?>
                         </select>
                         <div class="invalid-tooltip">
                             Por favor selecciona una categoría.
@@ -185,19 +194,19 @@
                     <div id="1" class="row mb-3">
                         <!-- INICIO INPUT ITEM -->
                         <div class="col-md-1 position-relative">
-                            <input type="text" name="item" class="form-control-plaintext text-center" id="numItem" value="1" required readonly>
+                            <input type="text" name="item[1][item]" class="form-control-plaintext text-center" id="numItem" value="1" required readonly>
                             <div class="valid-tooltip">Correcto</div>
                         </div>
                         <!-- FIN INPUT ITEM -->
                         <!-- INICIO INPUT CANTIDAD -->
                         <div class="col-md-1 position-relative">
-                            <input name="cantidad" type="number" class="form-control" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
+                            <input name="item[1][cantidad]" type="number" class="form-control" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
                             <div class="valid-tooltip">Correcto</div>
                         </div>
                         <!-- FIN INPUT CANTIDAD -->
                         <!-- INICIO SELECT UNIDAD -->
                         <div class="col-md-2 position-relative">
-                            <select name="unidad" class="form-select" id="validationTooltip04" required>
+                            <select name="item[1][unidad]" class="form-select" id="validationTooltip04" required>
                                 <option selected disabled value="">Selecciona...</option>
                                 <option>Metro</option>
                                 <option>Kilo</option>
@@ -208,86 +217,48 @@
                         <!-- FIN SELECT UNIDAD -->
 
                         <div class="col-md-6 position-relative">
-                            <input name="descripcion" type="text" class="form-control" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
+                            <input name="item[1][descripcion]" type="text" class="form-control" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
                             <div class="valid-tooltip"> Correcto </div>
                         </div>
 
                         <div class="col-md-2 position-relative">
-                            <input name="proveedor" type="text" class="form-control" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
+                            <input name="item[1][proveedor]" type="text" class="form-control" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
                             <div class="valid-tooltip">  Correcto </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- INICIO SECCION ARCHIVOS -->
-                <div class="row my-5 alert alert-secondary mx-1">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="btn">
-                                <b>Adjuntar: </b>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <button id="add_adjunto" class="btn btn-success" type="button"> + Agregar archivo</button>
-                        </div>
-
-                        <div class="col-md-3">
-                            <button id="delete_adjunto" class="btn btn-danger" type="button" hidden> - Eliminar archivo</button>
-                        </div>
-                    </div>
-
-                    <div id="lista_adjunto" class="col my-2">
-                        <div class="col my-1" id="adjunto_1" hidden>
-                            <div id="numAdjunto" class="btn fw-bold col-md-1">
-                                1
-                            </div>
-                            <label for="adjunto1" class="col-md-1"> 
-                                <span class="btn btn-primary">Cargar. <i class="bi bi-paperclip"></i>
-                                </span>
-                            </label>
-
-                            <input type='file' name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
-                            
-                            <div id="file_name" class="btn col-md-5">
-
-                            </div>
-
-                            <div id="file_size" class="btn col-md-2">
-
-                            </div>
-                            
-                            <div class="btn col-md-1 btn-success">
-                                <i class="bi bi-check-circle"></i>
-                            </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="inputNumber" class="col-sm-2 col-form-label">Adjuntar archivo</label>
+                        <div class="col-sm-4">
+                            <input name="adjunto" class="form-control" type="file" id="formFile">
                         </div>
                     </div>
                 </div>
-                <!-- FIN SECCION ARCHIVOS -->
                 
                 <div class="row col-5 mx-auto">
                     <button name="guardar_os" class="p-3 fw-bold btn btn-primary" type="submit">ENVIAR</button>
                 </div>
-            </form>
-
+            </form><!-- End Custom Styled Validation with Tooltips -->
         </div>
     </div>
     <!-- ======= FIN FORMULARIO ======= -->
 
-    <!-- Inicio tabla resumen Ordenes -->
+    <!-- Recent Sales -->
     <div class="col-12">
         <div class="card recent-sales overflow-auto">
             <div class="card-body">
                 <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
 
-                <table class="table table-hover table-borderless datatable">
+                <table class="table table-borderless table-hover datatable">
                     <thead>
                         <tr>
                         <th scope="col">N° O.S.</th>
                         <th scope="col">Creado por</th>
                         <th scope="col">Detalle </th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Fecha de Creación</th>
+                        <th scope="col">Fecha</th>
                         <th scope="col">Acción</th>
                         </tr>
                     </thead>
@@ -295,12 +266,12 @@
                         <?php foreach($data['ordenes'] as $orden): ?>
                         <tr>
                             <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                            <td><?php echo utf8_encode($orden->usuario); ?></td>
-                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?></td>
+                            <td><?php echo utf8_encode($orden->usuario); ?>Lorem ipsum dolor sit.</td>
+                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?>Lorem, ipsum dolor sit.</td>
                             <td><button class="btn btn-success"><?php echo utf8_encode($orden->proveedor); ?></span></td>
                             <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
                             <td class="d-flex justify-content-around">
-                                <a href="" class="btn btn-warning"><i class="lead bi bi-search"></i></a>                          
+                                <a href="" class="btn btn-warning"><i class="lead bi bi-search"></i></a>                         
                             </td>
                             
                         </tr>
@@ -310,11 +281,9 @@
                 </table>
             </div>
         </div>
-    </div>
-    <!-- Fin tabla resumen Ordenes -->
-
+    </div><!-- End Recent Sales -->
 </section>
 
 </main><!-- End #main -->
 
-<?php require APPROOT . '/views/encargado/partials/footer.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/footer.php'; ?>

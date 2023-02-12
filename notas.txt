@@ -13,4 +13,19 @@ tabla centro_costo_miembros (id, nombre, codigo, centro_costo_id)
  tabla orden_compra (id,fecha-creasion, bombre-contacto,forma_cpotizacion, direccion, telefono, fomra_pago)
 
  GERENCIA DE ADMINISTRACION Y FINANZAS
+
+
+ # agrupar registros de misma orden servicio
+#select * from os_peru where num_os = 3 
+
+# eliminar item de orden servicio
+#DELETE FROM os_peru WHERE num_os = 3 AND item= 2
+
+#SELECT * from os_peru GROUP BY num_os;
+#SELECT COUNT(*) FROM os_peru;
+#SELECT MAX(num_os) FROM os_peru;
+
+#SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1
+
+SELECT id,num_os FROM os_chile GROUP BY id DESC LIMIT 1
  

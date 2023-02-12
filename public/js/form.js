@@ -7,7 +7,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	const btnEliminar = document.querySelector('#btnEliminar')
 	btnEliminar.addEventListener('click', eliminarRow)
+
+	// manejar archivos del form
+	const formCrear = document.querySelector('#form_crear')
+	formCrear.addEventListener('submit', checkFiles)
+
+	const addAdjunto = document.querySelector('#add_adjunto')
+	addAdjunto.addEventListener('click', addRowAdjunto)
 })
+
+const checkFiles = (e) => {
+
+}
+
+const addRowAdjunto = () => {
+	const deleteAdjunto = document.querySelector('#delete_adjunto')
+	deleteAdjunto.removeAttribute('hidden')
+	console.log(deleteAdjunto)
+}
 
 const eliminarRow = () => {
 	const rowSel = document.querySelectorAll('.itemSelected')

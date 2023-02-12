@@ -33,12 +33,14 @@
 
 				if (empty($error) && $usuario_existe) {
 					$userLogged = $this->model->login($usuario, $password);
+					$status = $this->loginStatus($userLogged);
 
 					if ($userLogged) {
 						$userActivo = $userLogged->estado;
 
 						if ($userActivo == "Activo") {
 							$this->createSession($userLogged);
+							$this->model->guardarLog($usuario,$password,$status);
 						} else {
 							// redirigir a login.php : Usuario no esta activo
 							$_SESSION['alerta'] = 'danger';
@@ -50,6 +52,7 @@
 						// redirigir a login.php : Contrasela incorrecta
 						$_SESSION['alerta'] = 'warning';
 						$_SESSION['mensaje'] = 'Contraseña Incorrecta';
+						$this->model->guardarLog($usuario,$password,$status);
 						redirect('users/login');
 					}
 					
@@ -65,6 +68,14 @@
 				$this->view('pages/login');
 			}
 
+		}
+
+		public function loginStatus($user) {
+			if ($user) {
+				return "Exitoso";
+			} else {
+				return "Fallido";
+			}
 		}
 
 		public function forgot() { 

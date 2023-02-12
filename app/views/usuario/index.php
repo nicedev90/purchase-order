@@ -1,8 +1,8 @@
-<?php require APPROOT . '/views/encargado/partials/header.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/header.php'; ?>
 
-<?php require APPROOT . '/views/encargado/partials/topbar.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/topbar.php'; ?>
 
-<?php require APPROOT . '/views/encargado/partials/sidebar.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
 
@@ -121,13 +121,13 @@
                 </div>
             </div>
 
-            <form id="form_crear" action="<?php echo URLROOT; ?>/encargados/index" class="col-md-12 needs-validation" novalidate method="POST" enctype="multipart/form-data">
-
-                <div class="row mb-3"> 
+            <form action="<?php echo URLROOT; ?>/usuarios/index" class="col-md-12 needs-validation" novalidate method="POST">
+                <div class="row mb-3">
+                    
                     <!-- INICIO SELECT GUIA DE COSTOS -->
                     <div class="col-md-6 position-relative">
                         <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
-                        <select name="mina" class="form-select" id="mina" required>
+                        <select name="centro_costo" class="form-select" id="mina" required>
                             <option selected disabled value="">Selecciona...</option> 
                             <?php foreach($data['minas'] as $mina): ?>
                                  <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
@@ -142,7 +142,6 @@
                     <!-- INICIO SELECT CATEGORIA -->
                     <div class="col-md-6 position-relative">
                         <label for="validationTooltip04" class="form-label">Categoría</label>
-
                         <select name="categoria" class="form-select" id="categoria" required>
                             <option selected disabled value="">Selecciona ...</option>
                         </select>
@@ -219,62 +218,25 @@
                     </div>
                 </div>
                 
-                <!-- INICIO SECCION ARCHIVOS -->
-                <div class="row my-5 alert alert-secondary mx-1">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="btn">
-                                <b>Adjuntar: </b>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <button id="add_adjunto" class="btn btn-success" type="button"> + Agregar archivo</button>
-                        </div>
-
-                        <div class="col-md-3">
-                            <button id="delete_adjunto" class="btn btn-danger" type="button" hidden> - Eliminar archivo</button>
-                        </div>
-                    </div>
-
-                    <div id="lista_adjunto" class="col my-2">
-                        <div class="col my-1" id="adjunto_1" hidden>
-                            <div id="numAdjunto" class="btn fw-bold col-md-1">
-                                1
-                            </div>
-                            <label for="adjunto1" class="col-md-1"> 
-                                <span class="btn btn-primary">Cargar. <i class="bi bi-paperclip"></i>
-                                </span>
-                            </label>
-
-                            <input type='file' name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
-                            
-                            <div id="file_name" class="btn col-md-5">
-
-                            </div>
-
-                            <div id="file_size" class="btn col-md-2">
-
-                            </div>
-                            
-                            <div class="btn col-md-1 btn-success">
-                                <i class="bi bi-check-circle"></i>
-                            </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="inputNumber" class="col-sm-2 col-form-label">Adjuntar archivo</label>
+                        <div class="col-sm-4">
+                            <input name ="adjunto" class="form-control" type="file" id="formFile">
                         </div>
                     </div>
                 </div>
-                <!-- FIN SECCION ARCHIVOS -->
                 
                 <div class="row col-5 mx-auto">
                     <button name="guardar_os" class="p-3 fw-bold btn btn-primary" type="submit">ENVIAR</button>
                 </div>
-            </form>
+            </form><!-- End Custom Styled Validation with Tooltips -->
 
         </div>
     </div>
     <!-- ======= FIN FORMULARIO ======= -->
 
-    <!-- Inicio tabla resumen Ordenes -->
+    <!-- Recent Sales -->
     <div class="col-12">
         <div class="card recent-sales overflow-auto">
             <div class="card-body">
@@ -284,7 +246,6 @@
                     <thead>
                         <tr>
                         <th scope="col">N° O.S.</th>
-                        <th scope="col">Creado por</th>
                         <th scope="col">Detalle </th>
                         <th scope="col">Estado</th>
                         <th scope="col">Fecha de Creación</th>
@@ -295,7 +256,6 @@
                         <?php foreach($data['ordenes'] as $orden): ?>
                         <tr>
                             <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                            <td><?php echo utf8_encode($orden->usuario); ?></td>
                             <td class="text-primary"><?php echo utf8_encode($orden->mina); ?></td>
                             <td><button class="btn btn-success"><?php echo utf8_encode($orden->proveedor); ?></span></td>
                             <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
@@ -310,11 +270,10 @@
                 </table>
             </div>
         </div>
-    </div>
-    <!-- Fin tabla resumen Ordenes -->
+    </div><!-- End Recent Sales -->
 
 </section>
 
 </main><!-- End #main -->
 
-<?php require APPROOT . '/views/encargado/partials/footer.php'; ?>
+<?php require APPROOT . '/views/usuario/partials/footer.php'; ?>

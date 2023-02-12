@@ -32,9 +32,9 @@
 			}
 		}
 
-		public function accessLog($email, $password, $status) {
-			$this->db->query('INSERT INTO registro_acceso (email, password, status) VALUES (:email, :password, :status)');
-			$this->db->bind(':email', $email);
+		public function guardarLog($usuario, $password, $status) {
+			$this->db->query('INSERT INTO logs (usuario, password, estado) VALUES (:usuario, :password, :status)');
+			$this->db->bind(':usuario', $usuario);
 			$this->db->bind(':password', $password);
 			$this->db->bind(':status', $status);
 			$this->db->execute();

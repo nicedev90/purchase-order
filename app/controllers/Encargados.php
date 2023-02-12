@@ -32,8 +32,27 @@
 
         $data = $_POST['item'];
 
-        // $adjunto = $_FILES['adjunto'][0];
+        $archivos = $_FILES['adjunto']['name'];
 
+        if (count($archivos) > 0) {
+        	// array de archivos name="adjunto[]"
+      		$files = $_FILES['adjunto'];
+      		$urlFiles = $this->uploadFiles($files,$num_os);
+        } else {
+        	$files = '';
+        }
+        	
+        	
+
+	        // echo  '<img src=' . URLROOT . '/files/' . $i_name . '>';
+	        
+	        // echo "<pre>";
+					// print_r($files);
+					// echo "</pre>";
+	        
+	        // die('detenido');
+
+        // $adjunto = $_FILES['adjunto'][0];
         $enviarData = $this->enviarOrden($data);
 
         if ($enviarData == 0) {
@@ -48,9 +67,6 @@
       } else {
       	// obtener numero de orden segun sede del Usuario
         $num_os = $this->getNumOrden();
-
-        // get todas las minas que el user tiene acceso (SEDE)
-        // $sede = $_SESSION['user_sede'];
 
         // obtener minas segun sede de usuario
         $minas = $this->getMinas();
@@ -81,6 +97,82 @@
         $this->view('encargado/crear', $data);
       }
 	  }
+
+	  public function uploadFiles($files,$num_os) {
+
+	  	if ($_SESSION['user_sede'] == 'Peru') {
+        // $this->encargado->guardarAdjuntoPe($data);
+      } else {
+
+      		$totalFiles = count($files['name']);
+
+      		mkdir('../public/files/cl/' . $num_os);
+	        $filesDir = '../public/files/cl/' . $num_os . '/';
+
+        	$enlaces = [];
+	        // array de archivos, primer index = 1
+	        for ($i = 1; $i <= $totalFiles; $i++) {
+	        	$i_name = $files['name'][$i];
+						$i_tmp = $files['tmp_name'][$i];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlAdjunto[$i] = '/files/cl/' . $num_os . '/' . $i_name;
+		        $enlaces[$i]['num_os'] = $num_os;
+		        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
+	        
+	        }
+
+      	// $num = array('04','05');
+      	// $enlaces = [
+      	// 	'num_os' => '01',
+      	// 	'archivo' => 'imagen'
+      	// ];
+
+      	// $data = [
+      	// 	'archivo' => $enlaces
+      	// ];
+        $this->encargado->guardarAdjuntoCl($enlaces);
+      }
+
+
+
+      // tamaño maximo del archivo
+      // $max_size = 5000000;
+      // $file_types = array('image/jpeg','image/png');
+
+  		// if (!empty($files) {
+
+			// 	$img_name = $_FILES['imageUp']['name'];
+			// 	$img_tmp = $_FILES['imageUp']['tmp_name'];
+			// 	$img_type = $_FILES['imageUp']['type'];
+			// 	$img_size = $_FILES['imageUp']['size'];
+			// 	$img_dir = 'img/';
+
+			// 	if ($img_size <= 1000000) {
+			// 		if ($img_type=='image/jpeg' || $img_type=='image/jpg' || $img_type=='image/png' || $img_type=='image/gif') {
+			// 			// move_uploaded_file($img_tmp, $img_dir . $img_name);
+
+			// 			if (move_uploaded_file($img_tmp, $img_dir . $img_name)) {
+			// 				$data['image'] = $img_name;
+			// 			} else {
+			// 				$data['image'] = '';
+			// 			}
+
+			// 		} else {
+			// 			$data['image_err_type'] = 'no es una imagen';
+			// 		}
+			// 	} else {
+			// 		$data['image_err_size'] = 'la imagen excede el tamaño';
+			// 	}
+
+				// if (move_uploaded_file($img_tmp, $img_dir . $img_name)) {
+				// 	$data['image'] = $_FILES['imageUp']['name'];
+				// } else {
+				// 	$data['image'] = '';
+				// }
+	  }
+
 
 	  public function getMinaCateg($id) {
 	  	if ($_SESSION['user_sede'] == 'Peru') {
@@ -125,15 +217,21 @@
 	  public function getNumOrden() {
       if ($_SESSION['user_sede'] == 'Peru') {
         $numero = $this->encargado->getNumeroPe();
-        $numero = $numero->num_os;
-        // $numero = intval($numero);
-        $numero = $numero+1;
+	        if ($numero) {
+						$numero = $numero->num_os;
+	       		$numero = $numero+1;
+	        } else {
+	        	$numero = 1;
+	        }
         return $numero;
       } else {
         $numero = $this->encargado->getNumeroCl();
-        $numero = $numero->num_os;
-        // $numero = intval($numero);
-        $numero = $numero+1;
+	        if ($numero) {
+						$numero = $numero->num_os;
+	       		$numero = $numero+1;
+	        } else {
+	        	$numero = 1;
+	        }
         return $numero;
       }
 	  }

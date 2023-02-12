@@ -7,3 +7,14 @@
 .selected-row {
   background-color: #ccff;
 }
+
+
+#numAdjunto:hover {
+  background-color: #ccff;
+  color: #333;
+  cursor: pointer;
+}
+
+.selected-file {
+  background-color: #ccff;
+}
