@@ -28,4 +28,16 @@ tabla centro_costo_miembros (id, nombre, codigo, centro_costo_id)
 #SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1
 
 SELECT id,num_os FROM os_chile GROUP BY id DESC LIMIT 1
+
+
+CREATE TABLE adjuntos_cl (
+id INT NOT NULL AUTO_INCREMENT,
+num_os VARCHAR(20) NOT NULL,
+archivo VARCHAR(100) NOT NULL,
+creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
+
+
+#SELECT num_os,usuario,mina,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_chile WHERE usuario = 'encargado2'  GROUP BY num_os
  
