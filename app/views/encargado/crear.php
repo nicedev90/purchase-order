@@ -132,6 +132,7 @@
                 <div class="row mb-3">
                     <input type="hidden" name="item[1][num_os]" value="<?php echo $data['numero_os']; ?>">
                     <input type="hidden" name="item[1][usuario]" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
+                    <input type="hidden" name="item[1][estado]" id="estado" value="En Proceso">
                     <!-- INICIO SELECT GUIA DE COSTOS -->
                     <div class="col-md-6 position-relative">
                         <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>

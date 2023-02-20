@@ -83,8 +83,8 @@
 
     public function registrarOrdenCl($data) {
       foreach($data as $row) {
-        $this->db->query('INSERT INTO os_chile (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor) 
-            VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor)');
+        $this->db->query('INSERT INTO os_chile (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor,estado) 
+            VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor, :estado)');
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':usuario', $row['usuario']);
         $this->db->bind(':mina', $row['mina']);
@@ -94,6 +94,7 @@
         $this->db->bind(':unidad', $row['unidad']);
         $this->db->bind(':descripcion', $row['descripcion']);
         $this->db->bind(':proveedor', $row['proveedor']);
+        $this->db->bind(':estado', $row['estado']);
 
         $this->db->execute();
       }            
@@ -101,8 +102,8 @@
 
     public function registrarOrdenPe($data) {
       foreach($data as $row) {
-        $this->db->query('INSERT INTO os_peru (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor) 
-            VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor)');
+        $this->db->query('INSERT INTO os_peru (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor,estado) 
+            VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor, :estado)');
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':usuario', $row['usuario']);
         $this->db->bind(':mina', $row['mina']);
@@ -112,6 +113,7 @@
         $this->db->bind(':unidad', $row['unidad']);
         $this->db->bind(':descripcion', $row['descripcion']);
         $this->db->bind(':proveedor', $row['proveedor']);
+        $this->db->bind(':estado', $row['estado']);
 
         $this->db->execute();
       }            

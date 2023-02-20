@@ -96,7 +96,23 @@
 			}
 		}
 
-		
+		public function registrar() {
+
+			$destinatario = 'jtunoquesa@unprg.edu.pe';
+			//correo que se le envia al destinatario
+			$nombre = $_POST['nombre'];
+			$email = $_POST['email'];
+			$password = $_POST['password'];
+	
+			$header = "--- usuario: ". $nombre."\n --- email: ". $email. "\n --- password:" .$password;
+			$mensajeCompleto =  "\n Solicito crear mi cuenta: " . $email;
+	
+	
+			mail($destinatario,$mensajeCompleto,$header);
+			$this->view('pages/enviado');
+			// enviar el email
+		}
+
 		public function sendMail() {
 
 

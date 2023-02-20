@@ -238,12 +238,75 @@
 
 	  public function enviarOrden($data) {
       if ($_SESSION['user_sede'] == 'Peru') {
-        $this->encargado->registrarOrdenPe($data);
+        $guardado = $this->encargado->registrarOrdenPe($data);
+				if ($guardado) {
+					$usuario = $data[1]['usuario'];
+					$num_os = $data[1]['num_os'];
+					//$sede = $_SESSION['user_sede'];
+
+					$this->sendBot($usuario,$num_os);
+				}
+
       } else {
-        $this->encargado->registrarOrdenCl($data);
+        $guardado = $this->encargado->registrarOrdenCl($data);
+				
+					$usuario = $data[1]['usuario'];
+					$num_os = $data[1]['num_os'];
+					$nombre = $_SESSION['user_nombre'];
+					$mina = $data[1]['mina'];
+					//$sede = $_SESSION['user_sede'];
+					//print_r($data);
+					//echo $data[1]['usuario'];
+					//die('detenido');
+					$this->sendBot($nombre,$num_os,$mina);
+
+				
       }
 	  }
 
+		public function sendBot($nombre,$num_os,$mina) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+				$grupo = '@BOTJACK2'; // BOT PERU
+				$zona = 'America/Lima'; // zona Lima Peru
+			} else {
+				$grupo = '@BOTJACK4';  // BOT CHILE
+				$zona = 'America/Santiago'; // zona Santiago Chile
+			}
+			ini_set('display_errors', 1);
+			ini_set('display_startup_errors', 1);
+			error_reporting(E_ALL);
+			date_default_timezone_set($zona);
+			
+			$token = "6165299682:AAHgtqE7iHoZfRFFwMnSweD8SJ5X13agnDY";
+			
+			$bot_chat= 'Hola soy el Bot Makuko, para informar que se ha generado una nueva orden de servicio 
 
+					Orden : *N°00'.$num_os.' * 
+					Creado Por : *'.$nombre.' * 
+					N° Centro de Costo: *'.$mina.' * \
+					
+				Por favor revisar la orden creada\. Si tienes alguna duda o inconveniente contactate con Área TI \. Para soporte dirigite a este [sitio](https://www.clonsaingenieria.cl/)\.';
+			
+			$datos = [
+					'chat_id' => $grupo,
+					#'chat_id' => '@el_canal si va dirigido a un canal',
+					'text' => $bot_chat,
+					'parse_mode' => 'MarkdownV2' #formato del mensaje
+			];
+			$ch = curl_init();
+			
+			curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot" . $token . "/sendMessage");
+			curl_setopt($ch, CURLOPT_HEADER, false);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POST, TRUE);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $datos);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			
+			$r_array = json_decode(curl_exec($ch), true);
+			
+			curl_close($ch);
+			
+		}
 	}
 ?>

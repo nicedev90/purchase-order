@@ -1,0 +1,11 @@
+COMANDOS PARA CARGAR AL GITHUB REPOSITORIO ... 
+
+> git status
+> git add . 
+> git commit -m "Enviado" 
+> git push
+ 
+COMANDOS PARA DESCARGAR AL GITHUB REPOSITORIO ... 
+
+> git status
+> git pull
