@@ -11,6 +11,8 @@
     <title>SAC CLONSA INGENIERIA </title>
 </head>
 <body>
+
+
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
@@ -25,7 +27,7 @@
                         <i class="fas fa-lock"></i>
                         <input type="password" name="password" placeholder="Contraseña" required />
                     </div>
-                    <input type="submit" value="Inicia Sesión" class="btn solid" />
+                    <input type="submit" value="Inicia Sesión" class="btn solid"/>
                     <p class="social-text">Proximamente con nuestras plataformas sociales</p>
                     <div class="social-media">
                         <a href="#" class="social-icon">
@@ -42,11 +44,11 @@
                         </a>
                     </div>
                 </form>
-                <form action="<?php echo URLROOT; ?>/users/sendMail" method="POST" class="sign-up-form"> 
+                <form action="<?php echo URLROOT; ?>/users/registrar" method="POST" class="sign-up-form"> 
                     <h2 class="title">Registrate</h2> 
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Nombre de usuario" name="nombre" required/>
+                        <input type="text" placeholder="Nombres Completos" name="nombre" required/>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
@@ -103,8 +105,11 @@
             </div>
         </div>
     </div>
-    
+   
+
+
     <script src="<?php echo URLROOT; ?>/js/app.js"></script>
+
 </body>
 
 </html>

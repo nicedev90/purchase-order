@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+
 	// funcion para cargar categorias en form
 	const mina = document.querySelector('#mina')
 	mina.addEventListener('change', getCategorias)
@@ -19,6 +20,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	const deleteAdjunto = document.querySelector('#delete_adjunto')
 	deleteAdjunto.addEventListener('click', deleteRowAdjunto)
+
+
+
+	
 
 })
 
@@ -190,6 +195,7 @@ const addItem = () => {
 	const content = `
 				<input type="hidden" name="item[${contar}][usuario]" value="${user}">
 				<input type="hidden" name="item[${contar}][num_os]" value="${n_orden}">
+				<input type="hidden" name="item[${contar}][estado]" value="En Proceso">
 
 				<input type="hidden" name="item[${contar}][mina]" value="${n_mina}">
 				<input type="hidden" name="item[${contar}][categoria]" value="${n_cat}">
