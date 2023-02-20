@@ -28,11 +28,15 @@
                         <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
+                                <i class="bi bi-people"></i>
                             </div>
                             <div class="ps-3">
                                 <h6>145</h6>
-                                <span class="text-primary pt-1 fw-bold">12%</span>
+                                <a href="<?php echo URLROOT; ?>/encargados/consultar_os">
+                                <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Historial OS
+                                    <i class="bi bi-folder"></i>
+                                </span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -42,18 +46,22 @@
 
                 <!-- Revenue Card -->
                 <div class="col-xxl-3 col-md-6">
-                    <div class="card info-card revenue-card">
+                    <div class="card info-card customers-card">
                     <div class="card-body">
                         <h5 class="card-title">Última Orden <span>| Creada</span></h5>
 
                         <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-currency-dollar"></i>
+                            <i class="bi bi-send-check-fill"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>$3,264</h6>
-                            <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                            <h6>OS N°50</h6>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#largeModal">
+                                <span class="text-success pt-1 small pt-1 fw-bold"> Ver Detalles
+                                    <i class="bi bi-files"></i>
+                                </span>
+                            </a>
+                            <?php require APPROOT . '/views/encargado/partials/modal_card.php'; ?>
                         </div>
                         </div>
                     </div>
@@ -70,12 +78,10 @@
 
                         <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-currency-dollar"></i>
+                            <i class="bi bi-clipboard2-check-fill"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>$3,264</h6>
-                            <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                            <h6>145</h6>
                         </div>
                         </div>
                     </div>
@@ -89,16 +95,20 @@
                     <div class="card info-card customers-card">
 
                     <div class="card-body">
-                        <h5 class="card-title">En Proceso <span>| Sin revisar</span></h5>
+                        <h5 class="card-title">Mis Ordenes <span>| Acceso Premium</span></h5>
 
                         <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-people"></i>
+                            <i class="bi bi-clipboard2-data-fill"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>ORDEN N°044</h6>
-                            <span class="text-danger small pt-1 fw-bold">ORDEN N°44</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+                            <h6>44</h6> 
+                            <a href="" data-bs-toggle="modal" data-bs-target="#largeModal1">
+                                <span class="text-danger pt-1 small pt-1 fw-bold">Mi Última Orden
+                                    <i class="bi bi-files"></i>
+                                </span>
+                            </a>
+                            <?php require APPROOT . '/views/encargado/partials/modal_my.php'; ?>
                         </div>
                         </div>
                     </div>
@@ -112,7 +122,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <h5 class="card-title"> Nueva Orden de Servicio  </h5>
                     <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
                 </div>
@@ -159,7 +169,7 @@
                     </div>
 
                     <div class="col-2">
-                        <button id="btnEliminar" class="btn btn-danger" type="button">Eliminar item</button>
+                        <button id="eliminar" class="btn btn-danger" type="button">Eliminar item</button>
                     </div>
                 </div>
 
@@ -222,18 +232,18 @@
                 <!-- INICIO SECCION ARCHIVOS -->
                 <div class="row my-5 alert alert-secondary mx-1">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="btn">
                                 <b>Adjuntar: </b>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            <button id="add_adjunto" class="btn btn-success" type="button"> + Agregar archivo</button>
+                        <div class="col-md-2">
+                            <button id="agregar" class="btn btn-success" type="button"> + Agregar archivo</button>
                         </div>
 
-                        <div class="col-md-3">
-                            <button id="delete_adjunto" class="btn btn-danger" type="button" hidden> - Eliminar archivo</button>
+                        <div class="col-md-2">
+                            <button id="eliminar" class="btn btn-danger" type="button"> - Eliminar archivo</button>
                         </div>
                     </div>
 
@@ -242,12 +252,12 @@
                             <div id="numAdjunto" class="btn fw-bold col-md-1">
                                 1
                             </div>
-                            <label for="adjunto1" class="col-md-1"> 
+                            <label for="adjunto" class="col-md-1"> 
                                 <span class="btn btn-primary">Cargar. <i class="bi bi-paperclip"></i>
                                 </span>
                             </label>
 
-                            <input type='file' name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
+                            <input type='file' name="adjunto" id="adjunto" class="item_adjunto" hidden>
                             
                             <div id="file_name" class="btn col-md-5">
 
@@ -296,11 +306,15 @@
                         <tr>
                             <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
                             <td><?php echo utf8_encode($orden->usuario); ?></td>
-                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?></td>
-                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->proveedor); ?></span></td>
+                            <td class="text-primary"><?php echo utf8_encode($orden->descripcion); ?></td>
+                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->estado); ?></span></td>
                             <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
                             <td class="d-flex justify-content-around">
-                                <a href="" class="btn btn-warning"><i class="lead bi bi-search"></i></a>                          
+                                <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#largeModal2"><i class="bi bi-search"></i></a>
+                                <a href="<?php echo URLROOT; ?>/encargados/editar_os" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>   
+                                <?php require APPROOT . '/views/encargado/partials/modal_tabla.php'; ?>
+                                
+
                             </td>
                             
                         </tr>

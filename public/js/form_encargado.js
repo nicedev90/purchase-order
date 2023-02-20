@@ -5,11 +5,11 @@ window.addEventListener('DOMContentLoaded', () => {
 	mina.addEventListener('change', getCategorias)
 
 	// manejar items del form
-	const btnAgregar = document.querySelector('#agregar')
+	const btnAgregar = document.querySelector('#btnAgregar')
 	btnAgregar.addEventListener('click', addItem)
 
 	const btnEliminar = document.querySelector('#btnEliminar')
-	btnEliminar.addEventListener('click', eliminarRow)
+	btnEliminar.addEventListener('click', deleteItemRow)
 
 	// manejar archivos adjuntos del form
 	const formCrear = document.querySelector('#form_crear')
@@ -21,14 +21,22 @@ window.addEventListener('DOMContentLoaded', () => {
 	const deleteAdjunto = document.querySelector('#delete_adjunto')
 	deleteAdjunto.addEventListener('click', deleteRowAdjunto)
 
+	// cargar primer adjunto
+	const adjunto1 = document.querySelector('#adjunto1')
+	adjunto1.addEventListener('change', readFile)
 
-
-	
 
 })
 
-const checkFiles = () => {
+const checkFiles = (e) => {
+	const formul = e.target
+	if (formul.classList.contains('invalidado')) {
+		alert('error en tamaño de archivo')
+		e.preventDefault()
 
+	}
+
+	
 }
 
 // funcion para traer categorias desde la base de datos
@@ -37,6 +45,8 @@ const getCategorias = (e) => {
 	target.toggleAttribute('selected')
 	const id = e.target.value
 	// console.log(id)
+	
+	// location.href = 'https://clonsaingenieria.cl/purchase-order/encargados/crear/'+id
 	location.href = 'http://localhost/purchase-order/encargados/crear/'+id
 }
 
@@ -50,12 +60,12 @@ const deleteRowAdjunto = () => {
 
 const addRowAdjunto = () => {
 	// mostrar boton de eliminar archivos
-	const btnDelAdjunto = document.querySelector('#delete_adjunto')
-	btnDelAdjunto.removeAttribute('hidden')
+	// const btnDelAdjunto = document.querySelector('#delete_adjunto')
+	// btnDelAdjunto.removeAttribute('hidden')
 
 
-	const firstFile = document.querySelector('#adjunto_1')
-	firstFile.removeAttribute('hidden')
+	// const firstFile = document.querySelector('#adjunto_1')
+	// firstFile.removeAttribute('hidden')
 
 
 	let numFile, contador =2
@@ -90,12 +100,12 @@ const addRowAdjunto = () => {
 
         </div>
 
-        <div id="file_size" class="btn col-md-2">
+        <div id="file_size" class="btn col-md-1">
 
         </div>
         
-        <div class="btn col-md-1 btn-success">
-        	<i class="bi bi-check-circle"></i>
+        <div id="validar_adjunto" class="btn col-md-2">
+
         </div>
 	  `
 
@@ -104,9 +114,17 @@ const addRowAdjunto = () => {
 	
 	// console.log(fileRow)
 	
+
+	const adjunto5 = document.querySelector('#adjunto_5')
+	if (adjunto5) {
+		const addAdjunto = document.querySelector('#add_adjunto')
+		addAdjunto.removeEventListener('click', addRowAdjunto)
+		alert('No puede agregar mas de 5 archivos')
+	} 
+
+
 	initFiles()
 	setFileBtn()
-
 }
 
 const initFiles = () => {
@@ -121,12 +139,47 @@ const readFile = (e) => {
 
 	const f_name = e.target.nextElementSibling
 	const f_size = f_name.nextElementSibling
+	const f_validar = f_size.nextElementSibling
 
-	let size = fixedSize(archivo.size)
+	if (archivo) {
+		let size = fixedSize(archivo.size)
 
-	f_name.innerText = archivo.name
-	f_size.innerText = size
-	// console.log(f_size)
+		f_name.classList.add('bg-light')
+		f_size.classList.add('bg-light')
+		f_name.innerText = archivo.name
+		f_size.innerText = size
+
+		// let sizeFile = size.split(' ')
+		// sizeFile = sizeFile[0]
+
+		f_validar.innerHTML = validateFile(archivo.size)
+		// console.log(sizeFile)
+	}
+}
+
+const validateFile = (size) => {
+	if (size > 3000000) {
+		const formCrear = document.querySelector('#form_crear')
+	formCrear.classList.add('invalidado')
+	console.log(formCrear)
+
+		return `<div class="btn btn-danger">
+					<i class="bi lead bi-check-circle"></i>
+					Es mayor a 5 MB 
+				</div>`
+
+	} else {
+		const formCrear = document.querySelector('#form_crear')
+	formCrear.classList.remove('invalidado')
+	console.log(formCrear)
+
+		return `<div class="btn btn-success">
+					<i class="bi lead bi-check-circle"></i>
+					Correcto 
+				</div>`
+	}
+
+	
 }
 
 const fixedSize = (size) => {
@@ -162,19 +215,28 @@ const selectFile = (e) => {
 // funciones para items de orden de compra
 const lista = document.querySelector('#lista')
 
-const eliminarRow = () => {
-	const rowSel = document.querySelectorAll('.itemSelected')
-	rowSel.forEach(item => item.remove())
+const deleteItemRow = () => {
+	const rowSelected = document.querySelectorAll('.itemSelected')
+	rowSelected.forEach(item => item.remove())
 }
 
 const addItem = () => {
 	
-	let contar = 2
-	let numer = lista.lastChild.id
-	if (numer >=1) {
-		contar = +numer+1
+	let num_item = 2
+	let first_item = lista.lastChild.id
+	if (first_item >=1) {
+		num_item = +first_item+1
 		// console.log(numer)
 	}
+
+	const orden = document.querySelector('#num_os')
+	const n_orden = orden.value
+
+	const usuario = document.querySelector('#usuario')
+	const user = usuario.value
+
+	const status = document.querySelector('#estado')
+	const estado = status.value
 
 	const mina = document.querySelector('#mina')
 	const n_mina = mina.value
@@ -182,40 +244,35 @@ const addItem = () => {
 	const categoria = document.querySelector('#categoria')
 	const n_cat = categoria.value
 
-	const usuario = document.querySelector('#usuario')
-	const user = usuario.value
 
-	const orden = document.querySelector('#numero_orden')
-	const n_orden = orden.innerText
-
-	const nuevoDiv = document.createElement('div')
-	nuevoDiv.setAttribute('id', contar)
-	nuevoDiv.classList.add('row','mb-3')
+	const itemRow = document.createElement('div')
+	itemRow.setAttribute('id', num_item)
+	itemRow.classList.add('row','mb-3')
 
 	const content = `
-				<input type="hidden" name="item[${contar}][usuario]" value="${user}">
-				<input type="hidden" name="item[${contar}][num_os]" value="${n_orden}">
-				<input type="hidden" name="item[${contar}][estado]" value="En Proceso">
+				<input type="hidden" name="item[${num_item}][usuario]" value="${user}">
+				<input type="hidden" name="item[${num_item}][num_os]" value="${n_orden}">
+				<input type="hidden" name="item[${num_item}][estado]" value="${estado}">
 
-				<input type="hidden" name="item[${contar}][mina]" value="${n_mina}">
-				<input type="hidden" name="item[${contar}][categoria]" value="${n_cat}">
+				<input type="hidden" name="item[${num_item}][mina]" value="${n_mina}">
+				<input type="hidden" name="item[${num_item}][categoria]" value="${n_cat}">
 
         <div class="col-md-1 position-relative">
-            <input type="text" name="item[${contar}][item]" class="form-control-plaintext text-center" id="numItem" value="${contar}" required readonly>
+            <input type="text" name="item[${num_item}][item]" class="form-control-plaintext text-center" id="numItem" value="${num_item}" required readonly>
             <div class="valid-tooltip">
                 Correcto
             </div>
         </div>
 
         <div class="col-md-1 position-relative">
-            <input name="item[${contar}][cantidad]" type="number" class="form-control" id="cantidad1" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
+            <input name="item[${num_item}][cantidad]" type="number" class="form-control" id="cantidad1" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
             <div class="valid-tooltip">
                 Correcto
             </div>
         </div>
                         
         <div class="col-md-2 position-relative">
-            <select name="item[${contar}][unidad]" class="form-select" id="validationTooltip04" required>
+            <select name="item[${num_item}][unidad]" class="form-select" id="validationTooltip04" required>
                 <option selected disabled value="">Selecciona...</option>
                 <option>Metro</option>
                 <option>Kilo</option>
@@ -227,36 +284,36 @@ const addItem = () => {
         </div>
 
         <div class="col-md-6 position-relative">
-            <input name="item[${contar}][descripcion]" type="text" class="form-control" id="" value="" data-bs-toggle="tooltip" data-bs-placement="top" title="Llena este campo descripción" required autocomplete="off">
+            <input name="item[${num_item}][descripcion]" type="text" class="form-control" id="" value="" data-bs-toggle="tooltip" data-bs-placement="top" title="Llena este campo descripción" required autocomplete="off">
             <div class="valid-tooltip">
             Correcto
             </div>
         </div>
 
         <div class="col-md-2 position-relative">
-            <input name="item[${contar}][proveedor]" type="text" class="form-control" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
+            <input name="item[${num_item}][proveedor]" type="text" class="form-control" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
             <div class="valid-tooltip">
                 Correcto
             </div>
         </div>
     `
  
-    nuevoDiv.innerHTML = content
-    lista.append(nuevoDiv) 
-    // console.log(nuevoDiv)
-    setBtn()
+    itemRow.innerHTML = content
+    lista.append(itemRow) 
+    // console.log(itemRow)
+    setItemBtn()
 }
 
-const setBtn = () => {
+const setItemBtn = () => {
 	const selectItem = document.querySelectorAll('#numItem')
 	selectItem.forEach(item => {
-		item.addEventListener('click', selRow)
+		item.addEventListener('click', selectItemRow)
 	})
 }
 
-const selRow = (e) => {
-	const par = e.target.parentElement.parentElement
-	par.classList.toggle('selected-row')
-	par.classList.toggle('itemSelected')
-	// console.log(par)
+const selectItemRow = (e) => {
+	const row = e.target.parentElement.parentElement
+	row.classList.toggle('selected-row')
+	row.classList.toggle('itemSelected')
+	// console.log(row)
 }

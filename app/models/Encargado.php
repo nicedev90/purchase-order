@@ -20,13 +20,13 @@
 
 
 		public function getOrdenesPe() {
-			$this->db->query('SELECT num_os,usuario,mina,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_peru GROUP BY num_os');
+			$this->db->query('SELECT num_os,usuario,mina,descripcion,estado,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_peru ORDER BY num_os DESC LIMIT 5');
 			$ordenes = $this->db->getSet();
 			return $ordenes;
 		}
 
 		public function getOrdenesCl() {
-			$this->db->query('SELECT num_os,usuario,mina,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_chile GROUP BY num_os');
+			$this->db->query('SELECT num_os,usuario,mina,descripcion,estado,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_chile ORDER BY num_os DESC LIMIT 5');
 			$ordenes = $this->db->getSet();
 			return $ordenes;
 		}
@@ -119,8 +119,8 @@
       }            
     }
 
-    public function guardarAdjuntoPe($data) {
-      foreach($data as $row) {
+    public function guardarAdjuntoPe($enlaces) {
+      foreach($enlaces as $row) {
         $this->db->query('INSERT INTO adjuntos_pe (num_os, archivo)
           VALUES (:num_os, :archivo)');
         $this->db->bind(':num_os', $row['num_os']);

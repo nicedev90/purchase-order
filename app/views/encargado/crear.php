@@ -117,7 +117,9 @@
                 <div class="col-md-6">
                     <h5 class="card-title"> Nueva Orden de Servicio  
                         <b class="lead p-2 fw-bold bg-warning rounded"> N° - 
-                            <b id="numero_orden"><?php echo $data['numero_os']; ?></b><b> - 2023</b>
+                            <b id="numero_orden">
+                                <?php echo $data['numero_os']; ?>
+                            </b><b> - 2023</b>
                         </b>
                     </h5>
                     <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
@@ -127,12 +129,13 @@
                 </div>
             </div>
 
-            <form id="form_crear" action="<?php echo URLROOT; ?>/encargados/crear/<?php echo $data['id']; ?>" class="col-md-12 needs-validation" novalidate method="POST"  enctype="multipart/form-data">
+            <form id="form_crear" action="<?php echo URLROOT; ?>/encargados/crear/<?php echo $data['id']; ?>" class="col-md-12 needs-validation" novalidate method="POST" enctype="multipart/form-data">
 
                 <div class="row mb-3">
-                    <input type="hidden" name="item[1][num_os]" value="<?php echo $data['numero_os']; ?>">
+                    <input type="hidden" name="item[1][num_os]" id="num_os"  value="<?php echo $data['numero_os']; ?>">
                     <input type="hidden" name="item[1][usuario]" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
                     <input type="hidden" name="item[1][estado]" id="estado" value="En Proceso">
+
                     <!-- INICIO SELECT GUIA DE COSTOS -->
                     <div class="col-md-6 position-relative">
                         <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
@@ -147,12 +150,12 @@
                         </div>
                     </div>
                     <!-- FIN SELECT GUIA DE COSTOS -->
+
                     <!-- INICIO SELECT CATEGORIA -->
                     <div class="col-md-6 position-relative">
                         <label for="validationTooltip04" class="form-label">Categoría</label>
 
-                        <select name="item[1][categoria]" class="form-select" id="categoria" required>
-                            
+                        <select name="item[1][categoria]" class="form-select" id="categoria" required>     
                             <?php foreach($data['mina_categ'] as $categoria): ?>
                                 <option value="<?php echo utf8_encode($categoria->codigo); ?>"> <?php echo utf8_encode($categoria->categoria); ?></option>
                             <?php endforeach; ?>
@@ -166,7 +169,7 @@
 
                 <div class="row mb-3">
                     <div class="col-2">
-                        <button id="agregar" class="btn btn-success" type="button">Agregar item</button>
+                        <button id="btnAgregar" class="btn btn-success" type="button">Agregar item</button>
                     </div>
 
                     <div class="col-2">
@@ -195,8 +198,9 @@
                 <div id="lista">
                     <div id="1" class="row mb-3">
                         <!-- INICIO INPUT ITEM -->
+                        <!-- id= numItem1 es unico para este  item -->
                         <div class="col-md-1 position-relative">
-                            <input type="text" name="item[1][item]" class="form-control-plaintext text-center" id="numItem" value="1" required readonly>
+                            <input type="text" name="item[1][item]" class="form-control-plaintext text-center" id="numItem1" value="1" required readonly>
                             <div class="valid-tooltip">Correcto</div>
                         </div>
                         <!-- FIN INPUT ITEM -->
@@ -219,7 +223,7 @@
                         <!-- FIN SELECT UNIDAD -->
 
                         <div class="col-md-6 position-relative">
-                            <input name="item[1][descripcion]" type="text" class="form-control" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
+                            <input name="item[1][descripcion]" type="text" class="form-control" id="item1" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
                             <div class="valid-tooltip"> Correcto </div>
                         </div>
 
@@ -244,13 +248,14 @@
                         </div>
 
                         <div class="col-md-2">
-                            <button id="delete_adjunto" class="btn btn-danger" type="button" hidden> - Eliminar archivo</button>
+                            <button id="delete_adjunto" class="btn btn-danger" type="button"> - Eliminar archivo</button>
                         </div>
                     </div>
 
                     <div id="lista_adjunto" class="col my-2">
-                        <div class="col my-1" id="adjunto_1" hidden>
-                            <div id="numAdjunto" class="btn fw-bold col-md-1">
+                        <div class="col my-1" id="adjunto_1">
+                            <!-- id numadjunto1 es unico del primer adjunto -->
+                            <div id="numAdjunto1" class="btn fw-bold col-md-1">
                                 1
                             </div>
                             <label for="adjunto1" class="col-md-1"> 
@@ -260,18 +265,16 @@
 
                             <input type='file' name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
                             
-                            <div id="file_name" class="bg-light btn col-md-5">
+                            <div id="file_name" class="btn col-md-5">
 
                             </div>
 
-                            <div id="file_size" class="bg-light btn col-md-2">
+                            <div id="file_size" class="btn col-md-1">
 
                             </div>
                             
-                            <div id="msg_valid" class="btn col-md-2 btn-danger">
-                                <i class="bi lead bi-check-circle"></i> Es mayor a 3 MB
-                                
-                               
+                            <div id="validar_adjunto" class="btn col-md-2">
+
                             </div>
                             
                         </div>
@@ -311,8 +314,8 @@
                         <tr>
                             <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
                             <td><?php echo utf8_encode($orden->usuario); ?></td>
-                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?></td>
-                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->proveedor); ?></span></td>
+                            <td class="text-primary"><?php echo utf8_encode($orden->descripcion); ?></td>
+                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->estado); ?></span></td>
                             <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
                             <td class="d-flex justify-content-around">
                                 <a href="" class="btn btn-warning"><i class="lead bi bi-search"></i></a>                         

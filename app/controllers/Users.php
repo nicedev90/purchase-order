@@ -78,24 +78,6 @@
 			}
 		}
 
-		public function forgot() { 
-			if (!isset($_SESSION['user_rol'])) {
-				$this->view('pages/forgot');
-			} else {
-				$userView = strtolower($_SESSION['user_rol']);
-				$this->view($userView . '/index');
-			}
-		}
-
-		public function pending() {
-			if (!isset($_SESSION['user_rol'])) {
-				$this->view('pages/pending');
-			} else {
-				$userView = strtolower($_SESSION['user_rol']);
-				$this->view($userView . '/index');
-			}
-		}
-
 		public function registrar() {
 
 			$destinatario = 'jtunoquesa@unprg.edu.pe';
@@ -109,13 +91,6 @@
 	
 	
 			mail($destinatario,$mensajeCompleto,$header);
-			$this->view('pages/enviado');
-			// enviar el email
-		}
-
-		public function sendMail() {
-
-
 			$this->view('pages/enviado');
 			// enviar el email
 		}

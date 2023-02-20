@@ -42,17 +42,6 @@
         	$files = '';
         }
         	
-        	
-
-	        // echo  '<img src=' . URLROOT . '/files/' . $i_name . '>';
-	        
-	        // echo "<pre>";
-					// print_r($files);
-					// echo "</pre>";
-	        
-	        // die('detenido');
-
-        // $adjunto = $_FILES['adjunto'][0];
         $enviarData = $this->enviarOrden($data);
 
         if ($enviarData == 0) {
@@ -101,16 +90,45 @@
 	  public function uploadFiles($files,$num_os) {
 
 	  	if ($_SESSION['user_sede'] == 'Peru') {
-        // $this->encargado->guardarAdjuntoPe($data);
+        $totalFiles = count($files['name']);
+
+    		mkdir('../public/files/pe/' . $num_os);
+        $filesDir = '../public/files/pe/' . $num_os . '/';
+
+      	$enlaces = [];
+        // array de archivos, primer index = 1
+        
+	        for ($i = 1; $i <= $totalFiles; $i++) {
+	        	$i_name = $files['name'][$i];
+						$i_tmp = $files['tmp_name'][$i];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlAdjunto[$i] = '/files/pe/' . $num_os . '/' . $i_name;
+		        $enlaces[$i]['num_os'] = $num_os;
+		        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
+	        }
+
+      	// $num = array('04','05');
+      	// $enlaces = [
+      	// 	'num_os' => '01',
+      	// 	'archivo' => 'imagen'
+      	// ];
+
+      	// $data = [
+      	// 	'archivo' => $enlaces
+      	// ];
+        $this->encargado->guardarAdjuntoPe($enlaces);
       } else {
 
-      		$totalFiles = count($files['name']);
+    		$totalFiles = count($files['name']);
 
-      		mkdir('../public/files/cl/' . $num_os);
-	        $filesDir = '../public/files/cl/' . $num_os . '/';
+    		mkdir('../public/files/cl/' . $num_os);
+        $filesDir = '../public/files/cl/' . $num_os . '/';
 
-        	$enlaces = [];
-	        // array de archivos, primer index = 1
+      	$enlaces = [];
+        // array de archivos, primer index = 1
+
 	        for ($i = 1; $i <= $totalFiles; $i++) {
 	        	$i_name = $files['name'][$i];
 						$i_tmp = $files['tmp_name'][$i];
@@ -120,7 +138,6 @@
 						$urlAdjunto[$i] = '/files/cl/' . $num_os . '/' . $i_name;
 		        $enlaces[$i]['num_os'] = $num_os;
 		        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
-	        
 	        }
 
       	// $num = array('04','05');
@@ -224,6 +241,7 @@
 	        	$numero = 1;
 	        }
         return $numero;
+
       } else {
         $numero = $this->encargado->getNumeroCl();
 	        if ($numero) {
@@ -239,13 +257,14 @@
 	  public function enviarOrden($data) {
       if ($_SESSION['user_sede'] == 'Peru') {
         $guardado = $this->encargado->registrarOrdenPe($data);
-				if ($guardado) {
+
 					$usuario = $data[1]['usuario'];
 					$num_os = $data[1]['num_os'];
-					//$sede = $_SESSION['user_sede'];
+					$nombre = $_SESSION['user_nombre'];
+					$mina = $data[1]['mina'];
 
 					$this->sendBot($usuario,$num_os);
-				}
+					$this->sendMail($nombre,$num_os,$mina);
 
       } else {
         $guardado = $this->encargado->registrarOrdenCl($data);
@@ -254,13 +273,9 @@
 					$num_os = $data[1]['num_os'];
 					$nombre = $_SESSION['user_nombre'];
 					$mina = $data[1]['mina'];
-					//$sede = $_SESSION['user_sede'];
-					//print_r($data);
-					//echo $data[1]['usuario'];
-					//die('detenido');
-					$this->sendBot($nombre,$num_os,$mina);
 
-				
+					$this->sendBot($nombre,$num_os,$mina);
+					$this->sendMail($nombre,$num_os,$mina);				
       }
 	  }
 
@@ -272,6 +287,7 @@
 				$grupo = '@BOTJACK4';  // BOT CHILE
 				$zona = 'America/Santiago'; // zona Santiago Chile
 			}
+
 			ini_set('display_errors', 1);
 			ini_set('display_startup_errors', 1);
 			error_reporting(E_ALL);
@@ -293,8 +309,8 @@
 					'text' => $bot_chat,
 					'parse_mode' => 'MarkdownV2' #formato del mensaje
 			];
+
 			$ch = curl_init();
-			
 			curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot" . $token . "/sendMessage");
 			curl_setopt($ch, CURLOPT_HEADER, false);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -304,9 +320,25 @@
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			
 			$r_array = json_decode(curl_exec($ch), true);
-			
 			curl_close($ch);
-			
 		}
+
+		public function sendMail($nombre,$num_os,$mina) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+				$destinatario = 'jtunoquesa@unprg.edu.pe';
+			} else {
+				$destinatario = 'jtunoquesa@unprg.edu.pe';
+			}
+
+      $contenido = "Creado por: ". $nombre."\n Numero de Orden: ". $num_os. "\n Centro de Costo:" .$mina;
+      $mensajeCompleto =  "\n Se ha creado la orden de servicio: " . $num_os;
+  
+      mail($destinatario,$mensajeCompleto,$contenido);
+
+    }
+
+    // funciones para Cards
+
+    
 	}
 ?>
