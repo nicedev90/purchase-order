@@ -24,6 +24,63 @@
 			}
 		}
 
+		public function editar($num_os = null) {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+				$files = $this->getOrdenFiles($num_os);
+				$items = $this->getOrdenItems($num_os);
+				// $items = $items[1]->num_os;
+				echo '<pre>';
+				print_r($items);
+
+				die('detenido');
+				$data = [
+					'files' => $files,
+					'items' => $items,
+					'num_os' => $num_os
+				];
+
+				$this->view('encargado/editar', $data);
+
+			} else {
+
+				$files = $this->getOrdenFiles($num_os);
+				$items = $this->getOrdenItems($num_os);
+				// $items = $items[1]->num_os;
+				echo '<pre>';
+				print_r($items);
+
+				die('detenido');
+				$data = [
+					'files' => $files,
+					'items' => $items,
+					'num_os' => $num_os
+				];
+
+				$this->view('encargado/editar', $data);
+			}
+		}
+
+		public function getOrdenFiles($num_os) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+				$files = $this->encargado->getOrdenFilesPe($num_os);
+				return $files;
+			} else {
+				$files = $this->encargado->getOrdenFilesCl($num_os);
+				return $files;
+			}
+		}
+
+		public function getOrdenItems($num_os) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+				$orden = $this->encargado->getOrdenItemsPe($num_os);
+				return $orden;
+			} else {
+				$orden = $this->encargado->getOrdenItemsCl($num_os);
+				return $orden;
+			}
+		}
+
 		public function crear($id = null) {
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -339,6 +396,6 @@
 
     // funciones para Cards
 
-    
+
 	}
 ?>

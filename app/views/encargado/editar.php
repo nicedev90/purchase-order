@@ -1,6 +1,8 @@
-<?php include('../header.php')?>
-<?php include('../topbar.php')?>
-<?php include('../sidebar.php')?>
+<?php require APPROOT . '/views/encargado/partials/header.php'; ?>
+
+<?php require APPROOT . '/views/encargado/partials/topbar.php'; ?>
+
+<?php require APPROOT . '/views/encargado/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
 
@@ -23,7 +25,13 @@
             <div class="card-body">
                 <div class="row d-flex justify-content-between align-items-center">
                     <div class="col-md-8">
-                        <h5 class="card-title"> Editar Orden de Servicio  </h5>
+                        <h5 class="card-title"> Editar Orden de Servicio
+                            <b class="lead p-2 fw-bold bg-warning rounded"> N° - 
+                                <b id="numero_orden">
+                                    <?php echo $data['num_os']; ?>
+                                </b><b> - 2023</b>
+                            </b>
+                        </h5>
                         <p>Campos ingresados por Usuario <b>Jorge Perez</b> de Orden de Servicio Clonsa Ingeniería S.A.C </p>
                         
                     </div>
@@ -39,8 +47,8 @@
                             <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
                             <select name="mina" class="form-select" id="mina" required>
                                 <option selected disabled value="">Selecciona...</option> 
-                                <?php foreach($data['minas'] as $mina): ?>
-                                    <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
+                                <?php foreach($data['items'] as $mina): ?>
+                                    <option value="<?php echo $mina->id; ?>"> <?php echo $mina->mina; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <div class="invalid-tooltip">
@@ -220,4 +228,4 @@
 </main><!-- End #main -->
 
 
-<?php include('../footer.php')?>
+<?php require APPROOT . '/views/encargado/partials/footer.php'; ?>

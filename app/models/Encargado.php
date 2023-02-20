@@ -141,6 +141,34 @@
       }
     }
 
+    public function getOrdenItemsPe($num_os) {
+      $this->db->query('SELECT * FROM os_peru WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenItemsCl($num_os) {
+      $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenFilesPe($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenFilesCl($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
 
 	}
 ?>
