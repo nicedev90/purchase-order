@@ -44,18 +44,38 @@
 
 			} else {
 
-				$files = $this->getOrdenFiles($num_os);
-				$items = $this->getOrdenItems($num_os);
-				// $items = $items[1]->num_os;
-				echo '<pre>';
-				print_r($items);
+				
 
-				die('detenido');
+				if (is_null($num_os)) {
+          $mina_nombre= '';
+          $mina_codigo = '';
+
+        } else {
+          // obtener info de la orden 
+          $files = $this->getOrdenFiles($num_os);
+					$items = $this->getOrdenItems($num_os);
+					// $items = $items[1]->num_os;
+          // $mina = $this->getMinaById($num_os);
+          // $mina_nombre = $items[1]->mina;
+          $mina_codigo = $items[1]->mina;
+          $mina_categ = $items[1]->categoria;
+          $estado = $items[1]->estado;
+        }
+
+				// echo '<pre>';
+				// print_r(count($items));
+
+				// die('detenido');
+
 				$data = [
-					'files' => $files,
-					'items' => $items,
-					'num_os' => $num_os
-				];
+          'id' => $id,
+          'items' => $items,
+          'mina_nombre' => $mina_nombre,
+          'mina_codigo' => $mina_codigo,
+          'mina_categ' => $mina_categ,
+          'numero_os' => $num_os,
+          'estado' => $estado
+        ];
 
 				$this->view('encargado/editar', $data);
 			}

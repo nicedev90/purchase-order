@@ -28,7 +28,7 @@
                         <h5 class="card-title"> Editar Orden de Servicio
                             <b class="lead p-2 fw-bold bg-warning rounded"> N° - 
                                 <b id="numero_orden">
-                                    <?php echo $data['num_os']; ?>
+                                    <?php echo $data['numero_os']; ?>
                                 </b><b> - 2023</b>
                             </b>
                         </h5>
@@ -39,17 +39,15 @@
                     </div>
                 </div>
 
-                <form id="form_crear" action="" class="col-md-12 needs-validation" novalidate method="POST" enctype="multipart/form-data">
+                <form id="form_crear" action="<?php echo URLROOT; ?>/encargados/editar/<?php echo $data['numero_os']; ?>" class="col-md-12 needs-validation" novalidate method="POST" enctype="multipart/form-data">
 
                     <div class="row mb-3"> 
                         <!-- INICIO SELECT GUIA DE COSTOS -->
                         <div class="col-md-6 position-relative">
                             <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
-                            <select name="mina" class="form-select" id="mina" required>
-                                <option selected disabled value="">Selecciona...</option> 
-                                <?php foreach($data['items'] as $mina): ?>
-                                    <option value="<?php echo $mina->id; ?>"> <?php echo $mina->mina; ?></option>
-                                <?php endforeach; ?>
+                            <select name="item[1][mina]" class="form-select" id="mina" required>
+                                <option selected value="<?php echo $data['mina_codigo']; ?>"><?php echo $data['mina_codigo']; ?></option> 
+                                
                             </select>
                             <div class="invalid-tooltip">
                                 Por favor selecciona la Unidad Minera
@@ -59,21 +57,21 @@
 
                         <!-- INICIO SELECT CATEGORIA -->
                         <div class="col-md-6 position-relative">
-                            <label for="validationTooltip04" class="form-label">Categoría</label>
+                        <label for="validationTooltip04" class="form-label">Categoría</label>
 
-                            <select name="categoria" class="form-select" id="categoria" required>
-                                <option selected disabled value="">Selecciona ...</option>
-                            </select>
-                            <div class="invalid-tooltip">
-                                Por favor selecciona una categoría.
-                            </div>
+                        <select name="item[1][categoria]" class="form-select" id="categoria" required>     
+                            <option selected value="<?php echo $data['mina_categ']; ?>"><?php echo $data['mina_categ']; ?></option> 
+                        </select>
+                        <div class="invalid-tooltip">
+                            Por favor selecciona una categoría.
                         </div>
+                    </div>
                         <!-- FIN SELECT CATEGORIA -->
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-2">
-                            <button id="agregar" class="btn btn-success" type="button">Agregar item</button>
+                            <button id="btnAgregar" class="btn btn-success" type="button">Agregar item</button>
                         </div>
 
                         <div class="col-2">
@@ -100,23 +98,26 @@
                     </div>
                     
                     <div id="lista">
-                        <div id="1" class="row mb-3">
+                        <?php foreach($data['items'] as $item) : ?>
+
+                        <div id="<?php echo $item->item ?>" class="row mb-3">
                             <!-- INICIO INPUT ITEM -->
+                            <!-- id= numItem1 es unico para este  item -->
                             <div class="col-md-1 position-relative">
-                                <input type="text" name="item" class="form-control-plaintext text-center" id="numItem" value="1" required readonly>
+                                <input type="text" name="item[<?php echo $item->item ?>][item]" class="form-control-plaintext text-center" id="numItem1" value="<?php echo $item->item ?>" required readonly>
                                 <div class="valid-tooltip">Correcto</div>
                             </div>
                             <!-- FIN INPUT ITEM -->
                             <!-- INICIO INPUT CANTIDAD -->
                             <div class="col-md-1 position-relative">
-                                <input name="cantidad" type="number" class="form-control" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
+                                <input name="item[<?php echo $item->item ?>][cantidad]" type="number" class="form-control" id="cantidad" value="<?php echo $item->cantidad ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
                                 <div class="valid-tooltip">Correcto</div>
                             </div>
                             <!-- FIN INPUT CANTIDAD -->
                             <!-- INICIO SELECT UNIDAD -->
                             <div class="col-md-2 position-relative">
-                                <select name="unidad" class="form-select" id="validationTooltip04" required>
-                                    <option selected disabled value="">Selecciona...</option>
+                                <select name="item[<?php echo $item->item ?>][unidad]" class="form-select" id="validationTooltip04" required>
+                                    <option selected disabled value="<?php echo $item->unidad ?>"><?php echo $item->unidad ?></option>
                                     <option>Metro</option>
                                     <option>Kilo</option>
                                     <option>Litro</option>
@@ -126,15 +127,17 @@
                             <!-- FIN SELECT UNIDAD -->
 
                             <div class="col-md-6 position-relative">
-                                <input name="descripcion" type="text" class="form-control" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
+                                <input name="item[<?php echo $item->item ?>][descripcion]" type="text" class="form-control" id="item1" value="<?php echo $item->descripcion ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
                                 <div class="valid-tooltip"> Correcto </div>
                             </div>
 
                             <div class="col-md-2 position-relative">
-                                <input name="proveedor" type="text" class="form-control" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
+                                <input name="item[<?php echo $item->item ?>][proveedor]" type="text" class="form-control" id="validationTooltip02" value="<?php echo $item->proveedor ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
                                 <div class="valid-tooltip">  Correcto </div>
                             </div>
                         </div>
+                            
+                    <?php endforeach; ?>
                     </div>
                     
                     <!-- INICIO SECCION ARCHIVOS -->
@@ -190,7 +193,7 @@
                     </div>
                     <div class="col-md-2 position-relative">
                         <select name="unidad" class="form-select" id="validationTooltip04" required>
-                                <option selected disabled value="">Selecciona...</option>
+                                <option selected disabled value="<?php echo $data['estado']; ?>"><?php echo $data['estado']; ?></option>
                                 <option>En Progreso</option>
                                 <option>Revisado</option>
                                 <option>Completado</option>
@@ -201,15 +204,15 @@
                                     <p></p>
                     <!-- INICIO ** ACEPTO BAJO RESPONSABILIDAD -->
                     <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                        <label class="form-check-label" for="invalidCheck">
-                        Acepto bajo mi responsabilidad los términos y condiciones solicitados.
-                        </label>
-                        <div class="invalid-feedback">                      
-                            Debe estar de acuerdo antes de enviar.
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                            <label class="form-check-label" for="invalidCheck">
+                            Acepto bajo mi responsabilidad los términos y condiciones solicitados.
+                            </label>
+                            <div class="invalid-feedback">                      
+                                Debe estar de acuerdo antes de enviar.
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <!-- FIN ** ACEPTO BAJO RESPONSABILIDAD -->
                     <p></p>

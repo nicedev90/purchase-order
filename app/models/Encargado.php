@@ -26,7 +26,7 @@
 		}
 
 		public function getOrdenesCl() {
-			$this->db->query('SELECT num_os,usuario,mina,descripcion,estado,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_chile ORDER BY num_os DESC LIMIT 5');
+			$this->db->query('SELECT num_os,usuario,mina,descripcion,estado,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_chile GROUP BY num_os DESC LIMIT 5');
 			$ordenes = $this->db->getSet();
 			return $ordenes;
 		}

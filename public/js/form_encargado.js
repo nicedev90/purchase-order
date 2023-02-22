@@ -6,37 +6,43 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// manejar items del form
 	const btnAgregar = document.querySelector('#btnAgregar')
-	btnAgregar.addEventListener('click', addItem)
+	if (btnAgregar) {
+		btnAgregar.addEventListener('click', addItem)
+	}
 
 	const btnEliminar = document.querySelector('#btnEliminar')
-	btnEliminar.addEventListener('click', deleteItemRow)
+	if (btnEliminar) {
+		btnEliminar.addEventListener('click', deleteItemRow)
+	}
 
 	// manejar archivos adjuntos del form
 	const formCrear = document.querySelector('#form_crear')
 	formCrear.addEventListener('submit', checkFiles)
 
 	const addAdjunto = document.querySelector('#add_adjunto')
-	addAdjunto.addEventListener('click', addRowAdjunto)
+	if (addAdjunto) {
+		addAdjunto.addEventListener('click', addRowAdjunto)
+	}
 
 	const deleteAdjunto = document.querySelector('#delete_adjunto')
-	deleteAdjunto.addEventListener('click', deleteRowAdjunto)
+	if (deleteAdjunto) {
+		deleteAdjunto.addEventListener('click', deleteRowAdjunto)
+	}
 
 	// cargar primer adjunto
 	const adjunto1 = document.querySelector('#adjunto1')
-	adjunto1.addEventListener('change', readFile)
-
+	if (adjunto1) {
+		adjunto1.addEventListener('change', readFile)
+	}
 
 })
 
 const checkFiles = (e) => {
 	const formul = e.target
 	if (formul.classList.contains('invalidado')) {
-		alert('error en tamaño de archivo')
+		alert('Error en Archivo Adjunto.')
 		e.preventDefault()
-
 	}
-
-	
 }
 
 // funcion para traer categorias desde la base de datos
@@ -59,14 +65,6 @@ const deleteRowAdjunto = () => {
 }
 
 const addRowAdjunto = () => {
-	// mostrar boton de eliminar archivos
-	// const btnDelAdjunto = document.querySelector('#delete_adjunto')
-	// btnDelAdjunto.removeAttribute('hidden')
-
-
-	// const firstFile = document.querySelector('#adjunto_1')
-	// firstFile.removeAttribute('hidden')
-
 
 	let numFile, contador =2
 	let lastNum = listaAdjunto.lastChild.id
@@ -111,17 +109,15 @@ const addRowAdjunto = () => {
 
 	 fileRow.innerHTML = fileDetails
 	 listaAdjunto.append(fileRow)
-	
 	// console.log(fileRow)
-	
 
 	const adjunto5 = document.querySelector('#adjunto_5')
+
 	if (adjunto5) {
 		const addAdjunto = document.querySelector('#add_adjunto')
 		addAdjunto.removeEventListener('click', addRowAdjunto)
-		alert('No puede agregar mas de 5 archivos')
+		alert('No puede agregar más de 5 archivos adjuntos.')
 	} 
-
 
 	initFiles()
 	setFileBtn()
@@ -149,37 +145,38 @@ const readFile = (e) => {
 		f_name.innerText = archivo.name
 		f_size.innerText = size
 
-		// let sizeFile = size.split(' ')
-		// sizeFile = sizeFile[0]
-
 		f_validar.innerHTML = validateFile(archivo.size)
-		// console.log(sizeFile)
+		// console.log(f_validar)
 	}
 }
 
 const validateFile = (size) => {
+
 	if (size > 3000000) {
 		const formCrear = document.querySelector('#form_crear')
-	formCrear.classList.add('invalidado')
-	console.log(formCrear)
+		formCrear.classList.add('invalidado')
+		console.log(formCrear)
 
 		return `<div class="btn btn-danger">
-					<i class="bi lead bi-check-circle"></i>
-					Es mayor a 5 MB 
+					<i class="bi lead bi-x"></i>
+					Es mayor a 3 MB 
 				</div>`
 
 	} else {
 		const formCrear = document.querySelector('#form_crear')
-	formCrear.classList.remove('invalidado')
-	console.log(formCrear)
+		if (formCrear.classList.contains('invalidado')) {
+			formCrear.classList.remove('invalidado')
+			console.log(formCrear)
+		}
+		// const formCrear = document.querySelector('#form_crear')
+		// formCrear.classList.remove('invalidado')
+		// console.log(formCrear)
 
 		return `<div class="btn btn-success">
 					<i class="bi lead bi-check-circle"></i>
 					Correcto 
 				</div>`
-	}
-
-	
+	}	
 }
 
 const fixedSize = (size) => {
@@ -226,7 +223,7 @@ const addItem = () => {
 	let first_item = lista.lastChild.id
 	if (first_item >=1) {
 		num_item = +first_item+1
-		// console.log(numer)
+		console.log(num_item)
 	}
 
 	const orden = document.querySelector('#num_os')
@@ -250,12 +247,12 @@ const addItem = () => {
 	itemRow.classList.add('row','mb-3')
 
 	const content = `
-				<input type="hidden" name="item[${num_item}][usuario]" value="${user}">
-				<input type="hidden" name="item[${num_item}][num_os]" value="${n_orden}">
-				<input type="hidden" name="item[${num_item}][estado]" value="${estado}">
+			<input type="hidden" name="item[${num_item}][usuario]" value="${user}">
+			<input type="hidden" name="item[${num_item}][num_os]" value="${n_orden}">
+			<input type="hidden" name="item[${num_item}][estado]" value="${estado}">
 
-				<input type="hidden" name="item[${num_item}][mina]" value="${n_mina}">
-				<input type="hidden" name="item[${num_item}][categoria]" value="${n_cat}">
+			<input type="hidden" name="item[${num_item}][mina]" value="${n_mina}">
+			<input type="hidden" name="item[${num_item}][categoria]" value="${n_cat}">
 
         <div class="col-md-1 position-relative">
             <input type="text" name="item[${num_item}][item]" class="form-control-plaintext text-center" id="numItem" value="${num_item}" required readonly>
