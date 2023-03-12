@@ -102,7 +102,7 @@
                             <i class="bi bi-clipboard2-data-fill"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>44</h6> 
+                            <h6> <?php echo $data['lastOrder']->num_os ?> - 2023 </h6> 
                             <a href="" data-bs-toggle="modal" data-bs-target="#largeModal1">
                                 <span class="text-danger pt-1 small pt-1 fw-bold">Mi Última Orden
                                     <i class="bi bi-files"></i>
@@ -326,6 +326,7 @@
         </div>
     </div>
     <!-- Fin tabla resumen Ordenes -->
+
 
 </section>
 

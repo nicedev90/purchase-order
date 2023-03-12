@@ -1,127 +1,28 @@
 <?php 
-	class Encargados extends Controller {
-		private $encargado;
+	class Coordinadores extends Controller {
+		private $coordinador;
 
 		public function __construct() {
-			$this->encargado = $this->model('Encargado');
+			$this->coordinador = $this->model('Coordinador');
 		}
 
 		public function index() {
-			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
-				$user = $_SESSION['user_usuario'];
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') {
 
 				$minas = $this->getMinas();
 				$ordenes = $this->getOrdenes();
-				$lastOrder = $this->getLastOrder();
-				$num_os  = $lastOrder->num_os;
-				$lastOrderData = $this->getOrdenData($num_os);
-				// $userLastOrder = $this->getUserLastOrder($user);
 		
 				$data = [
 					'minas' => $minas,
-					'ordenes' => $ordenes,
-					'lastOrder' => $lastOrder,
-					'lastOrderData' => $lastOrderData
+					'ordenes' => $ordenes
 				];
 
-				$this->view('encargado/index', $data);
+				$this->view('coordinador/index', $data);
 
 			} else {
 				$this->view('pages/login');
 			}
 		}
-
-		public function edit_revision() {
-			if (isset($_POST['btn_fondo'])) {
-        	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        		$sede = $_SESSION['user_sede'];
-        		$tipo = $_POST['tipo_fondo'];
-
-        		$area_1 = $_POST['area_fondo_1'];
-        		$area_2 = $_POST['area_fondo_2'];
-        		$area_3 = $_POST['area_fondo_3'];
-
-        	$this->encargado->updateRevFondos($sede,$tipo,$area_1,$area_2,$area_3);
-
-        	redirect('encargados/edit_revision');
-			}
-
-			if (isset($_POST['btn_compra'])) {
-        	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        		$sede = $_SESSION['user_sede'];
-        		$tipo = $_POST['tipo_compra'];
-
-        		$area_1 = $_POST['area_compra_1'];
-        		$area_2 = $_POST['area_compra_2'];
-
-        	$this->encargado->updateRevCompras($sede,$tipo,$area_1,$area_2);
-
-        	redirect('encargados/edit_revision');
-			}
-
-
-			$user = $_SESSION['user_usuario'];
-
-			$sede = $_SESSION['user_sede'];
-
-			$areas = $this->encargado->getRevAreas($sede);
-	
-			$data = [
-				'areas' => $areas
-			];
-
-			$this->view('encargado/edit_revision', $data);
-			
-		}
-
-		public function getOrdenData($num_os) {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				// $ordenData = $this->encargado->getOrdenDataPe($num_os);
-				$ordenData = $this->encargado->getOrdenItemsPe($num_os);
-
-				return $ordenData;
-			} else {
-				$ordenData = $this->encargado->getOrdenItemsCl($num_os);
-				return $ordenData;
-			}
-		}
-
-		public function crear_pdf($num_os) {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				$items = $this->encargado->getOrdenItemsPe($num_os);
-				$adjuntos = $this->encargado->getOrdenFilesPe($num_os);
-				$revision = $this->encargado->getOrdenRevisionPe($num_os);
-				
-				$data = [
-					'items' => $items,
-					'adjuntos' => $adjuntos,
-					'revision' => $revision
-				];
-
-				// echo "<pre>";
-				// print_r($data);
-				// die();
-
-
-				$this->view('encargado/crear_pdf', $data);
-			} else {
-				$data = $this->encargado->getDataToPdfCl($num_os);
-				$this->view('encargado/crear_pdf', $data);
-			}
-			
-		}
-
-		public function getLastOrder() {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				$last = $this->encargado->getLastOrderPe();
-				return $last;
-			} else {
-				$last = $this->encargado->getLastOrderCl();
-				return $last;
-			}
-		}
-
-
 
 		public function editar($num_os = null) {
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -139,7 +40,7 @@
 					'num_os' => $num_os
 				];
 
-				$this->view('encargado/editar', $data);
+				$this->view('coordinador/editar', $data);
 
 			} else {
 
@@ -176,26 +77,26 @@
           'estado' => $estado
         ];
 
-				$this->view('encargado/editar', $data);
+				$this->view('coordinador/editar', $data);
 			}
 		}
 
 		public function getOrdenFiles($num_os) {
 			if ($_SESSION['user_sede'] == 'Peru') {
-				$files = $this->encargado->getOrdenFilesPe($num_os);
+				$files = $this->coordinador->getOrdenFilesPe($num_os);
 				return $files;
 			} else {
-				$files = $this->encargado->getOrdenFilesCl($num_os);
+				$files = $this->coordinador->getOrdenFilesCl($num_os);
 				return $files;
 			}
 		}
 
 		public function getOrdenItems($num_os) {
 			if ($_SESSION['user_sede'] == 'Peru') {
-				$orden = $this->encargado->getOrdenItemsPe($num_os);
+				$orden = $this->coordinador->getOrdenItemsPe($num_os);
 				return $orden;
 			} else {
-				$orden = $this->encargado->getOrdenItemsCl($num_os);
+				$orden = $this->coordinador->getOrdenItemsCl($num_os);
 				return $orden;
 			}
 		}
@@ -224,7 +125,7 @@
             // luego de guardado el form, volver a index
             $_SESSION['alerta'] = 'success';
             $_SESSION['mensaje'] = 'Se creó correctamente la orden';
-            redirect('encargados/index');
+            redirect('coordinadors/index');
         } else {
             die('Algo salió mal.');
         }
@@ -259,7 +160,7 @@
           'ordenes' => $ordenes
         ];
 
-        $this->view('encargado/crear', $data);
+        $this->view('coordinador/crear', $data);
       }
 	  }
 
@@ -294,7 +195,7 @@
       	// $data = [
       	// 	'archivo' => $enlaces
       	// ];
-        $this->encargado->guardarAdjuntoPe($enlaces);
+        $this->coordinador->guardarAdjuntoPe($enlaces);
       } else {
 
     		$totalFiles = count($files['name']);
@@ -325,7 +226,7 @@
       	// $data = [
       	// 	'archivo' => $enlaces
       	// ];
-        $this->encargado->guardarAdjuntoCl($enlaces);
+        $this->coordinador->guardarAdjuntoCl($enlaces);
       }
 
 
@@ -369,47 +270,47 @@
 
 	  public function getMinaCateg($id) {
 	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$minaCateg = $this->encargado->getMinaCategPe($id);
+				$minaCateg = $this->coordinador->getMinaCategPe($id);
 				return $minaCateg;
 			} else {
-				$minaCateg = $this->encargado->getMinaCategCl($id);
+				$minaCateg = $this->coordinador->getMinaCategCl($id);
 				return $minaCateg;
 			}
 	  }
 
 	  public function getMinaById($id) {
 	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$minaId = $this->encargado->getMinaByIdPe($id);
+				$minaId = $this->coordinador->getMinaByIdPe($id);
 				return $minaId;
 			} else {
-				$minaId = $this->encargado->getMinaByIdCl($id);
+				$minaId = $this->coordinador->getMinaByIdCl($id);
 				return $minaId;
 			}
 	  }
 
 	  public function getMinas() {
 	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$minas = $this->encargado->getMinasPe();
+				$minas = $this->coordinador->getMinasPe();
 				return $minas;
 			} else {
-				$minas = $this->encargado->getMinasCl();
+				$minas = $this->coordinador->getMinasCl();
 				return $minas;
 			}
 	  }
 
 	  public function getOrdenes() {
 	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$ordenes = $this->encargado->getOrdenesPe();
+				$ordenes = $this->coordinador->getOrdenesPe();
 				return $ordenes;
 			} else {
-				$ordenes = $this->encargado->getOrdenesCl();
+				$ordenes = $this->coordinador->getOrdenesCl();
 				return $ordenes;
 			}
 	  }
 
 	  public function getNumOrden() {
       if ($_SESSION['user_sede'] == 'Peru') {
-        $numero = $this->encargado->getNumeroPe();
+        $numero = $this->coordinador->getNumeroPe();
 	        if ($numero) {
 						$numero = $numero->num_os;
 	       		$numero = $numero+1;
@@ -419,7 +320,7 @@
         return $numero;
 
       } else {
-        $numero = $this->encargado->getNumeroCl();
+        $numero = $this->coordinador->getNumeroCl();
 	        if ($numero) {
 						$numero = $numero->num_os;
 	       		$numero = $numero+1;
@@ -432,18 +333,18 @@
 
 	  public function enviarOrden($data) {
       if ($_SESSION['user_sede'] == 'Peru') {
-        $guardado = $this->encargado->registrarOrdenPe($data);
+        $guardado = $this->coordinador->registrarOrdenPe($data);
 
 					$usuario = $data[1]['usuario'];
 					$num_os = $data[1]['num_os'];
 					$nombre = $_SESSION['user_nombre'];
 					$mina = $data[1]['mina'];
 
-					$this->sendBot($nombre,$num_os,$mina);
-					$this->sendMail($nombre,$num_os,$mina);	
+					$this->sendBot($usuario,$num_os);
+					$this->sendMail($nombre,$num_os,$mina);
 
       } else {
-        $guardado = $this->encargado->registrarOrdenCl($data);
+        $guardado = $this->coordinador->registrarOrdenCl($data);
 				
 					$usuario = $data[1]['usuario'];
 					$num_os = $data[1]['num_os'];
@@ -513,7 +414,113 @@
 
     }
 
-    // funciones para Cards
+    public function edit_revision() {
+			if (isset($_POST['btn_fondo'])) {
+        	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        		$sede = $_SESSION['user_sede'];
+        		$tipo = $_POST['tipo_fondo'];
+
+        		$area_1 = $_POST['area_fondo_1'];
+        		$area_2 = $_POST['area_fondo_2'];
+        		$area_3 = $_POST['area_fondo_3'];
+
+        	$this->coordinador->updateRevFondos($sede,$tipo,$area_1,$area_2,$area_3);
+
+        	redirect('coordinadores/edit_revision');
+			}
+
+			if (isset($_POST['btn_compra'])) {
+        	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        		$sede = $_SESSION['user_sede'];
+        		$tipo = $_POST['tipo_compra'];
+
+        		$area_1 = $_POST['area_compra_1'];
+        		$area_2 = $_POST['area_compra_2'];
+
+        	$this->coordinador->updateRevCompras($sede,$tipo,$area_1,$area_2);
+
+        	redirect('coordinadores/edit_revision');
+			}
+
+
+			$user = $_SESSION['user_usuario'];
+			$sede = $_SESSION['user_sede'];
+
+			$areas = $this->coordinador->getRevAreas($sede);
+	
+			$data = [
+				'areas' => $areas
+			];
+
+			$this->view('coordinador/edit_revision', $data);
+		}
+
+		public function add_user() {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    		$sede_id = $_POST['sede_id'];
+    		$rol_id = $_POST['rol_id'];
+
+    		$funcion = $_POST['funcion'];
+    		$nombre = $_POST['nombre'];
+    		$usuario = $_POST['usuario'];
+    		$email = $_POST['email'];
+    		$password = $_POST['password'];
+    		$estado = $_POST['estado'];
+
+      	$this->coordinador->addUser($rol_id,$sede_id,$funcion,$nombre,$usuario,$email,$password,$estado);
+
+      	redirect('coordinadores/add_user');
+
+			} else {
+
+				$roles = $this->coordinador->getRoles();
+		
+				$data = [
+					'roles' => $roles
+				];
+
+				$this->view('coordinador/add_user', $data);
+			}
+		}
+
+		public function edit_user() {
+
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+				$user_id = $_POST['user_id'];
+    		$rol_id = $_POST['rol_id'];
+    		$sede_id = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
+
+    		$funcion = $_POST['funcion'];
+    		$nombre = $_POST['nombre'];
+    		$usuario = $_POST['usuario'];
+    		$email = $_POST['email'];
+    		$password = $_POST['password'];
+    		$estado = $_POST['estado'];
+
+      	$user_updated = $this->coordinador->updateUser($user_id,$rol_id,$sede_id,$funcion,$nombre,$usuario,$email,$password,$estado);
+
+      	if ($user_updated) {
+					redirect('coordinadores/edit_user');
+      	}
+
+			} else {
+
+				$sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
+				$usuarios = $this->coordinador->getAllUsers($sede);
+				$roles = $this->coordinador->getRoles();
+
+				$data = [
+					'usuarios' => $usuarios,
+					'roles' => $roles
+				];
+				
+				$this->view('coordinador/edit_user', $data);
+			}
+			
+		}
 
 
 	}

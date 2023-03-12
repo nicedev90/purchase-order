@@ -106,6 +106,10 @@
 				redirect('administrador/index');
 			}
 
+			if ($user->rol == 'Coordinador') {
+				redirect('coordinadores/index');
+			}
+
 			if ($user->rol == 'Encargado') {
 				redirect('encargados/index');
 			}

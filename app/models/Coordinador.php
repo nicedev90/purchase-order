@@ -1,5 +1,5 @@
 <?php 
-	class Encargado {
+	class Coordinador {
 		private $db;
 
 		public function __construct() {
@@ -81,52 +81,6 @@
       }
     }
 
-    public function getLastOrderPe() {
-      $this->db->query('SELECT * FROM os_peru GROUP BY id DESC LIMIT 1');
-      $res =  $this->db->getSingle();
-      if ($this->db->rows() > 0) {
-        return $res;
-      } else {
-        return false;
-      }
-    }
-
-    // public function getItemsPdfPe($num_os) {
-    //   $this->db->query('SELECT * FROM os_peru WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //     return $res;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-    // public function getItemsPdfCl($num_os) {
-    //   $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //     return $res;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-    // public function getDataToPdfCl($num_os) {
-    //   $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //     return $res;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
     public function registrarOrdenCl($data) {
       foreach($data as $row) {
         $this->db->query('INSERT INTO os_chile (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor,estado) 
@@ -188,11 +142,7 @@
     }
 
     public function getOrdenItemsPe($num_os) {
-      $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_peru o 
-        INNER JOIN minas_pe m ON o.mina = m.codigo 
-        INNER JOIN categ_peru c ON o.categoria = c.codigo
-        INNER JOIN usuarios u ON o.usuario = u.usuario
-        WHERE num_os = :num_os');
+      $this->db->query('SELECT * FROM os_peru WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $res = $this->db->getSet();
       return $res;
@@ -219,49 +169,89 @@
       return $res;
     }
 
-    public function getOrdenRevisionPe($num_os) {
-      $this->db->query('SELECT * FROM revision_pe WHERE num_os = :num_os');
-      $this->db->bind(':num_os', $num_os);
+
+        public function getRevAreas($sede) {
+      $this->db->query('SELECT * FROM revision_areas WHERE sede = :sede');
+      $this->db->bind(':sede', $sede);
       $res = $this->db->getSet();
       return $res;
     }
 
-    // public function getOrdenDataPe($num_os) {
-    //   $this->db->query('SELECT * FROM os_peru o INNER JOIN adjuntos_pe a ON o.num_os = a.num_os WHERE o.num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
 
-    // public function getRevAreas($sede) {
-    //   $this->db->query('SELECT * FROM revision_areas WHERE sede = :sede');
-    //   $this->db->bind(':sede', $sede);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
-
-
-    // public function updateRevFondos($sede,$tipo,$area_1,$area_2,$area_3) {
-    //   $this->db->query('UPDATE revision_areas SET area_1 = :area_1, area_2 = :area_2, area_3 = :area_3 WHERE sede = :sede AND tipo = :tipo');
-    //   $this->db->bind(':area_1', $area_1);
-    //   $this->db->bind(':area_2', $area_2);
-    //   $this->db->bind(':area_3', $area_3);
-    //   $this->db->bind(':sede', $sede);
-    //   $this->db->bind(':tipo', $tipo);
+    public function updateRevFondos($sede,$tipo,$area_1,$area_2,$area_3) {
+      $this->db->query('UPDATE revision_areas SET area_1 = :area_1, area_2 = :area_2, area_3 = :area_3 WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':area_1', $area_1);
+      $this->db->bind(':area_2', $area_2);
+      $this->db->bind(':area_3', $area_3);
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
       
 
-    //   $this->db->execute();
-    // }
+      $this->db->execute();
+    }
 
-    // public function updateRevCompras($sede,$tipo,$area_1,$area_2) {
-    //   $this->db->query('UPDATE revision_areas SET area_1 = :area_1, area_2 = :area_2 WHERE sede = :sede AND tipo = :tipo');
-    //   $this->db->bind(':area_1', $area_1);
-    //   $this->db->bind(':area_2', $area_2);
-    //   $this->db->bind(':sede', $sede);
-    //   $this->db->bind(':tipo', $tipo);
+    public function updateRevCompras($sede,$tipo,$area_1,$area_2) {
+      $this->db->query('UPDATE revision_areas SET area_1 = :area_1, area_2 = :area_2 WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':area_1', $area_1);
+      $this->db->bind(':area_2', $area_2);
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
 
-    //   $this->db->execute();
-    // }
+      $this->db->execute();
+    }
+
+    public function getRoles() {
+      $this->db->query('SELECT * FROM roles');
+      $roles = $this->db->getSet();
+      return $roles;
+    }
+
+    public function addUser($rol_id,$sede_id,$funcion,$nombre,$usuario,$email,$password,$estado) {
+      $this->db->query('INSERT INTO usuarios (rol_id,sede_id,funcion,nombre,usuario,email,password,estado)
+       VALUES (:rol_id, :sede_id, :funcion, :nombre, :usuario, :email, :password, :estado)');
+
+      $this->db->bind(':rol_id', $rol_id);
+      $this->db->bind(':sede_id', $sede_id);
+      $this->db->bind(':funcion', $funcion);
+      $this->db->bind(':nombre', $nombre);
+      $this->db->bind(':usuario', $usuario);
+      $this->db->bind(':email', $email);
+      $this->db->bind(':password', $password);
+      $this->db->bind(':estado', $estado);
+
+      $this->db->execute();
+    }
+
+    public function getAllUsers($sede) {
+      $this->db->query('SELECT u.*, r.id AS rol_id, r.rol AS user_rol FROM usuarios u 
+        INNER JOIN roles r ON u.rol_id = r.id
+        WHERE sede_id = :sede AND rol_id IN (3,4)');
+      $this->db->bind(':sede', $sede);
+      $users = $this->db->getSet();
+      return $users;
+    }
+
+    public function updateUser($user_id,$rol_id,$sede_id,$funcion,$nombre,$usuario,$email,$password,$estado) {
+      $this->db->query('UPDATE usuarios SET rol_id = :rol_id, sede_id = :sede_id, funcion = :funcion, nombre = :nombre,
+        usuario = :usuario, email = :email, password = :password, estado = :estado WHERE id = :user_id');
+      $this->db->bind(':user_id', $user_id);
+      $this->db->bind(':rol_id', $rol_id);
+      $this->db->bind(':sede_id', $sede_id);
+      $this->db->bind(':funcion', $funcion);
+      $this->db->bind(':nombre', $nombre);
+      $this->db->bind(':usuario', $usuario);
+      $this->db->bind(':email', $email);
+      $this->db->bind(':password', $password);
+      $this->db->bind(':estado', $estado);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+
+    }
+
 
 
 	}

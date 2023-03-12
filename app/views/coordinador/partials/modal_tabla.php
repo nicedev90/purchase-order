@@ -1,16 +1,12 @@
-<div class="modal fade" id="largeModal1" tabindex="-1">
+<div class="modal fade" id="largeModal2" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <div class="modal-body">
-          <pre class="text-sm">
-            
-            <?php print_r($data['lastOrderData']) ?>
-          </pre>
   
         <div class="card">
             <div class="card-body"> 
-              <h2 class="fw-bold  text-center py-4" >Detalles Orden de Servicio  N°00 <?php echo $data['lastOrder']->num_os ?></h2>
+              <h2 class="fw-bold  text-center py-4" >Detalles Orden de Servicio  N°10 </h2>
               <h5 class="card-subtitle fw-bold mb-4">Nombre : <b class="lead fw-bold text-info">Makuko Gallardo</b></h5>
               <h5 class="card-subtitle fw-bold mb-4">Guía Centro de Costo: <b class="lead fw-bold text-primary">Yanacocha</b></h5> 
               <h5 class="card-subtitle fw-bold">Categoria: <b class="lead fw-bold text-success">Viaticos</b></h5>
@@ -72,25 +68,10 @@
                   </div>
 
                   <div class="col-md-4">
-                    <form action="<?php echo URLROOT ?>/encargados/crear_pdf/<?php echo $data['lastOrder']->num_os ?>" download method="post">
-                      
-                      <button type="submit" class="btn btn-danger col-12">
-                        <i class="bi bi-printer"></i> <b>PDF</b> 
-                      </button>
-                    </form>
+                    <button type="button" class="btn btn-danger col-12">
+                      <i class="bi bi-printer"></i> <b>PDF</b> 
+                    </button>
                   </div>
-
-                  <div class="col-md-4">
-                    
-                    <a href="<?php echo URLROOT ?>/encargados/crear_pdf/<?php echo $data['lastOrder']->num_os ?>" target="_blank">descar
-                    </a>
-                  </div>
-
-                  <div class="col-md-4">
-                    <a href="<?php echo URLROOT ?>/encargados/crear_pdf/<?php echo $data['lastOrder']->num_os ?>">descar11
-                    </a>
-                  </div>
-
  
                   <div class="col-md-4">
                   <button type="button" class="btn btn-success col-12">

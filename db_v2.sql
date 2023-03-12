@@ -1,6 +1,6 @@
-create database ordenes character set utf8 collate utf8_general_ci;
+create database ordenes1 character set utf8 collate utf8_general_ci;
 
-use ordenes;
+use ordenes1;
 
 create table roles (
   id INT NOT NULL AUTO_INCREMENT,
@@ -9,6 +9,7 @@ create table roles (
 )ENGINE=INNODB;
 
 INSERT INTO roles (rol) VALUES ('Administrador');
+INSERT INTO roles (rol) VALUES ('Coordinador');
 INSERT INTO roles (rol) VALUES ('Encargado');
 INSERT INTO roles (rol) VALUES ('Usuario');
 
@@ -26,6 +27,7 @@ create table usuarios (
   id INT NOT NULL AUTO_INCREMENT,
   rol_id INT NOT NULL,
   sede_id INT NOT NULL,
+  funcion VARCHAR(30) NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   usuario VARCHAR(50) NOT NULL,
   email VARCHAR(60) NOT NULL,
@@ -43,13 +45,17 @@ create table usuarios (
 
 INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUES 
 (1, 1, 'Administrador','admin','admin@clonsa.com','123', 'Activo'),
-(2, 1, 'Encargado','encargado','enc@clonsa.com','123', 'Activo'),
-(3, 1, 'Usuario','usuario','usuario@clonsa.com','123', 'Activo');
+(2, 1, 'Coord_pe','coord_pe','coor@clonsa.com','123', 'Activo'),
+(3, 1, 'Enc_pe1','enc_pe1','enc1@clonsa.com','123', 'Activo'),
+(3, 1, 'Enc_pe2','enc_pe2','enc2@clonsa.com','123', 'Activo'),
+(4, 1, 'User_pe','user_pe','usuario@clonsa.com','123', 'Activo');
 
 INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUES 
-(1, 2, 'Administrador','admin2','admin2@clonsa.com','123', 'Activo'),
-(2, 2, 'Encargado','encargado2','enc2@clonsa.com','123', 'Activo'),
-(3, 2, 'Usuario','usuario2','usuario2@clonsa.com','123', 'Activo');
+(2, 2, 'Coord_cl','coord_cl','coor@clonsa.com','123', 'Activo'),
+(3, 2, 'Enc_cl1','enc_cl1','enc1@clonsa.com','123', 'Activo'),
+(3, 2, 'Enc_cl2','enc_cl2','enc2@clonsa.com','123', 'Activo'),
+(4, 2, 'User_cl','user_cl','usuario@clonsa.com','123', 'Activo');
+
 
 
 CREATE TABLE minas_cl (
@@ -140,13 +146,14 @@ descripcion VARCHAR(250) NOT NULL,
 proveedor VARCHAR(100) NOT NULL,
 estado VARCHAR(30) NOT NULL,
 creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-acttualizado DATETIME DEFAULT CURRENT_TIMESTAMP,
+actualizado DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id)
 )ENGINE=INNODB;
 
 CREATE TABLE os_peru (
 id INT NOT NULL AUTO_INCREMENT,
 num_os VARCHAR(30) NOT NULL,
+tipo VARCHAR(20) NOT NULL,
 usuario VARCHAR(100) NOT NULL,
 mina VARCHAR(50) NOT NULL,
 categoria VARCHAR(255) NOT NULL,
@@ -155,9 +162,10 @@ cantidad VARCHAR(20) NOT NULL,
 unidad VARCHAR(20) NOT NULL,
 descripcion VARCHAR(250) NOT NULL,
 proveedor VARCHAR(100) NOT NULL,
+valor VARCHAR(20) NOT NULL,
 estado VARCHAR(30) NOT NULL,
 creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-acttualizado DATETIME DEFAULT CURRENT_TIMESTAMP,
+actualizado DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id)
 )ENGINE=INNODB;
 
@@ -187,5 +195,53 @@ creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY(id)
 )ENGINE=INNODB;
 
+CREATE TABLE enlaces_pe (
+id INT NOT NULL AUTO_INCREMENT,
+num_os VARCHAR(20) NOT NULL,
+enlace VARCHAR(100) NOT NULL,
+creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
+
+CREATE TABLE enlaces_cl (
+id INT NOT NULL AUTO_INCREMENT,
+num_os VARCHAR(20) NOT NULL,
+enlace VARCHAR(100) NOT NULL,
+creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
+
+CREATE TABLE revision_pe (
+id INT NOT NULL AUTO_INCREMENT,
+num_os VARCHAR(20) NOT NULL,
+tipo VARCHAR(20) NOT NULL,
+revisor_1 VARCHAR(100) NOT NULL,
+obs_1 VARCHAR(200) NOT NULL,
+aprob_1 VARCHAR(30) NOT NULL,
+fecha_aprob_1 DATETIME DEFAULT CURRENT_TIMESTAMP,
+revisor_2 VARCHAR(100) NOT NULL,
+obs_2 VARCHAR(200) NOT NULL,
+aprob_2 VARCHAR(30) NOT NULL,
+fecha_aprob_2 DATETIME DEFAULT CURRENT_TIMESTAMP,
+revisor_3 VARCHAR(100) NOT NULL,
+obs_3 VARCHAR(200) NOT NULL,
+aprob_3 VARCHAR(30) NOT NULL,
+fecha_aprob_3 DATETIME DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
+
+CREATE TABLE revision_areas {
+  id INT NOT NULL AUTO_INCREMENT,
+  sede_id 
+}
+
+create table revision_areas (
+  id INT NOT NULL AUTO_INCREMENT,
+  sede VARCHAR(10) NOT NULL,
+  area_1 VARCHAR(50) NOT NULL,
+  area_2 VARCHAR(50) NOT NULL,
+  area_3 VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
 
 

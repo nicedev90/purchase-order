@@ -12,6 +12,26 @@
 
   <li class="nav-heading">CONSULTA TUS ORDENES DE SERVICIO</li>
 
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?php echo URLROOT; ?>/coordinadores/edit_revision">
+      <i class="bi bi-menu-button-wide"></i><span>Editar Areas Revision</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    
+  </li><!-- End Components Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?php echo URLROOT; ?>/coordinadores/add_user">
+      <i class="bi bi-menu-button-wide"></i><span>Agregar Usuario</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    
+  </li><!-- End Components Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?php echo URLROOT; ?>/coordinadores/edit_user">
+      <i class="bi bi-menu-button-wide"></i><span>Editar Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    
+  </li><!-- End Components Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
