@@ -26,32 +26,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
 const checkFiles = (e) => {
 	const formul = e.target
-	if (formul.classList.contains('invalidado')) {
+	if (formul.classList.contains('was-validated') && formul.classList.contains('invalidado')) {
 		const errorModal = document.querySelector('#error_modal')
 		const modal = new bootstrap.Modal(errorModal)
 		modal.show()
 
-		formul.preventDefault()
-	} else if (formul.classList.contains('was-validated') || formul.classList.contains('invalidado')) {	
-		const warningModal = document.querySelector('#warning_modal')
-		const modalWarning = new bootstrap.Modal(warningModal)
+		e.preventDefault()
+	} 
 
-		modalWarning.show()
 
-		// location.href = 'http://localhost/purchase-order/usuarios/index'
-	} else {
-		
-		const successModal = document.querySelector('#success_modal')
-		const modalSuccess = new bootstrap.Modal(successModal)
+	if (formul.classList.contains('was-validated') && formul.classList.contains('valid-files')) {	
+		// const warningModal = document.querySelector('#warning_modal')
+		// const modalWarning = new bootstrap.Modal(warningModal)
 
-		modalSuccess.show()
+		// modalWarning.show()
 
-		setTimeout(() => {
-			formul.submit()
-		},5000)
-
-		
-		// location.href = 'http://localhost/purchase-order/usuarios/index'
+		e.target.submit()
 	}
 
 

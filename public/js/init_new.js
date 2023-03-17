@@ -1,3 +1,16 @@
+window.addEventListener('DOMContentLoaded', () => {
+	checkModal()
+})
+
+const checkModal = () => {
+	const successModal = document.querySelector('#success_modal')
+	// console.log(successModal)
+	if (successModal) {
+		const modalSuccess = new bootstrap.Modal(successModal)
+		modalSuccess.show()
+	}
+}
+
 const btnInit = document.querySelector('#btn_init')
 
 btnInit?.addEventListener('click', (e) => {
@@ -20,3 +33,4 @@ btnInit?.addEventListener('click', (e) => {
 	}
 
 })
+

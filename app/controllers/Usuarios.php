@@ -6,20 +6,40 @@
 			$this->usuario = $this->model('Usuario');
 		}
 
-		public function index() {
+		public function index($msg = null) {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
-				$user = $_SESSION['user_usuario'];
-				$minas = $this->getMinas();
-				$controller = strtolower(get_called_class());
-				$ordenes = $this->getOrdenes($user);
+				if (is_null($msg)) {
+					$user = $_SESSION['user_usuario'];
+					$minas = $this->getMinas();
+					$controller = strtolower(get_called_class());
+					$ordenes = $this->getOrdenes($user);
 
-				$data = [
-					'minas' => $minas,
-					'controller' => $controller,
-					'ordenes' => $ordenes
-				];
+					$data = [
+						'minas' => $minas,
+						'controller' => $controller,
+						'ordenes' => $ordenes,
+						'success' => ''
+					];
+
+					$this->view('usuario/index', $data);
+				} else {
+					$user = $_SESSION['user_usuario'];
+					$minas = $this->getMinas();
+					$controller = strtolower(get_called_class());
+					$ordenes = $this->getOrdenes($user);
+
+					$data = [
+						'minas' => $minas,
+						'controller' => $controller,
+						'ordenes' => $ordenes,
+						// agregar mensaje de exito en la pagina
+						'success' => $msg
+					];
 
 				$this->view('usuario/index', $data);
+				}
+
+
 			} else {
 				$this->view('pages/login');
 			}			
@@ -46,12 +66,12 @@
 			}
 		}
 
-		public function getOrdenData($id) {
+		public function getOrdenData($num_os) {
 			if ($_SESSION['user_sede'] == 'Peru') {
-				$orden = $this->usuario->getOrdenDataPe($id);
+				$orden = $this->usuario->getOrdenDataPe($num_os);
 				return $orden;
 			} else {
-				$orden = $this->usuario->getOrdenDataCl($id);
+				$orden = $this->usuario->getOrdenDataCl($num_os);
 				return $orden;
 			}
 		}
@@ -84,7 +104,8 @@
 					// luego de guardado el form, volver a index y llamar funcion submitAlert()
 					// $_SESSION['alerta'] = 'success';
 					// $_SESSION['mensaje'] = 'Se creó correctamente la orden';
-					redirect('usuarios/index');
+					redirect('usuarios/index/success');
+
 				} else {
 					die('Algo salió mal.');
 				}

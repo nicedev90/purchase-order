@@ -39,6 +39,13 @@
       return $res;
     }
 
+    public function getOrdenDataCl($num_os) {
+      $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
 
 		public function getMinaByIdPe($id) {
       $this->db->query('SELECT * FROM minas_pe WHERE id = :id');
@@ -93,8 +100,9 @@
 
     public function registrarOrdenCl($data) {
       foreach($data as $row) {
-        $this->db->query('INSERT INTO os_chile (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor) 
-            VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor)');
+        $this->db->query('INSERT INTO os_chile (tipo,num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor,valor,estado) 
+            VALUES (:tipo, :num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor, :valor, :estado)');
+        $this->db->bind(':tipo', $row['tipo']);
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':usuario', $row['usuario']);
         $this->db->bind(':mina', $row['mina']);
@@ -104,6 +112,8 @@
         $this->db->bind(':unidad', $row['unidad']);
         $this->db->bind(':descripcion', $row['descripcion']);
         $this->db->bind(':proveedor', $row['proveedor']);
+        $this->db->bind(':estado', $row['estado']);
+        $this->db->bind(':valor', $row['valor']);
 
         $this->db->execute();
       }            
