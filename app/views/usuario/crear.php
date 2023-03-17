@@ -86,6 +86,7 @@
 
 
     <!-- ======= INICIO FORMULARIO ======= -->
+
     <div class="card">
       <div class="card-body">
         <div class="row d-flex justify-content-between align-items-center">
@@ -112,11 +113,7 @@
 
         </div>
                 
-<!--           <div class="col-md-2 lead fw-bold">
-              <?php submitAlert(); ?>
-          </div>
-  
-        </div> -->
+
 
         <form id="form_crear" action="<?php echo URLROOT; ?>/usuarios/crear/<?php echo $data['id']; ?>" class="col-md-12 mt-4 mt-md-2 needs-validation" novalidate method="POST" enctype="multipart/form-data">
           
@@ -131,9 +128,6 @@
               <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
               <select name="item[1][mina]" class="form-select" id="mina" required>
                 <option selected value="<?php echo $data['mina_codigo']; ?>"><?php echo $data['mina_nombre']; ?></option>
-<!--                 <?php foreach($data['minas'] as $mina): ?>
-                  <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
-                <?php endforeach; ?> -->
               </select>
               <div class="invalid-tooltip">Por favor selecciona la Unidad Minera</div>
             </div>
@@ -149,19 +143,6 @@
             </div>
           </div>
 
-          <!-- FILA 1 tipo -->
-<!--           <div class="row my-4 p-md-2 p-4 d-flex-col d-md-flex justify-content-start">
-            <div class="col-2 col-md-2">Tipo: </div>
-            <div class="col-4 col-md-3 form-check ">
-              <input class="form-check-input" type="radio" name="" id="tipoFondos" value="Fondos" required>
-              <label class="form-check-label fw-bold" for="tipoFondos"> FONDOS </label>
-            </div>
-
-            <div class="col-4 col-md-3 form-check ">
-              <input class="form-check-input" type="radio" name="item[1][tipo]" id="tipoCompra" value="Compra" required>
-              <label class="form-check-label fw-bold" for="tipoCompra"> COMPRA </label>
-            </div>
-          </div> -->
 
           <!-- FILA 2 AGREGAR ELIMINAR ITEM -->
           <div class="row mb-3 mt-4 mt-md-0 d-flex justify-content-around justify-content-md-start">
@@ -174,6 +155,7 @@
             </div>
           </div>
 
+          <?php if (strtoupper($data['tipo_os']) == 'COMPRA') : ?>
           <!-- FILA 3 titulo de Items -->
           <div class="row mb-3 d-none d-md-flex text-sm text-center">
             <div class="col-md-1">Item  </div>
@@ -191,20 +173,19 @@
               <div class="col-4 d-flex-col col-md-1 position-relative">
                 <label for="" class="d-md-none">Item</label>
                 <input type="text" name="item[1][item]" class="form-control-plaintext form-control-sm text-center" id="numItem" value="1" required readonly>
-                <div class="valid-tooltip">Correcto</div>
               </div>
               <!-- FIN INPUT ITEM -->
               <!-- INICIO INPUT CANTIDAD -->
               <div class="col-4 d-flex-col  col-md-1 position-relative">
                 <label for="" class="d-md-none">Cantidad</label>
-                <input name="item[1][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
+                <input name="item[1][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required  autocomplete="off">
                 <div class="valid-tooltip">Correcto</div>
               </div>
               <!-- FIN INPUT CANTIDAD -->
               <!-- INICIO SELECT UNIDAD -->
               <div class="col-4 d-flex-col flex-col  col-md-1 position-relative">
                 <label for="" class="d-md-none">Unidad</label>
-                <select name="item[1][unidad]" class="form-select form-select-sm" id="validationTooltip04" required>
+                <select name="item[1][unidad]" class="form-control form-control-sm" id="validationTooltip04" required>
                   <option selected disabled value="">Selecciona...</option>
                   <option>Metro</option>
                   <option>Kilo</option>
@@ -222,7 +203,7 @@
 
               <div class="col-md-2 mt-2 mt-md-0 position-relative">
                 <label for="" class="d-md-none">Proveedor</label>
-                <input name="item[1][proveedor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
+                <input name="item[1][proveedor]" type="text" class="form-control form-control-sm" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
                 <div class="valid-tooltip">  Correcto </div>
               </div>
 
@@ -234,6 +215,70 @@
 
             </div>
           </div>
+
+          <?php endif; ?>
+
+          <?php if (strtoupper($data['tipo_os']) == 'FONDOS') : ?>
+          <!-- FILA 3 titulo de Items -->
+          <div class="row mb-3 d-none d-md-flex text-sm text-center">
+            <div class="col-md-1">Item  </div>
+            <div class="col-md-8">Descripcion </div>
+            <div class="col-md-3">Valor Refer. </div>
+          </div>
+
+          <!-- FILA 4 Filas de Items -->
+          <div id="lista">
+            <div id="1" class="row mb-3">
+              <!-- INICIO INPUT ITEM -->
+              <div class="col-4 d-flex-col col-md-1 position-relative">
+                <label for="" class="d-md-none">Item</label>
+                <input type="text" name="item[1][item]" class="form-control-plaintext form-control-sm text-center" id="numItem" value="1" required readonly>
+              </div>
+              <!-- FIN INPUT ITEM -->
+              <!-- INICIO INPUT CANTIDAD -->
+              <div hidden class="col-4 d-flex-col  col-md-1 position-relative">
+                <label for="" class="d-md-none">Cantidad</label>
+                <input name="item[1][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número"  autocomplete="off">
+                <div class="valid-tooltip">Correcto</div>
+              </div>
+              <!-- FIN INPUT CANTIDAD -->
+              <!-- INICIO SELECT UNIDAD -->
+              <div hidden class="col-4 d-flex-col flex-col  col-md-1 position-relative">
+                <label for="" class="d-md-none">Unidad</label>
+                <select name="item[1][unidad]" class="form-control form-control-sm" id="validationTooltip04" >
+                  <option selected value="">Selecciona...</option>
+                  <option>Metro</option>
+                  <option>Kilo</option>
+                  <option>Litro</option>
+                </select>
+                <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
+              </div>
+              <!-- FIN SELECT UNIDAD -->
+
+              <div class="col-md-8 mt-2 mt-md-0 position-relative">
+                <label for="" class="d-md-none">Descripcion</label>
+                <input name="item[1][descripcion]" type="text" class="form-control form-control-sm" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
+                <div class="valid-tooltip"> Correcto </div>
+              </div>
+
+              <div hidden class="col-md-2 mt-2 mt-md-0 position-relative">
+                <label for="" class="d-md-none">Proveedor</label>
+                <input name="item[1][proveedor]" type="text" class="form-control form-control-sm" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" autocomplete="off">
+                <div class="valid-tooltip">  Correcto </div>
+              </div>
+
+              <div class="col-md-3 mt-2 mt-md-0 position-relative">
+                <label for="" class="d-md-none">Valor Referencial</label>
+                <input name="item[1][valor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
+                <div class="valid-tooltip">  Correcto </div>
+              </div>
+
+            </div>
+          </div>
+
+          <?php endif; ?>
+
+
 
           <!-- FILA 5 ENLACES -->
           <div class="d-flex-col mt-3 alert alert-info p-2">
@@ -290,19 +335,19 @@
 
               <div class="col" id="lista_adjunto">
                 <div class="col my-1" id="adjunto_1">
-                  <!-- id numadjunto1 es unico del primer adjunto -->
-                  <div id="numAdjunto1" class="btn fw-bold"> 1 </div>
+                  <!-- id numadjunto1 es unico del primer adjunto (1) -->
+                  <div id="numAdjunto" class="btn fw-bold"> 1 </div>
                   <label for="adjunto1" class="col-md-2"> 
                     <span class="btn btn-primary">Cargar. <i class="bi bi-paperclip"></i> </span>
                   </label>
 
                   <input type='file' name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
 
-                  <div id="file_name" class="btn col-12 text-sm col-md-5"></div>
+                  <div id="file_name" class="btn col-12 text-sm col-md-4"></div>
 
                   <div id="file_size" class="btn col-md-2"></div>
                   
-                  <div id="validar_adjunto" class="btn col-md-2"></div>
+                  <div id="validar_adjunto" class="btn col-md-3"></div>
 
                 </div>
               </div>
@@ -318,6 +363,7 @@
 
       </div>
     </div>
+
     <!-- ======= FIN FORMULARIO ======= -->
 
   </section>

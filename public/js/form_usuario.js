@@ -1,8 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-	// funcion para cargar categorias en form
-	const mina = document.querySelector('#mina')
-	mina.addEventListener('change', getCategorias)
 
 	// manejar items del form
 	const btnAddItem = document.querySelector('#add_item')
@@ -34,7 +31,7 @@ const checkFiles = (e) => {
 		const modal = new bootstrap.Modal(errorModal)
 		modal.show()
 
-		e.preventDefault()
+		formul.preventDefault()
 	} else if (formul.classList.contains('was-validated') || formul.classList.contains('invalidado')) {	
 		const warningModal = document.querySelector('#warning_modal')
 		const modalWarning = new bootstrap.Modal(warningModal)
@@ -50,7 +47,7 @@ const checkFiles = (e) => {
 		modalSuccess.show()
 
 		setTimeout(() => {
-			e.submit()
+			formul.submit()
 		},5000)
 
 		
@@ -60,16 +57,7 @@ const checkFiles = (e) => {
 
 }
 
-// funcion para traer categorias desde la base de datos
-const getCategorias = (e) => {
-	const target = e.target
-	target.toggleAttribute('selected')
-	const id = e.target.value
-	// console.log(id)
-	
-	// location.href = 'https://clonsaingenieria.cl/purchase-order/encargados/crear/'+id
-	location.href = 'http://localhost/purchase-order/usuarios/crear/'+id
-}
+
 
 // funciones para archivos adjuntos de la orden de compra
 const listaAdjunto = document.querySelector('#lista_adjunto')
@@ -112,9 +100,9 @@ const addRowAdjunto = () => {
     </label>
 
     <input type='file' name="adjunto[${contador}]" id="adjunto${contador}" class="item_adjunto" hidden>
-    <div id="file_name" class="btn col-12 text-sm col-md-5"></div>
+    <div id="file_name" class="btn col-12 text-sm col-md-4"></div>
     <div id="file_size" class="btn col-md-2"></div>
-    <div id="validar_adjunto" class="btn col-md-2"></div>
+    <div id="validar_adjunto" class="btn col-md-3"></div>
 	  `
 
 	 fileRow.innerHTML = fileDetails
@@ -141,6 +129,7 @@ const initFiles = () => {
 }
 
 const readFile = (e) => {
+	// leer archivo seleccionado en el input File
 	const archivo = e.target.files[0]
 
 	const f_name = e.target.nextElementSibling
@@ -156,7 +145,7 @@ const readFile = (e) => {
 		f_size.innerText = size
 
 		f_validar.innerHTML = validateFile(archivo.size)
-		// console.log(f_validar)
+		console.log(f_validar)
 	}
 }
 
@@ -165,7 +154,7 @@ const validateFile = (size) => {
 		const formCrear = document.querySelector('#form_crear')
 		formCrear.classList.add('invalidado')
 		console.log(formCrear)
-		return `<div class="btn btn-danger"><i class="bi bi-x"></i>Es mayor a 3 MB </div>`
+		return `<div class="btn btn-danger"><i class="bi bi-x"></i>  Es mayor a 3 MB </div>`
 
 	} else {
 		const formCrear = document.querySelector('#form_crear')
@@ -174,25 +163,21 @@ const validateFile = (size) => {
 			formCrear.classList.add('valid-files')
 			console.log(formCrear)
 		}
-		return `<div class="btn btn-success">	<i class="bi bi-check-circle"></i>Correcto </div>`
+		return `<div class="btn btn-success">	<i class="bi bi-check-circle"></i>  Correcto </div>`
 	}
 
 	// readFile()
 }
 
 const fixedSize = (size) => {
-
 	let unidad = ['B','KB','MB']
 	let i = 0
 
 	for (i; size > 1024; i++) {
 		size /= 1024
 	}
-	// if (size > 1024) {
-	// 	let fixedSize = size /= 1024
 
-	return size.toFixed(1) + ' ' + unidad[i]
-	
+	return size.toFixed(1) + ' ' + unidad[i]	
 }
 
 const setFileBtn = () => {
@@ -249,7 +234,10 @@ const addItem = () => {
 	itemRow.setAttribute('id', num_item)
 	itemRow.classList.add('row','mb-3')
 
-	const content = `
+	let content
+
+	if (tipo == 'compra') {
+		content = `
 			<input type="hidden" name="item[${num_item}][usuario]" value="${user}">
 			<input type="hidden" name="item[${num_item}][num_os]" value="${n_orden}">
 			<input type="hidden" name="item[${num_item}][estado]" value="${estado}">
@@ -261,7 +249,6 @@ const addItem = () => {
       <div class="col-4 d-flex-col col-md-1 position-relative">
         <label for="" class="d-md-none">Item</label>
         <input type="text" name="item[${num_item}][item]" class="form-control-plaintext form-control-sm text-center" id="numItem" value="${num_item}" required readonly>
-        <div class="valid-tooltip">Correcto</div>
       </div>
 
       <div class="col-4 d-flex-col  col-md-1 position-relative">
@@ -299,11 +286,62 @@ const addItem = () => {
         <div class="valid-tooltip">  Correcto </div>
       </div>
     `
+	} else {
+		content = `
+			<input type="hidden" name="item[${num_item}][usuario]" value="${user}">
+			<input type="hidden" name="item[${num_item}][num_os]" value="${n_orden}">
+			<input type="hidden" name="item[${num_item}][estado]" value="${estado}">
+			<input type="hidden" name="item[${num_item}][tipo]" value="${tipo}">
+
+			<input type="hidden" name="item[${num_item}][mina]" value="${n_mina}">
+			<input type="hidden" name="item[${num_item}][categoria]" value="${n_cat}">
+
+      <div class="col-4 d-flex-col col-md-1 position-relative">
+        <label for="" class="d-md-none">Item</label>
+        <input type="text" name="item[${num_item}][item]" class="form-control-plaintext form-control-sm text-center" id="numItem" value="${num_item}" required readonly>
+      </div>
+
+      <div hidden class="col-4 d-flex-col  col-md-1 position-relative">
+        <label for="" class="d-md-none">Cantidad</label>
+        <input name="item[${num_item}][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" autocomplete="off">
+        <div class="valid-tooltip">Correcto</div>
+      </div>
+                        
+      <div hidden class="col-4 d-flex-col flex-col  col-md-1 position-relative">
+        <label for="" class="d-md-none">Unidad</label>
+        <select name="item[${num_item}][unidad]" class="form-select form-select-sm" id="validationTooltip04">
+          <option selected value="">Selecciona...</option>
+          <option>Metro</option>
+          <option>Kilo</option>
+          <option>Litro</option>
+        </select>
+        <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
+      </div>
+
+      <div class="col-md-8 mt-2 mt-md-0 position-relative">
+        <label for="" class="d-md-none">Descripcion</label>
+        <input name="item[${num_item}][descripcion]" type="text" class="form-control form-control-sm" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
+        <div class="valid-tooltip"> Correcto </div>
+      </div>
+
+      <div hidden class="col-md-2 mt-2 mt-md-0 position-relative">
+        <label for="" class="d-md-none">Proveedor</label>
+        <input name="item[${num_item}][proveedor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" autocomplete="off">
+        <div class="valid-tooltip">  Correcto </div>
+      </div>
+
+      <div class="col-md-3 mt-2 mt-md-0 position-relative">
+        <label for="" class="d-md-none">Valor Referencial</label>
+        <input name="item[${num_item}][valor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
+        <div class="valid-tooltip">  Correcto </div>
+      </div>
+    `
+	}
  
-    itemRow.innerHTML = content
-    lista.append(itemRow) 
-    // console.log(itemRow)
-    setItemBtn()
+  itemRow.innerHTML = content
+  lista.append(itemRow) 
+  // console.log(itemRow)
+  setItemBtn()
 }
 
 const setItemBtn = () => {

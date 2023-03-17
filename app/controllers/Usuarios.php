@@ -25,6 +25,37 @@
 			}			
 		}
 
+		public function detalles($num_os = null) {
+			if (is_null($num_os)) {
+				redirect('usuarios/index');
+			} else {
+				// obtener data de la orden
+				$orden = $this->getOrdenData($num_os);
+				// $method = get_class_methods(get_called_class());
+
+				// $method = ucwords(__METHOD__);
+				$method = ucwords(__FUNCTION__);
+
+				$data = [
+					'orden' => $orden,
+					'pagename' => $method
+				];
+
+				$this->view('usuario/detalles', $data);
+
+			}
+		}
+
+		public function getOrdenData($id) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+				$orden = $this->usuario->getOrdenDataPe($id);
+				return $orden;
+			} else {
+				$orden = $this->usuario->getOrdenDataCl($id);
+				return $orden;
+			}
+		}
+
 		public function crear($tipo = null, $id = null) {
 			// echo "<pre>";
 			// echo $tipo . "<br>" . $id;
@@ -59,37 +90,37 @@
 				}
 
 			} else {
-				// obtener numero de orden segun sede del usuario
-				$num_os = $this->getNumOrden();
 
-				// obtener minas segun sede de usuario
-				$user = $_SESSION['user_usuario'];
-				$minas = $this->getMinas();
-				$ordenes = $this->getOrdenes($user);
-
-				if (is_null($id)) {
-					$mina_nombre = '';
-					$mina_codigo = '';
+				if (is_null($tipo) || is_null($id)) {
+					redirect('usuarios/index');
 				} else {
+					// obtener numero de orden segun sede del usuario
+					$num_os = $this->getNumOrden();
+
+					// obtener minas segun sede de usuario
+					$user = $_SESSION['user_usuario'];
+					$minas = $this->getMinas();
+					$ordenes = $this->getOrdenes($user);
+
 					// obtener info de mina y sus categorias
 					$mina = $this->getMinaById($id);
 					$mina_nombre = $mina->nombre;
 					$mina_codigo = $mina->codigo;
 					$mina_categ = $this->getMinaCateg($id,$tipo);
-				}
+					
+					$data = [
+						'id' => $id,
+						'minas' => $minas,
+						'mina_nombre' => $mina_nombre,
+						'mina_codigo' => $mina_codigo,
+						'mina_categ' => $mina_categ,
+						'numero_os' => $num_os,
+						'tipo_os' => $tipo,
+						'ordenes' => $ordenes
+					];
 
-				$data = [
-					'id' => $id,
-					'minas' => $minas,
-					'mina_nombre' => $mina_nombre,
-					'mina_codigo' => $mina_codigo,
-					'mina_categ' => $mina_categ,
-					'numero_os' => $num_os,
-					'tipo_os' => $tipo,
-					'ordenes' => $ordenes
-				];
-
-				$this->view('usuario/crear', $data);				
+					$this->view('usuario/crear', $data);
+				}				
 
 			}
 		}

@@ -19,7 +19,7 @@
 		}
 
 		public function getOrdenesPe($user) {
-			$this->db->query('SELECT num_os,usuario,mina,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_peru WHERE usuario = :user GROUP BY num_os');
+			$this->db->query('SELECT *,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_peru WHERE usuario = :user GROUP BY num_os');
 			$this->db->bind(':user', $user);
 			$ordenes = $this->db->getSet();
 			return $ordenes;
@@ -31,6 +31,13 @@
 			$ordenes = $this->db->getSet();
 			return $ordenes;
 		}
+
+    public function getOrdenDataPe($num_os) {
+      $this->db->query('SELECT * FROM os_peru WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
 
 		public function getMinaByIdPe($id) {
