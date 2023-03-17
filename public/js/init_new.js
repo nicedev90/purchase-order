@@ -6,7 +6,8 @@ btnInit.addEventListener('click', (e) => {
 	if (tipo && id) {
 		tipo = tipo.value.toLowerCase()
 
-		location.href = `http://localhost/purchase-order/usuarios/crear/${tipo}/${id}`
+		// location.href = `http://192.168.8.100/purchase-order/usuarios/crear/${tipo}/${id}`
+		location.href = `https://nicedev90.pro/purchase-order/usuarios/crear/${tipo}/${id}`
 	} else {
 
 		const warningModal = document.querySelector('#warning_modal')
