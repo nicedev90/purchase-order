@@ -5,238 +5,138 @@
 <?php require APPROOT . '/views/usuario/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div>
 
-    <div class="pagetitle">
-        <h1>Dashboard</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </nav>
-    </div>
- 
-<section class="section dashboard">
+  <section class="section dashboard">
+    <!--  **************** CARDS **************** -->
     <div class="row">
-        <!-- Left side columns -->
-        <div class="col-lg-12">
-            <div class="row">
-                <!-- Sales Card -->
-                <div class="col-xxl-3 col-md-6">
-                    <div class="card info-card sales-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
-                        <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>145</h6>
-                                <span class="text-primary pt-1 fw-bold">12%</span>
-                            </div>
-                        </div>
-                    </div>
+      <div class="col-lg-12">
+        <div class="row">
 
-                    </div>
-                </div><!-- End Sales Card -->
+          <div class="col-lg-4">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                  </div>
 
-                <!-- Revenue Card -->
-                <div class="col-xxl-3 col-md-6">
-                    <div class="card info-card revenue-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Última Orden <span>| Creada</span></h5>
-
-                        <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-currency-dollar"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h6>$3,264</h6>
-                            <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                        </div>
-                        </div>
-                    </div>
-
-                    </div>
-                </div><!-- End Revenue Card -->
-
-                <!-- Revenue Card -->
-                <div class="col-xxl-3 col-md-6">
-                    <div class="card info-card revenue-card">
-
-                    <div class="card-body">
-                        <h5 class="card-title">Orden Completas <span>| Aceptadas</span></h5>
-
-                        <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-currency-dollar"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h6>$3,264</h6>
-                            <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                        </div>
-                        </div>
-                    </div>
-
-                    </div>
-                </div><!-- End Revenue Card -->
-
-                <!-- Customers Card -->
-                <div class="col-xxl-3 col-md-6">
-
-                    <div class="card info-card customers-card">
-
-                    <div class="card-body">
-                        <h5 class="card-title">En Proceso <span>| Sin revisar</span></h5>
-
-                        <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h6>ORDEN N°044</h6>
-                            <span class="text-danger small pt-1 fw-bold">ORDEN N°44</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div><!-- End Customers Card -->
+                  <div class="ps-3">
+                    <h6>145</h6>
+                    <a href="<?php echo URLROOT; ?>/encargados/consultar_os">
+                      <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Historial OS
+                        <i class="bi bi-folder"></i>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div><!-- End Left side columns -->
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <h5 class="card-title">Última Orden <span>| Creada</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-send-check-fill"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>OS N°50</h6>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#largeModal">
+                      <span class="text-success pt-1 small pt-1 fw-bold"> Ver Detalles
+                        <i class="bi bi-files"></i>
+                      </span>
+                    </a>
+                    <?php require APPROOT . '/views/usuario/partials/modal_ultima_orden.php'; ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+              <div class="card info-card revenue-card">
+                <div class="card-body">
+                  <h5 class="card-title">Orden Completas <span>| Aceptadas</span></h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-clipboard2-check-fill"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>145</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+        </div>
     </div>
 
     <!-- ======= INICIO FORMULARIO ======= -->
     <div class="card">
-        <div class="card-body">
-            <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-md-6">
-                    <h5 class="card-title"> Nueva Orden de Servicio  </h5>
-                    <p>Rellena los campos para solicitar tu Orden de Servicio Clonsa S.A.C </p>
-                </div>
-                <div class="col-md-4 lead fw-bold">
-                    <?php submitAlert(); ?>
-                </div>
-            </div>
+      <div class="card-body">
+        <div class="row d-flex justify-content-between align-items-center">
 
-            <form action="<?php echo URLROOT; ?>/usuarios/index" class="col-md-12 needs-validation" novalidate method="POST">
-                <div class="row mb-3">
-                    
-                    <!-- INICIO SELECT GUIA DE COSTOS -->
-                    <div class="col-md-6 position-relative">
-                        <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
-                        <select name="centro_costo" class="form-select" id="mina" required>
-                            <option selected disabled value="">Selecciona...</option> 
-                            <?php foreach($data['minas'] as $mina): ?>
-                                 <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-tooltip">
-                            Por favor selecciona la Unidad Minera
-                        </div>
-                    </div>
-                    <!-- FIN SELECT GUIA DE COSTOS -->
-
-                    <!-- INICIO SELECT CATEGORIA -->
-                    <div class="col-md-6 position-relative">
-                        <label for="validationTooltip04" class="form-label">Categoría</label>
-                        <select name="categoria" class="form-select" id="categoria" required>
-                            <option selected disabled value="">Selecciona ...</option>
-                        </select>
-                        <div class="invalid-tooltip">
-                            Por favor selecciona una categoría.
-                        </div>
-                    </div>
-                    <!-- FIN SELECT CATEGORIA -->
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-2">
-                        <button id="agregar" class="btn btn-success" type="button">Agregar item</button>
-                    </div>
-
-                    <div class="col-2">
-                        <button id="btnEliminar" class="btn btn-danger" type="button">Eliminar item</button>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-1 position-relative">
-                        <b>Item</b>
-                    </div>
-                    <div class="col-md-1 position-relative">
-                        <b>Cantidad</b>
-                    </div>
-                    <div class="col-md-2 position-relative">
-                        <b>Unidad</b>
-                    </div>
-                    <div class="col-md-6 position-relative">
-                        <b>Descripcion</b>
-                    </div>
-                    <div class="col-md-2 position-relative">
-                        <b>Proveedor Sugerido</b>
-                    </div>
-                </div>
-                
-                <div id="lista">
-                    <div id="1" class="row mb-3">
-                        <!-- INICIO INPUT ITEM -->
-                        <div class="col-md-1 position-relative">
-                            <input type="text" name="item" class="form-control-plaintext text-center" id="numItem" value="1" required readonly>
-                            <div class="valid-tooltip">Correcto</div>
-                        </div>
-                        <!-- FIN INPUT ITEM -->
-                        <!-- INICIO INPUT CANTIDAD -->
-                        <div class="col-md-1 position-relative">
-                            <input name="cantidad" type="number" class="form-control" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
-                            <div class="valid-tooltip">Correcto</div>
-                        </div>
-                        <!-- FIN INPUT CANTIDAD -->
-                        <!-- INICIO SELECT UNIDAD -->
-                        <div class="col-md-2 position-relative">
-                            <select name="unidad" class="form-select" id="validationTooltip04" required>
-                                <option selected disabled value="">Selecciona...</option>
-                                <option>Metro</option>
-                                <option>Kilo</option>
-                                <option>Litro</option>
-                            </select>
-                            <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
-                        </div>
-                        <!-- FIN SELECT UNIDAD -->
-
-                        <div class="col-md-6 position-relative">
-                            <input name="descripcion" type="text" class="form-control" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
-                            <div class="valid-tooltip"> Correcto </div>
-                        </div>
-
-                        <div class="col-md-2 position-relative">
-                            <input name="proveedor" type="text" class="form-control" id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
-                            <div class="valid-tooltip">  Correcto </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <label for="inputNumber" class="col-sm-2 col-form-label">Adjuntar archivo</label>
-                        <div class="col-sm-4">
-                            <input name ="adjunto" class="form-control" type="file" id="formFile">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row col-5 mx-auto">
-                    <button name="guardar_os" class="p-3 fw-bold btn btn-primary" type="submit">ENVIAR</button>
-                </div>
-            </form><!-- End Custom Styled Validation with Tooltips -->
+          <div class="col-md-5 d-flex justify-content-between align-items-center">
+            <div class="col-md-8 card-title"> Nueva Orden de Servicio</div>
+          </div>  
 
         </div>
+
+
+          <!-- FILA 1  mina - categoria -->
+          <div class="row justify-content-md-around align-items-center "> 
+
+            <div class="d-flex col-md-6 mb-4 mb-md-0 justify-content-around">
+              <div class="row col-md-2">Tipo: </div>
+              <div class="d-flex justify-content-between justify-content-md-around col-md-10">
+                <div class="col-4 col-md-3 form-check ">
+                  <input class="form-check-input" type="radio" name="tipo" id="tipoFondos" value="Fondos" required>
+                  <label class="form-check-label fw-bold" for="tipoFondos"> FONDOS </label>
+                </div>
+
+                <div class="col-4 col-md-3 form-check ">
+                  <input class="form-check-input" type="radio" name="tipo" id="tipoCompra" value="Compra" required>
+                  <label class="form-check-label fw-bold" for="tipoCompra"> COMPRA </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
+              <select name="mina" class="form-select" id="mina" required>
+                <option selected disabled value="">Selecciona...</option> 
+                <?php foreach($data['minas'] as $mina): ?>
+                  <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
+                <?php endforeach; ?>
+              </select>
+              <div class="invalid-tooltip">Por favor selecciona la Unidad Minera</div>
+            </div>
+
+          </div>
+
+          <!-- FILA 2 BOTON DE ENVIAR -->
+          <div class="row col-12 col-md-5 mt-5 mx-auto">
+            <button id="btn_init" class="p-2 fw-bold btn btn-primary" >CREAR ORDEN</button>
+          </div>
+        
+      </div>
     </div>
     <!-- ======= FIN FORMULARIO ======= -->
 
-    <!-- Recent Sales -->
+    <!-- Inicio tabla resumen Ordenes -->
     <div class="col-12">
         <div class="card recent-sales overflow-auto">
             <div class="card-body">
@@ -246,6 +146,7 @@
                     <thead>
                         <tr>
                         <th scope="col">N° O.S.</th>
+                        <th scope="col">Creado por</th>
                         <th scope="col">Detalle </th>
                         <th scope="col">Estado</th>
                         <th scope="col">Fecha de Creación</th>
@@ -256,11 +157,16 @@
                         <?php foreach($data['ordenes'] as $orden): ?>
                         <tr>
                             <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                            <td class="text-primary"><?php echo utf8_encode($orden->mina); ?></td>
-                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->proveedor); ?></span></td>
+                            <td><?php echo utf8_encode($orden->usuario); ?></td>
+                            <td class="text-primary"><?php echo utf8_encode($orden->descripcion); ?></td>
+                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->estado); ?></span></td>
                             <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
                             <td class="d-flex justify-content-around">
-                                <a href="" class="btn btn-warning"><i class="lead bi bi-search"></i></a>                          
+                                <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#largeModal2"><i class="bi bi-search"></i></a>
+                                <a href="<?php echo URLROOT; ?>/encargados/editar_os" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>   
+                                <?php require APPROOT . '/views/encargado/partials/modal_tabla.php'; ?>
+                                
+
                             </td>
                             
                         </tr>
@@ -270,10 +176,34 @@
                 </table>
             </div>
         </div>
-    </div><!-- End Recent Sales -->
+    </div>
+    <!-- Fin tabla resumen Ordenes -->
 
-</section>
+  </section>
 
-</main><!-- End #main -->
+</main>
 
+
+<!-- Modal -->
+<div class="modal fade" id="warning_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        falta llenar camposs
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="<?php echo URLROOT; ?>/js/init_new.js"></script>
 <?php require APPROOT . '/views/usuario/partials/footer.php'; ?>

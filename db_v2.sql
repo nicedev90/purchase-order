@@ -43,18 +43,18 @@ create table usuarios (
   REFERENCES sedes (id)
 )ENGINE=INNODB;
 
-INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUES 
-(1, 1, 'Administrador','admin','admin@clonsa.com','123', 'Activo'),
-(2, 1, 'Coord_pe','coord_pe','coor@clonsa.com','123', 'Activo'),
-(3, 1, 'Enc_pe1','enc_pe1','enc1@clonsa.com','123', 'Activo'),
-(3, 1, 'Enc_pe2','enc_pe2','enc2@clonsa.com','123', 'Activo'),
-(4, 1, 'User_pe','user_pe','usuario@clonsa.com','123', 'Activo');
+INSERT INTO usuarios (rol_id,sede_id,funcion,nombre,usuario,email,password,estado) VALUES 
+(1, 1, '','Administrador','admin','admin@clonsa.com','123', 'Activo'),
+(2, 1, '','Coord_pe','coord_pe','coor@clonsa.com','123', 'Activo'),
+(3, 1, 'Revisor','Enc_pe1','enc_pe1','enc1@clonsa.com','123', 'Activo'),
+(3, 1, 'Normal','Enc_pe2','enc_pe2','enc2@clonsa.com','123', 'Activo'),
+(4, 1, 'Normal','User_pe','user_pe','usuario@clonsa.com','123', 'Activo');
 
-INSERT INTO usuarios (rol_id,sede_id,nombre,usuario,email,password,estado) VALUES 
-(2, 2, 'Coord_cl','coord_cl','coor@clonsa.com','123', 'Activo'),
-(3, 2, 'Enc_cl1','enc_cl1','enc1@clonsa.com','123', 'Activo'),
-(3, 2, 'Enc_cl2','enc_cl2','enc2@clonsa.com','123', 'Activo'),
-(4, 2, 'User_cl','user_cl','usuario@clonsa.com','123', 'Activo');
+INSERT INTO usuarios (rol_id,sede_id,funcion,nombre,usuario,email,password,estado) VALUES 
+(2, 2, '','Coord_cl','coord_cl','coor@clonsa.com','123', 'Activo'),
+(3, 2, 'Revisor','Enc_cl1','enc_cl1','enc1@clonsa.com','123', 'Activo'),
+(3, 2, 'Normal','Enc_cl2','enc_cl2','enc2@clonsa.com','123', 'Activo'),
+(4, 2, 'Normal','User_cl','user_cl','usuario@clonsa.com','123', 'Activo');
 
 
 
@@ -112,6 +112,7 @@ CREATE TABLE categ_chile (
 id INT NOT NULL AUTO_INCREMENT,
 mina_cl_id INT NOT NULL,
 codigo INT NOT NULL,
+tipo VARCHAR(20) NOT NULL,
 categoria VARCHAR(255) NOT NULL,
 fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id),
@@ -124,6 +125,7 @@ CREATE TABLE categ_peru (
 id INT NOT NULL AUTO_INCREMENT,
 mina_pe_id INT NOT NULL,
 codigo INT NOT NULL,
+tipo VARCHAR(20) NOT NULL,
 categoria VARCHAR(255) NOT NULL,
 fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id),
@@ -136,6 +138,7 @@ REFERENCES minas_pe (id)
 CREATE TABLE os_chile (
 id INT NOT NULL AUTO_INCREMENT,
 num_os VARCHAR(30) NOT NULL,
+tipo VARCHAR(20) NOT NULL,
 usuario VARCHAR(100) NOT NULL,
 mina VARCHAR(50) NOT NULL,
 categoria VARCHAR(255) NOT NULL,
@@ -144,6 +147,7 @@ cantidad VARCHAR(20) NOT NULL,
 unidad VARCHAR(20) NOT NULL,
 descripcion VARCHAR(250) NOT NULL,
 proveedor VARCHAR(100) NOT NULL,
+valor VARCHAR(20) NOT NULL,
 estado VARCHAR(30) NOT NULL,
 creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 actualizado DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -223,25 +227,39 @@ revisor_2 VARCHAR(100) NOT NULL,
 obs_2 VARCHAR(200) NOT NULL,
 aprob_2 VARCHAR(30) NOT NULL,
 fecha_aprob_2 DATETIME DEFAULT CURRENT_TIMESTAMP,
-revisor_3 VARCHAR(100) NOT NULL,
-obs_3 VARCHAR(200) NOT NULL,
-aprob_3 VARCHAR(30) NOT NULL,
-fecha_aprob_3 DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY(id)
 )ENGINE=INNODB;
 
-CREATE TABLE revision_areas {
-  id INT NOT NULL AUTO_INCREMENT,
-  sede_id 
-}
+CREATE TABLE revision_cl (
+id INT NOT NULL AUTO_INCREMENT,
+num_os VARCHAR(20) NOT NULL,
+tipo VARCHAR(20) NOT NULL,
+revisor_1 VARCHAR(100) NOT NULL,
+obs_1 VARCHAR(200) NOT NULL,
+aprob_1 VARCHAR(30) NOT NULL,
+fecha_aprob_1 DATETIME DEFAULT CURRENT_TIMESTAMP,
+revisor_2 VARCHAR(100) NOT NULL,
+obs_2 VARCHAR(200) NOT NULL,
+aprob_2 VARCHAR(30) NOT NULL,
+fecha_aprob_2 DATETIME DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
 
 create table revision_areas (
   id INT NOT NULL AUTO_INCREMENT,
   sede VARCHAR(10) NOT NULL,
+  tipo VARCHAR(20) NOT NULL,
   area_1 VARCHAR(50) NOT NULL,
   area_2 VARCHAR(50) NOT NULL,
-  area_3 VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
 )ENGINE=INNODB;
+
+INSERT INTO revision_areas (sede,tipo,area_1,area_2) VALUES 
+  ('Peru', 'Fondos', 'JEFE DE PROYECTO', 'AREA CONTABILIDAD'),
+  ('Peru', 'Compra', 'AREA TECNICA', 'AREA ADQUISICION'),
+  ('Chile', 'Fondos', 'Area Tecnica', 'Area Adq'),
+  ('Chile', 'Compra', 'compras chile 1', 'compras chile 2');
+
+
 
 

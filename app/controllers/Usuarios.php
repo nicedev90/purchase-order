@@ -20,19 +20,36 @@
 				$this->view('usuario/index', $data);
 			} else {
 				$this->view('pages/login');
-			}
+			}			
 		}
 
-		public function crear($id = null) {
+		public function crear($tipo = null, $id = null) {
+			echo "<pre>";
+			echo $tipo . "<br>" . $id;
+
+			print_r($data);
+
+			die();
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 				$num_os = $this->getNumOrden();
 				$data = $_POST['item'];
 
+				$archivos = $_FILES['adjunto']['name'];
+
+				if (count($archivos) > 0) {
+        	// array de archivos name="adjunto[]"
+      		$files = $_FILES['adjunto'];
+      		$urlFiles = $this->uploadFiles($files,$num_os);
+        } else {
+        	$files = '';
+        }
+
 				$enviarData = $this->enviarOrden($data);
 
 				if ($enviarData == 0) {
+					// luego de guardado el form, volver a index
 					$_SESSION['alerta'] = 'success';
 					$_SESSION['mensaje'] = 'Se creó correctamente la orden';
 					redirect('usuarios/index');
@@ -75,12 +92,75 @@
 			}
 		}
 
-		public function getMinaCateg($id) {
+		public function crear11($tipo = null, $id = null) {
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+				$num_os = $this->getNumOrden();
+				$data = $_POST['item'];
+
+				$archivos = $_FILES['adjunto']['name'];
+
+				if (count($archivos) > 0) {
+        	// array de archivos name="adjunto[]"
+      		$files = $_FILES['adjunto'];
+      		$urlFiles = $this->uploadFiles($files,$num_os);
+        } else {
+        	$files = '';
+        }
+
+				$enviarData = $this->enviarOrden($data);
+
+				if ($enviarData == 0) {
+					// luego de guardado el form, volver a index
+					$_SESSION['alerta'] = 'success';
+					$_SESSION['mensaje'] = 'Se creó correctamente la orden';
+					redirect('usuarios/index');
+				} else {
+					die('Algo salió mal.');
+				}
+
+			} else {
+				// obtener numero de orden segun sede del usuario
+				$num_os = $this->getNumOrden();
+
+				// obtener minas segun sede de usuario
+				$user = $_SESSION['user_usuario'];
+				$minas = $this->getMinas();
+				$ordenes = $this->getOrdenes($user);
+
+				if (is_null($id)) {
+					$mina_nombre = '';
+					$mina_codigo = '';
+				} else {
+					// obtener info de mina y sus categorias
+					$mina = $this->getMinaById($id);
+					$mina_nombre = $mina->nombre;
+					$mina_codigo = $mina->codigo;
+					$mina_categ = $this->getMinaCateg($id);
+				}
+
+				$data = [
+					'id' => $id,
+					'minas' => $minas,
+					'mina_nombre' => $mina_nombre,
+					'mina_codigo' => $mina_codigo,
+					'mina_categ' => $mina_categ,
+					'numero_os' => $num_os,
+					'ordenes' => $ordenes
+				];
+
+				$this->view('usuario/crear', $data);				
+
+			}
+		}
+
+		public function getMinaCateg($id,$tipo) {
 			if ($_SESSION['user_sede'] == 'Peru') {
-				$minaCateg = $this->usuario->getMinaCategPe($id);
+				$minaCateg = $this->usuario->getMinaCategPe($id,$tipo);
 				return $minaCateg;
 			} else {
-				$minaCateg = $this->usuario->getMinaCategCl($id);
+				$minaCateg = $this->usuario->getMinaCategCl($id,$tipo);
 				return $minaCateg;
 			}
 		}
@@ -140,9 +220,55 @@
 
 	  public function enviarOrden($data) {
       if ($_SESSION['user_sede'] == 'Peru') {
-        $this->usuario->registrarOrdenPe($data);
+        return $this->usuario->registrarOrdenPe($data);
       } else {
-        $this->usuario->registrarOrdenCl($data);
+        return $this->usuario->registrarOrdenCl($data);
+      }
+	  }
+
+	  public function uploadFiles($files,$num_os) {
+
+	  	if ($_SESSION['user_sede'] == 'Peru') {
+        $totalFiles = count($files['name']);
+
+    		mkdir('../public/files/pe/' . $num_os);
+        $filesDir = '../public/files/pe/' . $num_os . '/';
+
+      	$enlaces = [];
+        // array de archivos, primer index = 1
+	        for ($i = 1; $i <= $totalFiles; $i++) {
+	        	$i_name = $files['name'][$i];
+						$i_tmp = $files['tmp_name'][$i];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlAdjunto[$i] = '/files/pe/' . $num_os . '/' . $i_name;
+		        $enlaces[$i]['num_os'] = $num_os;
+		        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
+	        }
+
+        $this->usuario->guardarAdjuntoPe($enlaces);
+      } else {
+
+    		$totalFiles = count($files['name']);
+
+    		mkdir('../public/files/cl/' . $num_os);
+        $filesDir = '../public/files/cl/' . $num_os . '/';
+
+      	$enlaces = [];
+        // array de archivos, primer index = 1
+	        for ($i = 1; $i <= $totalFiles; $i++) {
+	        	$i_name = $files['name'][$i];
+						$i_tmp = $files['tmp_name'][$i];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlAdjunto[$i] = '/files/cl/' . $num_os . '/' . $i_name;
+		        $enlaces[$i]['num_os'] = $num_os;
+		        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
+	        }
+
+        $this->usuario->guardarAdjuntoCl($enlaces);
       }
 	  }
 

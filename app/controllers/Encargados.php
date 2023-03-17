@@ -205,7 +205,6 @@
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         
         $num_os = $this->getNumOrden();
-
         $data = $_POST['item'];
 
         $archivos = $_FILES['adjunto']['name'];

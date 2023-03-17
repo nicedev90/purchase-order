@@ -1,3 +1,7 @@
+source /home/ubuntu/html/purchase-order/db_v2.sql
+source /home/ubuntu/html/purchase-order/categ_chile.sql
+source /home/ubuntu/html/purchase-order/categ_peru.sql
+
 tabla accion_en_cotizacion (id, fech-accion,cotizaicion_id,tipo_accion_cotizacion, obser)
 tabla accion en orden compra(fecha, orde_compra_id,tipo_accion, obserb)
 

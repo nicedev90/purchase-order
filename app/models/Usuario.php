@@ -49,9 +49,10 @@
       return $result;
     }
 
-    public function getMinaCategPe($id) {
-    	$this->db->query('SELECT * FROM categ_peru WHERE mina_pe_id = :id');
-    	$this->db->bind(':id', $id);
+    public function getMinaCategPe($id,$tipo) {
+    	$this->db->query('SELECT * FROM categ_peru WHERE mina_pe_id = :id AND tipo = :tipo');
+      $this->db->bind(':id', $id);
+    	$this->db->bind(':tipo', $tipo);
     	$res = $this->db->getSet();
     	return $res;
     }
@@ -103,8 +104,9 @@
 
     public function registrarOrdenPe($data) {
       foreach($data as $row) {
-        $this->db->query('INSERT INTO os_peru (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor) 
-            VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor)');
+        $this->db->query('INSERT INTO os_peru (tipo,num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor,valor,estado) 
+            VALUES (:tipo, :num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor, :valor, :estado)');
+        $this->db->bind(':tipo', $row['tipo']);
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':usuario', $row['usuario']);
         $this->db->bind(':mina', $row['mina']);
@@ -114,9 +116,22 @@
         $this->db->bind(':unidad', $row['unidad']);
         $this->db->bind(':descripcion', $row['descripcion']);
         $this->db->bind(':proveedor', $row['proveedor']);
+        $this->db->bind(':estado', $row['estado']);
+        $this->db->bind(':valor', $row['valor']);
 
         $this->db->execute();
       }            
+    }
+
+    public function guardarAdjuntoPe($enlaces) {
+      foreach($enlaces as $row) {
+        $this->db->query('INSERT INTO adjuntos_pe (num_os, archivo)
+          VALUES (:num_os, :archivo)');
+        $this->db->bind(':num_os', $row['num_os']);
+        $this->db->bind(':archivo', $row['archivo']);
+
+        $this->db->execute();
+      }
     }
 
 

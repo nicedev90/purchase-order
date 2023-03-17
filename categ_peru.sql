@@ -1,115 +1,79 @@
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(1, 101, 'PERSONAL DE ADMINISTRACION'),
-	(1, 102, 'ALOJAMIENTO'),
-	(1, 103, 'PASAJES AEREOS Y TERRESTES'),
-	(1, 104, 'ESTACIONAMIENTO'),
-	(1, 105, 'VIATICOS'),
-	(1, 106, 'GASTOS SERVICIOS BASICOS ');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(1, 101, 'Fondos', 'VIATICOS'),
+	(1, 102, 'Fondos', 'REEMBOLSABLES'),
+	(1, 103, 'Compra', 'HERRAMIENTAS'),
+	(1, 104, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(1, 105, 'Compra', 'ACCESORIOS '),
+	(1, 106, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(2, 201, 'PERSONAL TÉCNICO '),
-	(2, 202, 'ALOJAMIENTOS TÉCNICOS '),
-	(2, 203, 'COMBUSTIBLE'),
-	(2, 204, 'PASAJES AEREOS Y TERRESTES'),
-	(2, 205, 'VIATICOS TECNICOS'),
-	(2, 206, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(2, 207, 'MOVILIZACION '),
-	(2, 208, 'ALIMENTACION '),
-	(2, 209, 'INSUMOS Y REPUESTOS '),
-	(2, 210, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(2, 201, 'Fondos', 'VIATICOS'),
+	(2, 202, 'Fondos', 'REEMBOLSABLES'),
+	(2, 203, 'Compra', 'HERRAMIENTAS'),
+	(2, 204, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(2, 205, 'Compra', 'ACCESORIOS '),
+	(2, 206, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(3, 301, 'PERSONAL TÉCNICO '),
-	(3, 302, 'ALOJAMIENTOS TÉCNICOS '),
-	(3, 303, 'COMBUSTIBLE'),
-	(3, 304, 'PASAJES AEREOS Y TERRESTES'),
-	(3, 305, 'VIATICOS TECNICOS'),
-	(3, 306, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(3, 307, 'MOVILIZACION '),
-	(3, 308, 'ALIMENTACION '),
-	(3, 309, 'INSUMOS Y REPUESTOS '),
-	(3, 310, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(3, 301, 'Fondos', 'VIATICOS'),
+	(3, 302, 'Fondos', 'REEMBOLSABLES'),
+	(3, 303, 'Compra', 'HERRAMIENTAS'),
+	(3, 304, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(3, 305, 'Compra', 'ACCESORIOS '),
+	(3, 306, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(4, 401, 'PERSONAL TÉCNICO '),
-	(4, 402, 'ALOJAMIENTOS TÉCNICOS '),
-	(4, 403, 'COMBUSTIBLE'),
-	(4, 404, 'PASAJES AEREOS Y TERRESTES'),
-	(4, 405, 'VIATICOS TECNICOS'),
-	(4, 406, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(4, 407, 'MOVILIZACION '),
-	(4, 408, 'ALIMENTACION '),
-	(4, 409, 'INSUMOS Y REPUESTOS '),
-	(4, 410, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(4, 401, 'Fondos', 'VIATICOS'),
+	(4, 402, 'Fondos', 'REEMBOLSABLES'),
+	(4, 403, 'Compra', 'HERRAMIENTAS'),
+	(4, 404, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(4, 405, 'Compra', 'ACCESORIOS '),
+	(4, 406, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(5, 501, 'PERSONAL TÉCNICO '),
-	(5, 502, 'ALOJAMIENTOS TÉCNICOS '),
-	(5, 503, 'COMBUSTIBLE'),
-	(5, 504, 'PASAJES AEREOS Y TERRESTES'),
-	(5, 505, 'VIATICOS TECNICOS'),
-	(5, 506, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(5, 507, 'MOVILIZACION '),
-	(5, 508, 'ALIMENTACION '),
-	(5, 509, 'INSUMOS Y REPUESTOS '),
-	(5, 510, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(5, 501, 'Fondos', 'VIATICOS'),
+	(5, 502, 'Fondos', 'REEMBOLSABLES'),
+	(5, 503, 'Compra', 'HERRAMIENTAS'),
+	(5, 504, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(5, 505, 'Compra', 'ACCESORIOS '),
+	(5, 506, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(6, 601, 'PERSONAL TÉCNICO '),
-	(6, 602, 'ALOJAMIENTOS TÉCNICOS '),
-	(6, 603, 'COMBUSTIBLE'),
-	(6, 604, 'PASAJES AEREOS Y TERRESTES'),
-	(6, 605, 'VIATICOS TECNICOS'),
-	(6, 606, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(6, 607, 'MOVILIZACION '),
-	(6, 608, 'ALIMENTACION '),
-	(6, 609, 'INSUMOS Y REPUESTOS '),
-	(6, 610, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(6, 601, 'Fondos', 'VIATICOS'),
+	(6, 602, 'Fondos', 'REEMBOLSABLES'),
+	(6, 603, 'Compra', 'HERRAMIENTAS'),
+	(6, 604, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(6, 605, 'Compra', 'ACCESORIOS '),
+	(6, 606, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(7, 701, 'PERSONAL TÉCNICO '),
-	(7, 702, 'ALOJAMIENTOS TÉCNICOS '),
-	(7, 703, 'COMBUSTIBLE'),
-	(7, 704, 'PASAJES AEREOS Y TERRESTES'),
-	(7, 705, 'VIATICOS TECNICOS'),
-	(7, 706, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(7, 707, 'MOVILIZACION '),
-	(7, 708, 'ALIMENTACION '),
-	(7, 709, 'INSUMOS Y REPUESTOS '),
-	(7, 710, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(7, 701, 'Fondos', 'VIATICOS'),
+	(7, 702, 'Fondos', 'REEMBOLSABLES'),
+	(7, 703, 'Compra', 'HERRAMIENTAS'),
+	(7, 704, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(7, 705, 'Compra', 'ACCESORIOS '),
+	(7, 706, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(8, 801, 'PERSONAL TÉCNICO '),
-	(8, 802, 'ALOJAMIENTOS TÉCNICOS '),
-	(8, 803, 'COMBUSTIBLE'),
-	(8, 804, 'PASAJES AEREOS Y TERRESTES'),
-	(8, 805, 'VIATICOS TECNICOS'),
-	(8, 806, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(8, 807, 'MOVILIZACION '),
-	(8, 808, 'ALIMENTACION '),
-	(8, 809, 'INSUMOS Y REPUESTOS '),
-	(8, 810, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(8, 801, 'Fondos', 'VIATICOS'),
+	(8, 802, 'Fondos', 'REEMBOLSABLES'),
+	(8, 803, 'Compra', 'HERRAMIENTAS'),
+	(8, 804, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(8, 805, 'Compra', 'ACCESORIOS '),
+	(8, 806, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(9, 901, 'PERSONAL TÉCNICO '),
-	(9, 902, 'ALOJAMIENTOS TÉCNICOS '),
-	(9, 903, 'COMBUSTIBLE'),
-	(9, 904, 'PASAJES AEREOS Y TERRESTES'),
-	(9, 905, 'VIATICOS TECNICOS'),
-	(9, 906, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(9, 907, 'MOVILIZACION '),
-	(9, 908, 'ALIMENTACION '),
-	(9, 909, 'INSUMOS Y REPUESTOS '),
-	(9, 910, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(9, 901, 'Fondos', 'VIATICOS'),
+	(9, 902, 'Fondos', 'REEMBOLSABLES'),
+	(9, 903, 'Compra', 'HERRAMIENTAS'),
+	(9, 904, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(9, 905, 'Compra', 'ACCESORIOS '),
+	(9, 906, 'Compra', 'OTROS');
 
-INSERT INTO categ_peru (mina_pe_id, codigo, categoria) VALUES 
-	(10, 1001, 'PERSONAL TÉCNICO '),
-	(10, 1002, 'ALOJAMIENTOS TÉCNICOS '),
-	(10, 1003, 'COMBUSTIBLE'),
-	(10, 1004, 'PASAJES AEREOS Y TERRESTES'),
-	(10, 1005, 'VIATICOS TECNICOS'),
-	(10, 1006, 'GASTOS DE ADMINISTRACION Y OPERACIONES '),
-	(10, 1007, 'MOVILIZACION '),
-	(10, 1008, 'ALIMENTACION '),
-	(10, 1009, 'INSUMOS Y REPUESTOS '),
-	(10, 1010, 'MANTENCION E INSUMO VEHICULO');
+INSERT INTO categ_peru (mina_pe_id, codigo, tipo, categoria) VALUES 
+	(10, 1001, 'Fondos', 'VIATICOS'),
+	(10, 1002, 'Fondos', 'REEMBOLSABLES'),
+	(10, 1003, 'Compra', 'HERRAMIENTAS'),
+	(10, 1004, 'Compra', 'INSUMOS Y REPUESTOS'),
+	(10, 1005, 'Compra', 'ACCESORIOS '),
+	(10, 1006, 'Compra', 'OTROS');
