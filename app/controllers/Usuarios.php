@@ -36,7 +36,7 @@
 						'success' => $msg
 					];
 
-				$this->view('usuario/index', $data);
+					$this->view('usuario/index', $data);
 				}
 
 
