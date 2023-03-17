@@ -242,7 +242,7 @@ const addItem = () => {
 	const categoria = document.querySelector('#categoria')
 	const n_cat = categoria.value
 
-	const tipo = document.querySelector('input[name="item[1][tipo]"]:checked').value
+	const tipo = document.querySelector('#tipo').value
 	console.log(tipo)
 
 	const itemRow = document.createElement('div')

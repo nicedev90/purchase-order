@@ -90,18 +90,21 @@
       <div class="card-body">
         <div class="row d-flex justify-content-between align-items-center">
 
-          <div class="col-md-5 d-flex justify-content-between align-items-center">
+          <div class="col-md-6 d-flex justify-content-between align-items-center">
             <div class="col-md-8 card-title"> Nueva Orden de Servicio</div>
 
             <div class="col-md-4 p-2 fw-bold bg-warning rounded text-center">
-             N° - 
-              <!-- <b id="numero_orden">22</b> -->
-              <b id="numero_orden"><?php echo $data['numero_os']; ?></b>
+              <b>N° - </b>
+              <b id="numero_orden"><?php echo $data['numero_os']; ?>333</b>
               <b> - 2023</b>
             </div>
           </div>  
 
-          <div class="col-md-7 d-flex justify-content-around justify-content-md-end align-items-center">                      
+          <div class="col-md-6 d-flex justify-content-around justify-content-md-between justify-content-md-end align-items-center"> 
+            <div class="col-md-4 p-2 fw-bold bg-warning rounded text-center">
+              <b><?php echo strtoupper($data['tipo_os']) ?></b>
+            </div>
+
             <div class="col-md-4">
               <a href="<?php echo URLROOT; ?>/usuarios/index" class="btn btn-danger fw-bold">Cancelar Orden</a>
             </div>
@@ -121,15 +124,16 @@
           <div class="row my-3 d-flex">
             <input type="hidden" name="item[1][num_os]" id="num_os"  value="<?php echo $data['numero_os']; ?>">
             <input type="hidden" name="item[1][usuario]" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
+            <input type="hidden" name="item[1][tipo]" id="tipo" value="<?php echo $data['tipo_os']; ?>">
             <input type="hidden" name="item[1][estado]" id="estado" value="En Proceso">
 
             <div class="col-md-6">
               <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
               <select name="item[1][mina]" class="form-select" id="mina" required>
                 <option selected value="<?php echo $data['mina_codigo']; ?>"><?php echo $data['mina_nombre']; ?></option>
-                <?php foreach($data['minas'] as $mina): ?>
+<!--                 <?php foreach($data['minas'] as $mina): ?>
                   <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
-                <?php endforeach; ?>
+                <?php endforeach; ?> -->
               </select>
               <div class="invalid-tooltip">Por favor selecciona la Unidad Minera</div>
             </div>
@@ -146,10 +150,10 @@
           </div>
 
           <!-- FILA 1 tipo -->
-          <div class="row my-4 p-md-2 p-4 d-flex-col d-md-flex justify-content-start">
+<!--           <div class="row my-4 p-md-2 p-4 d-flex-col d-md-flex justify-content-start">
             <div class="col-2 col-md-2">Tipo: </div>
             <div class="col-4 col-md-3 form-check ">
-              <input class="form-check-input" type="radio" name="item[1][tipo]" id="tipoFondos" value="Fondos" required>
+              <input class="form-check-input" type="radio" name="" id="tipoFondos" value="Fondos" required>
               <label class="form-check-label fw-bold" for="tipoFondos"> FONDOS </label>
             </div>
 
@@ -157,7 +161,7 @@
               <input class="form-check-input" type="radio" name="item[1][tipo]" id="tipoCompra" value="Compra" required>
               <label class="form-check-label fw-bold" for="tipoCompra"> COMPRA </label>
             </div>
-          </div>
+          </div> -->
 
           <!-- FILA 2 AGREGAR ELIMINAR ITEM -->
           <div class="row mb-3 mt-4 mt-md-0 d-flex justify-content-around justify-content-md-start">

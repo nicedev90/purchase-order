@@ -3,4 +3,5 @@ package.json
 package-lock.json
 tailwind.config.js
 node_modules
-public/files/*
+public/files/cl/*
+public/files/pe/*

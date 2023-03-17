@@ -5,6 +5,7 @@
 <?php require APPROOT . '/views/usuario/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
+
   <div class="pagetitle">
     <h1>Dashboard</h1>
     <nav>
@@ -87,50 +88,48 @@
     <!-- ======= INICIO FORMULARIO ======= -->
     <div class="card">
       <div class="card-body">
-        <div class="row d-flex justify-content-between align-items-center">
 
+        <div class="row d-flex justify-content-between align-items-center">
           <div class="col-md-5 d-flex justify-content-between align-items-center">
             <div class="col-md-8 card-title"> Nueva Orden de Servicio</div>
-          </div>  
+          </div>
+        </div>
+
+        <!-- FILA 1  mina - categoria -->
+        <div class="row justify-content-md-around align-items-center "> 
+
+          <div class="d-flex col-md-6 mb-4 mb-md-0 justify-content-around">
+            <div class="row col-md-2">Tipo: </div>
+            <div class="d-flex justify-content-between justify-content-md-around col-md-10">
+              <div class="col-4 col-md-3 form-check ">
+                <input class="form-check-input" type="radio" name="tipo" id="tipoFondos" value="Fondos" required>
+                <label class="form-check-label fw-bold" for="tipoFondos"> FONDOS </label>
+              </div>
+
+              <div class="col-4 col-md-3 form-check ">
+                <input class="form-check-input" type="radio" name="tipo" id="tipoCompra" value="Compra" required>
+                <label class="form-check-label fw-bold" for="tipoCompra"> COMPRA </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
+            <select name="mina" class="form-select" id="mina" required>
+              <option selected disabled value="">Selecciona...</option> 
+              <?php foreach($data['minas'] as $mina): ?>
+                <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
+              <?php endforeach; ?>
+            </select>
+            <div class="invalid-tooltip">Por favor selecciona la Unidad Minera</div>
+          </div>
 
         </div>
 
-
-          <!-- FILA 1  mina - categoria -->
-          <div class="row justify-content-md-around align-items-center "> 
-
-            <div class="d-flex col-md-6 mb-4 mb-md-0 justify-content-around">
-              <div class="row col-md-2">Tipo: </div>
-              <div class="d-flex justify-content-between justify-content-md-around col-md-10">
-                <div class="col-4 col-md-3 form-check ">
-                  <input class="form-check-input" type="radio" name="tipo" id="tipoFondos" value="Fondos" required>
-                  <label class="form-check-label fw-bold" for="tipoFondos"> FONDOS </label>
-                </div>
-
-                <div class="col-4 col-md-3 form-check ">
-                  <input class="form-check-input" type="radio" name="tipo" id="tipoCompra" value="Compra" required>
-                  <label class="form-check-label fw-bold" for="tipoCompra"> COMPRA </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
-              <select name="mina" class="form-select" id="mina" required>
-                <option selected disabled value="">Selecciona...</option> 
-                <?php foreach($data['minas'] as $mina): ?>
-                  <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
-                <?php endforeach; ?>
-              </select>
-              <div class="invalid-tooltip">Por favor selecciona la Unidad Minera</div>
-            </div>
-
-          </div>
-
-          <!-- FILA 2 BOTON DE ENVIAR -->
-          <div class="row col-12 col-md-5 mt-5 mx-auto">
-            <button id="btn_init" class="p-2 fw-bold btn btn-primary" >CREAR ORDEN</button>
-          </div>
+        <!-- FILA 2 BOTON DE ENVIAR -->
+        <div class="row col-12 col-md-5 mt-5 mx-auto">
+          <button id="btn_init" data-method="crear" data-url="<?= URLROOT ?>" data-controller="<?= $data['controller'] ?>" class="p-2 fw-bold btn btn-primary" >CREAR ORDEN</button>
+        </div>
         
       </div>
     </div>
@@ -204,6 +203,6 @@
 </div>
 
 
-
 <script src="<?php echo URLROOT; ?>/js/init_new.js"></script>
+
 <?php require APPROOT . '/views/usuario/partials/footer.php'; ?>

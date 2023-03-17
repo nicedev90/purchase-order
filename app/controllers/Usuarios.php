@@ -10,10 +10,12 @@
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
 				$user = $_SESSION['user_usuario'];
 				$minas = $this->getMinas();
+				$controller = strtolower(get_called_class());
 				$ordenes = $this->getOrdenes($user);
 
 				$data = [
 					'minas' => $minas,
+					'controller' => $controller,
 					'ordenes' => $ordenes
 				];
 
@@ -24,12 +26,11 @@
 		}
 
 		public function crear($tipo = null, $id = null) {
-			echo "<pre>";
-			echo $tipo . "<br>" . $id;
+			// echo "<pre>";
+			// echo $tipo . "<br>" . $id;
 
-			print_r($data);
+			// die();
 
-			die();
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -47,11 +48,11 @@
         }
 
 				$enviarData = $this->enviarOrden($data);
-
+				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
 				if ($enviarData == 0) {
-					// luego de guardado el form, volver a index
-					$_SESSION['alerta'] = 'success';
-					$_SESSION['mensaje'] = 'Se creó correctamente la orden';
+					// luego de guardado el form, volver a index y llamar funcion submitAlert()
+					// $_SESSION['alerta'] = 'success';
+					// $_SESSION['mensaje'] = 'Se creó correctamente la orden';
 					redirect('usuarios/index');
 				} else {
 					die('Algo salió mal.');
@@ -74,7 +75,7 @@
 					$mina = $this->getMinaById($id);
 					$mina_nombre = $mina->nombre;
 					$mina_codigo = $mina->codigo;
-					$mina_categ = $this->getMinaCateg($id);
+					$mina_categ = $this->getMinaCateg($id,$tipo);
 				}
 
 				$data = [
@@ -84,6 +85,7 @@
 					'mina_codigo' => $mina_codigo,
 					'mina_categ' => $mina_categ,
 					'numero_os' => $num_os,
+					'tipo_os' => $tipo,
 					'ordenes' => $ordenes
 				];
 
@@ -155,7 +157,7 @@
 			}
 		}
 
-		public function getMinaCateg($id,$tipo) {
+		public function getMinaCateg($id, $tipo) {
 			if ($_SESSION['user_sede'] == 'Peru') {
 				$minaCateg = $this->usuario->getMinaCategPe($id,$tipo);
 				return $minaCateg;
