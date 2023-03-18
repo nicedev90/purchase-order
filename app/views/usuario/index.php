@@ -52,8 +52,15 @@
                     <i class="bi bi-send-check-fill"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>OS N° - <?php echo current($data['ordenes'][0]) ?></h6>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . current($data['ordenes'][0]) ?>">
+                      <?php 
+                        if (isset($data['ordenes'][0])) {
+                          $lastOrden = current($data['ordenes'][0]); 
+                        } else {
+                          $lastOrden = 0; 
+                        }
+                      ?>
+                    <h6>OS N° - <?php echo $lastOrden ?></h6>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $lastOrden ?>">
                       <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Detalles
                         <i class="bi bi-folder"></i>
                       </span>
@@ -74,15 +81,17 @@
                     </div>
                     <div class="ps-3">
                       <?php 
-                        $totalAprobados = 0; 
+                        if (count($data['totalOrdenes']) > 0) {
+                          $totalAprobados = 0; 
 
-                        foreach($data['totalOrdenes'] as $orden) {
-                          if (strtoupper($orden->estado) == "APROBADO") {
-                            $totalAprobados++;
+                          foreach($data['totalOrdenes'] as $orden) {
+                            if (strtoupper($orden->estado) == "APROBADO") {
+                              $totalAprobados++;
+                            }
                           }
                         }
                       ?>
-                      <h6><?php echo $totalAprobados ?></h6>
+                      <h6><?php echo (isset($totalAprobados)) ? $totalAprobados : 0 ?></h6>
                     </div>
                   </div>
                 </div>

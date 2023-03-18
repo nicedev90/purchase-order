@@ -67,7 +67,6 @@
 		public function getMinaByIdPe($id) {
       $this->db->query('SELECT * FROM minas_pe WHERE id = :id');
       $this->db->bind(':id', $id);
-
       $result = $this->db->getSingle();
       return $result;
     }
@@ -75,7 +74,6 @@
     public function getMinaByIdCl($id) {
       $this->db->query('SELECT * FROM minas_cl WHERE id = :id');
       $this->db->bind(':id', $id);
-
       $result = $this->db->getSingle();
       return $result;
     }
@@ -96,8 +94,8 @@
       return $res;
     }
 
-		public function getNumeroCl() {
-      $this->db->query('SELECT id,num_os FROM os_chile GROUP BY id DESC LIMIT 1');
+    public function getNumeroPe() {
+      $this->db->query('SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1');
       $res =  $this->db->getSingle();
       if ($this->db->rows() > 0) {
       	return $res;
@@ -106,13 +104,13 @@
       }
     }
 
-    public function getNumeroPe() {
-      $this->db->query('SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1');
+    public function getNumeroCl() {
+      $this->db->query('SELECT id,num_os FROM os_chile GROUP BY id DESC LIMIT 1');
       $res =  $this->db->getSingle();
       if ($this->db->rows() > 0) {
-      	return $res;
+        return $res;
       } else {
-      	return false;
+        return false;
       }
     }
 
@@ -161,6 +159,17 @@
     public function guardarAdjuntoPe($enlaces) {
       foreach($enlaces as $row) {
         $this->db->query('INSERT INTO adjuntos_pe (num_os, archivo)
+          VALUES (:num_os, :archivo)');
+        $this->db->bind(':num_os', $row['num_os']);
+        $this->db->bind(':archivo', $row['archivo']);
+
+        $this->db->execute();
+      }
+    }
+
+    public function guardarAdjuntoCl($enlaces) {
+      foreach($enlaces as $row) {
+        $this->db->query('INSERT INTO adjuntos_cl (num_os, archivo)
           VALUES (:num_os, :archivo)');
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':archivo', $row['archivo']);
