@@ -28,6 +28,7 @@
 
     public function getAllOrdenesUserCl($user) {
       $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC');
+      $this->db->bind(':user', $user);
       $res = $this->db->getSet();
       return $res;
     }
