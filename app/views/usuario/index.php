@@ -1,17 +1,16 @@
-<?php require APPROOT . '/views/usuario/partials/header.php'; ?>
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/header.php'; ?>
 
-<?php require APPROOT . '/views/usuario/partials/topbar.php'; ?>
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/topbar.php'; ?>
 
-<?php require APPROOT . '/views/usuario/partials/sidebar.php'; ?>
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
-
+  <!-- breadcrumb section -->
   <div class="pagetitle">
-    <h1>Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item">Dashboard</li>
+        <li class="breadcrumb-item active"><?= $data['pagename'] ?></li>
       </ol>
     </nav>
   </div>
@@ -32,8 +31,8 @@
                   </div>
 
                   <div class="ps-3">
-                    <h6>145</h6>
-                    <a href="<?php echo URLROOT; ?>/encargados/consultar_os">
+                    <h6><?php echo $data['total'] ?></h6>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/historial' ?>">
                       <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Historial OS
                         <i class="bi bi-folder"></i>
                       </span>
@@ -53,13 +52,12 @@
                     <i class="bi bi-send-check-fill"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>OS N°50</h6>
-                    <a href="" data-bs-toggle="modal" data-bs-target="#largeModal">
-                      <span class="text-success pt-1 small pt-1 fw-bold"> Ver Detalles
-                        <i class="bi bi-files"></i>
+                    <h6>OS N° - <?php echo current($data['ordenes'][0]) ?></h6>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . current($data['ordenes'][0]) ?>">
+                      <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Detalles
+                        <i class="bi bi-folder"></i>
                       </span>
                     </a>
-                    <?php require APPROOT . '/views/usuario/partials/modal_ultima_orden.php'; ?>
                   </div>
                 </div>
               </div>
@@ -75,7 +73,16 @@
                       <i class="bi bi-clipboard2-check-fill"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
+                      <?php 
+                        $totalAprobados = 0; 
+
+                        foreach($data['totalOrdenes'] as $orden) {
+                          if (strtoupper($orden->estado) == "APROBADO") {
+                            $totalAprobados++;
+                          }
+                        }
+                      ?>
+                      <h6><?php echo $totalAprobados ?></h6>
                     </div>
                   </div>
                 </div>
@@ -135,47 +142,67 @@
     </div>
     <!-- ======= FIN FORMULARIO ======= -->
 
+
     <!-- Inicio tabla resumen Ordenes -->
     <!-- <pre><?php print_r($data) ?></pre> -->
     <div class="col-12">
-        <div class="card recent-sales overflow-auto">
-            <div class="card-body">
-                <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
-
-                <table class="table table-hover table-borderless datatable">
-                    <thead>
-                        <tr>
-                        <th scope="col">N° O.S.</th>
-                        <th scope="col">Creado por</th>
-                        <th scope="col">Detalle </th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Fecha de Creación</th>
-                        <th scope="col">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($data['ordenes'] as $orden): ?>
-                        <tr>
-                            <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                            <td><?php echo utf8_encode($orden->usuario); ?></td>
-                            <td class="text-primary"><?php echo utf8_encode($orden->descripcion); ?></td>
-                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->estado); ?></span></td>
-                            <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
-                            <td class="d-flex justify-content-around">
-                                <a href="<?php echo URLROOT . '/usuarios/detalles/' . $orden->num_os ?>" class="btn btn-warning"><i class="bi bi-search"></i></a>
-                                <a href="<?php echo URLROOT; ?>/encargados/editar_os" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>   
-                                <?php require APPROOT . '/views/encargado/partials/modal_tabla.php'; ?>
-                                
-
-                            </td>
-                            
-                        </tr>
-                        <?php endforeach; ?>
-
-                    </tbody>
-                </table>
-            </div>
+      <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+          <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
+          <table class="table table-hover table-borderless datatable">
+            <thead>
+              <tr>
+              <th scope="col">N°</th>
+              <th scope="col">Tipo</th>
+              <th scope="col" class="d-none d-md-table-cell">Creado por</th>
+              <th scope="col" class="d-none d-md-table-cell">Mina </th>
+              <th scope="col">Estado</th>
+              <th scope="col" class="d-none d-md-table-cell">Fecha</th>
+              <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach($data['ordenes'] as $orden): ?>
+              <tr>
+                <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
+                <td class="fw-bold">
+                  <?php if (strtoupper($orden->tipo) == 'FONDOS') : ?>
+                    <span class="<?= bgFondos() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
+                  <?php else: ?>
+                    <span class="<?= bgCompra() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
+                  <?php endif; ?>
+                  
+                </td>
+                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->usuario); ?></th>
+                <td class="text-primary d-none d-md-table-cell"><?php echo utf8_encode($orden->mina_nombre); ?></td>
+                <td>
+                  <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
+                    <span class="<?= bgAprobado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                  <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
+                    <span class="<?= bgRechazado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                  <?php else: ?>
+                    <span class="<?= bgEnProceso() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                  <?php endif; ?>
+                  
+                </td>
+                <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
+                <td class="d-flex justify-content-around">
+                  <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
+                    <a href="<?php echo URLROOT . '/usuarios/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                  <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                  <?php else: ?>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/editar/' . $orden->num_os ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> 
+                  <?php endif; ?>
+                </td>
+                  
+              </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
     <!-- Fin tabla resumen Ordenes -->
 
@@ -184,7 +211,6 @@
 </main>
 
 
-<?php echo $data['success'] ?>
 
 <!-- warning Modal -->
 <div class="modal fade" id="warning_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
@@ -209,7 +235,7 @@
 
 <!-- Success Modal -->
 
-<div class="modal fade" id="<?= ($data['success'] == 'success') ? 'success_modal' : '' ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+<div class="modal fade" id="<?= createdAlert() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -230,4 +256,4 @@
 
 <script src="<?php echo URLROOT; ?>/js/init_new.js"></script>
 
-<?php require APPROOT . '/views/usuario/partials/footer.php'; ?>
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/footer.php'; ?>

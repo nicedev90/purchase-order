@@ -1,9 +1,8 @@
-<?php require APPROOT . '/views/usuario/partials/header.php'; ?>
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/header.php'; ?>
 
-<?php require APPROOT . '/views/usuario/partials/topbar.php'; ?>
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/topbar.php'; ?>
 
-<?php require APPROOT . '/views/usuario/partials/sidebar.php'; ?>
-
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/sidebar.php'; ?>
 <main id="main" class="main">
   <div class="pagetitle">
     <h1>Dashboard</h1>
@@ -96,15 +95,22 @@
 
             <div class="col-md-4 p-2 fw-bold bg-warning rounded text-center">
               <b>N° - </b>
-              <b id="numero_orden"><?php echo $data['numero_os']; ?>333</b>
+              <b id="numero_orden"><?php echo $data['numero_os']; ?></b>
               <b> - 2023</b>
             </div>
           </div>  
 
           <div class="col-md-6 d-flex justify-content-around justify-content-md-between justify-content-md-end align-items-center"> 
-            <div class="col-md-4 p-2 fw-bold bg-warning rounded text-center">
-              <b><?php echo strtoupper($data['tipo_os']) ?></b>
-            </div>
+            <?php if (strtoupper($data['tipo_os']) == 'FONDOS') : ?>
+              <div class="col-md-4 p-2 fw-bold <?= bgFondos() ?> rounded text-center">
+                <b><?php echo strtoupper($data['tipo_os']) ?></b>
+              </div>
+            <?php else : ?>
+              <div class="col-md-4 p-2 fw-bold <?= bgCompra() ?> rounded text-center">
+                <b><?php echo strtoupper($data['tipo_os']) ?></b>
+              </div>
+            <?php endif; ?>
+
 
             <div class="col-md-4">
               <a href="<?php echo URLROOT; ?>/usuarios/index" class="btn btn-danger fw-bold">Cancelar Orden</a>
@@ -178,7 +184,7 @@
               <!-- INICIO INPUT CANTIDAD -->
               <div class="col-4 d-flex-col  col-md-1 position-relative">
                 <label for="" class="d-md-none">Cantidad</label>
-                <input name="item[1][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required  autocomplete="off">
+                <input name="item[1][cantidad]"  type="number" step="any" min="0"  class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required  autocomplete="off">
                 <div class="valid-tooltip">Correcto</div>
               </div>
               <!-- FIN INPUT CANTIDAD -->
@@ -209,7 +215,7 @@
 
               <div class="col-md-2 mt-2 mt-md-0 position-relative">
                 <label for="" class="d-md-none">Valor Referencial</label>
-                <input name="item[1][valor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
+                <input name="item[1][valor]" type="number" step="any" min="0"  class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
                 <div class="valid-tooltip">  Correcto </div>
               </div>
 
@@ -238,7 +244,7 @@
               <!-- INICIO INPUT CANTIDAD -->
               <div hidden class="col-4 d-flex-col  col-md-1 position-relative">
                 <label for="" class="d-md-none">Cantidad</label>
-                <input name="item[1][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número"  autocomplete="off">
+                <input name="item[1][cantidad]"  type="number" step="any" min="0"  class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número"  autocomplete="off">
                 <div class="valid-tooltip">Correcto</div>
               </div>
               <!-- FIN INPUT CANTIDAD -->
@@ -269,7 +275,7 @@
 
               <div class="col-md-3 mt-2 mt-md-0 position-relative">
                 <label for="" class="d-md-none">Valor Referencial</label>
-                <input name="item[1][valor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
+                <input name="item[1][valor]" type="number" step="any" min="0" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
                 <div class="valid-tooltip">  Correcto </div>
               </div>
 
@@ -414,4 +420,5 @@
 
 
 <script src="<?php echo URLROOT; ?>/js/form_usuario.js"></script>
-<?php require APPROOT . '/views/usuario/partials/footer.php'; ?>
+
+<?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/footer.php'; ?>

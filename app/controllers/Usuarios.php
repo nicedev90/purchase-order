@@ -6,39 +6,60 @@
 			$this->usuario = $this->model('Usuario');
 		}
 
-		public function index($msg = null) {
+		public function index() {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
-				if (is_null($msg)) {
-					$user = $_SESSION['user_usuario'];
-					$minas = $this->getMinas();
-					$controller = strtolower(get_called_class());
-					$ordenes = $this->getOrdenes($user);
+				$user = $_SESSION['user_usuario'];
+				$minas = $this->getMinas();
+				$controller = strtolower(get_called_class());
+				// $parentDir = basename(dirname(__FILE__));
 
-					$data = [
-						'minas' => $minas,
-						'controller' => $controller,
-						'ordenes' => $ordenes,
-						'success' => ''
-					];
+				$ordenes = $this->getOrdenes($user);
+				$method = ucwords(__FUNCTION__);
+				// $totalOrdenes = sizeof(json_decode($AllOrdenesUser, true));
+				$AllOrdenesUser = $this->getAllOrdenesUser($user);
+				$totalOrdenes = count($AllOrdenesUser);
 
-					$this->view('usuario/index', $data);
-				} else {
-					$user = $_SESSION['user_usuario'];
-					$minas = $this->getMinas();
-					$controller = strtolower(get_called_class());
-					$ordenes = $this->getOrdenes($user);
 
-					$data = [
-						'minas' => $minas,
-						'controller' => $controller,
-						'ordenes' => $ordenes,
-						// agregar mensaje de exito en la pagina
-						'success' => $msg
-					];
+				$data = [
+					'minas' => $minas,
+					'controller' => $controller,
+					'ordenes' => $ordenes,
+					'pagename' => $method,
+					'totalOrdenes' => $AllOrdenesUser,
+					'total' => $totalOrdenes
+				];
 
-					$this->view('usuario/index', $data);
-				}
+			//  echo "<pre>";
+			// print_r($data);
+			// die();
 
+				$this->view('usuario/index', $data);
+
+			} else {
+				$this->view('pages/login');
+			}			
+		}
+
+		public function historial() {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
+				$user = $_SESSION['user_usuario'];
+
+				$controller = strtolower(get_called_class());
+				$AllOrdenesUser = $this->getAllOrdenesUser($user);
+				$method = ucwords(__FUNCTION__);
+
+				$data = [
+					'controller' => $controller,
+					'ordenes' => $AllOrdenesUser,
+					'pagename' => $method
+					
+				];
+
+			//  echo "<pre>";
+			// print_r($data);
+			// die();
+
+				$this->view('usuario/historial', $data);
 
 			} else {
 				$this->view('pages/login');
@@ -51,19 +72,84 @@
 			} else {
 				// obtener data de la orden
 				$orden = $this->getOrdenData($num_os);
-				// $method = get_class_methods(get_called_class());
 
-				// $method = ucwords(__METHOD__);
+				$controller = strtolower(get_called_class());
 				$method = ucwords(__FUNCTION__);
 
 				$data = [
 					'orden' => $orden,
-					'pagename' => $method
+					'pagename' => $method,
+					'controller' => $controller
 				];
 
 				$this->view('usuario/detalles', $data);
 
 			}
+		}
+
+		public function editar($num_os) {
+						// echo "<pre>";
+			// echo $tipo . "<br>" . $id;
+
+			// die();
+
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+				$num_os = $this->getNumOrden();
+				$data = $_POST['item'];
+
+				$archivos = $_FILES['adjunto']['name'];
+
+				if (count($archivos) > 0) {
+        	// array de archivos name="adjunto[]"
+      		$files = $_FILES['adjunto'];
+      		$urlFiles = $this->uploadFiles($files,$num_os);
+        } else {
+        	$files = '';
+        }
+
+				$enviarData = $this->enviarOrden($data);
+				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
+				if ($enviarData == 0) {
+					// set index 'alerta' para mostrar modal SUCCESS en INDEX
+					$_SESSION['alerta'] = 'success';
+					redirect('usuarios/index');
+
+				} else {
+					die('Algo salió mal.');
+				}
+
+			} else {
+
+				if (is_null($tipo) || is_null($id)) {
+					redirect('usuarios/index');
+				} else {
+					// obtener numero de orden segun sede del usuario
+					$num_os = $this->getNumOrden();
+
+					// obtener info de mina y sus categorias
+					$mina = $this->getMinaById($id);
+					$mina_nombre = $mina->nombre;
+					$mina_codigo = $mina->codigo;
+					$mina_categ = $this->getMinaCateg($id,$tipo);
+					
+					$data = [
+						'id' => $id,
+						'mina_nombre' => $mina_nombre,
+						'mina_codigo' => $mina_codigo,
+						'mina_categ' => $mina_categ,
+						'numero_os' => $num_os,
+						'tipo_os' => $tipo
+					];
+
+					$this->view('usuario/crear', $data);
+				}				
+
+			}
+		
+
+			$updateOrden = $this->updateOrden($data);
 		}
 
 		public function getOrdenData($num_os) {
@@ -73,6 +159,16 @@
 			} else {
 				$orden = $this->usuario->getOrdenDataCl($num_os);
 				return $orden;
+			}
+		}
+
+		public function getAllOrdenesUser($user) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+				$ordenes = $this->usuario->getAllOrdenesUserPe($user);
+				return $ordenes;
+			} else {
+				$ordenes = $this->usuario->getAllOrdenesUserCl($user);
+				return $ordenes;
 			}
 		}
 
@@ -101,10 +197,9 @@
 				$enviarData = $this->enviarOrden($data);
 				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
 				if ($enviarData == 0) {
-					// luego de guardado el form, volver a index y llamar funcion submitAlert()
-					// $_SESSION['alerta'] = 'success';
-					// $_SESSION['mensaje'] = 'Se creó correctamente la orden';
-					redirect('usuarios/index/success');
+					// set index 'alerta' para mostrar modal SUCCESS en INDEX
+					$_SESSION['alerta'] = 'success';
+					redirect('usuarios/index');
 
 				} else {
 					die('Algo salió mal.');
@@ -118,11 +213,6 @@
 					// obtener numero de orden segun sede del usuario
 					$num_os = $this->getNumOrden();
 
-					// obtener minas segun sede de usuario
-					$user = $_SESSION['user_usuario'];
-					$minas = $this->getMinas();
-					$ordenes = $this->getOrdenes($user);
-
 					// obtener info de mina y sus categorias
 					$mina = $this->getMinaById($id);
 					$mina_nombre = $mina->nombre;
@@ -131,13 +221,11 @@
 					
 					$data = [
 						'id' => $id,
-						'minas' => $minas,
 						'mina_nombre' => $mina_nombre,
 						'mina_codigo' => $mina_codigo,
 						'mina_categ' => $mina_categ,
 						'numero_os' => $num_os,
-						'tipo_os' => $tipo,
-						'ordenes' => $ordenes
+						'tipo_os' => $tipo
 					];
 
 					$this->view('usuario/crear', $data);
@@ -146,66 +234,23 @@
 			}
 		}
 
-		public function crear11($tipo = null, $id = null) {
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-				$num_os = $this->getNumOrden();
-				$data = $_POST['item'];
-
-				$archivos = $_FILES['adjunto']['name'];
-
-				if (count($archivos) > 0) {
-        	// array de archivos name="adjunto[]"
-      		$files = $_FILES['adjunto'];
-      		$urlFiles = $this->uploadFiles($files,$num_os);
-        } else {
-        	$files = '';
-        }
-
-				$enviarData = $this->enviarOrden($data);
-
-				if ($enviarData == 0) {
-					// luego de guardado el form, volver a index
-					$_SESSION['alerta'] = 'success';
-					$_SESSION['mensaje'] = 'Se creó correctamente la orden';
-					redirect('usuarios/index');
-				} else {
-					die('Algo salió mal.');
-				}
-
+		public function getMinas() {
+	  	if ($_SESSION['user_sede'] == 'Peru') {
+				$minas = $this->usuario->getMinasPe();
+				return $minas;
 			} else {
-				// obtener numero de orden segun sede del usuario
-				$num_os = $this->getNumOrden();
+				$minas = $this->usuario->getMinasCl();
+				return $minas;
+			}
+	  }
 
-				// obtener minas segun sede de usuario
-				$user = $_SESSION['user_usuario'];
-				$minas = $this->getMinas();
-				$ordenes = $this->getOrdenes($user);
-
-				if (is_null($id)) {
-					$mina_nombre = '';
-					$mina_codigo = '';
-				} else {
-					// obtener info de mina y sus categorias
-					$mina = $this->getMinaById($id);
-					$mina_nombre = $mina->nombre;
-					$mina_codigo = $mina->codigo;
-					$mina_categ = $this->getMinaCateg($id);
-				}
-
-				$data = [
-					'id' => $id,
-					'minas' => $minas,
-					'mina_nombre' => $mina_nombre,
-					'mina_codigo' => $mina_codigo,
-					'mina_categ' => $mina_categ,
-					'numero_os' => $num_os,
-					'ordenes' => $ordenes
-				];
-
-				$this->view('usuario/crear', $data);				
-
+		public function getMinaById($id) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+				$minaId = $this->usuario->getMinaByIdPe($id);
+				return $minaId;
+			} else {
+				$minaId = $this->usuario->getMinaByIdCl($id);
+				return $minaId;
 			}
 		}
 
@@ -219,25 +264,6 @@
 			}
 		}
 
-		public function getMinaById($id) {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				$minaId = $this->usuario->getMinaByIdPe($id);
-				return $minaId;
-			} else {
-				$minaId = $this->usuario->getMinaByIdCl($id);
-				return $minaId;
-			}
-		}
-
-		public function getMinas() {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				$minas = $this->usuario->getMinasPe();
-				return $minas;
-			} else {
-				$minas = $this->usuario->getMinasCl();
-				return $minas;
-			}
-		}
 
 		public function getOrdenes($user) {
 			if ($_SESSION['user_sede'] == 'Peru') {
@@ -277,6 +303,14 @@
         return $this->usuario->registrarOrdenPe($data);
       } else {
         return $this->usuario->registrarOrdenCl($data);
+      }
+	  }
+
+	  public function updateOrden($data) {
+      if ($_SESSION['user_sede'] == 'Peru') {
+        return $this->usuario->updateOrdenPe($data);
+      } else {
+        return $this->usuario->updateOrdenCl($data);
       }
 	  }
 

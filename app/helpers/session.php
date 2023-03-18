@@ -42,6 +42,43 @@
 		}
 	}
 
+	function createdAlert() {
+		if (isset($_SESSION['alerta'])) {
+			echo 'success_modal';
+			unset($_SESSION['alerta']);
+		}
+	}
+
+	function bgFondos() {
+		echo "btn btn-secondary";
+	}
+
+	function bgCompra() {
+		echo "btn btn-info";
+	}
+	
+	function bgAprobado() {
+		echo "btn btn-success";
+	}
+
+	function bgRechazado() {
+		echo "btn btn-danger";
+	}
+
+	function bgEnProceso() {
+		echo "btn btn-warning";
+	}
+
+	function setCurrency() {
+		if (isset($_SESSION['user_sede']) && $_SESSION['user_sede'] == 'Peru') {
+			echo 'S/. ';
+		} elseif (isset($_SESSION['user_sede']) && $_SESSION['user_sede'] == 'Chile') {
+			echo '$. ';
+		} else {
+			echo '';
+		}
+	}
+
 	function fixedFecha($date) {
 		setlocale(LC_TIME, "spanish");
 		$fecha = $date;

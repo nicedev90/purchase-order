@@ -1,6 +1,10 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-
+	const btnReturn = document.querySelector('#btn-return')
+	btnReturn?.addEventListener('click', (e) => {
+		// console.log(e)
+		window.history.back()
+	})
 	// manejar items del form
 	const btnAddItem = document.querySelector('#add_item')
 	btnAddItem?.addEventListener('click', addItem)
@@ -10,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// manejar archivos adjuntos del form
 	const formCrear = document.querySelector('#form_crear')
-	formCrear.addEventListener('submit', checkFiles)
+	formCrear?.addEventListener('submit', checkFiles)
 
 	const addAdjunto = document.querySelector('#add_adjunto')
 	addAdjunto?.addEventListener('click', addRowAdjunto)
@@ -243,7 +247,7 @@ const addItem = () => {
 
       <div class="col-4 d-flex-col  col-md-1 position-relative">
         <label for="" class="d-md-none">Cantidad</label>
-        <input name="item[${num_item}][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
+        <input name="item[${num_item}][cantidad]"  type="number" step="any" min="0"  class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
         <div class="valid-tooltip">Correcto</div>
       </div>
                         
@@ -272,7 +276,7 @@ const addItem = () => {
 
       <div class="col-md-2 mt-2 mt-md-0 position-relative">
         <label for="" class="d-md-none">Valor Referencial</label>
-        <input name="item[${num_item}][valor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
+        <input name="item[${num_item}][valor]" type="number" step="any" min="0"  class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
         <div class="valid-tooltip">  Correcto </div>
       </div>
     `
@@ -293,7 +297,7 @@ const addItem = () => {
 
       <div hidden class="col-4 d-flex-col  col-md-1 position-relative">
         <label for="" class="d-md-none">Cantidad</label>
-        <input name="item[${num_item}][cantidad]"  type="number" class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" autocomplete="off">
+        <input name="item[${num_item}][cantidad]"  type="number" step="any" min="0"  class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" autocomplete="off">
         <div class="valid-tooltip">Correcto</div>
       </div>
                         
@@ -322,7 +326,7 @@ const addItem = () => {
 
       <div class="col-md-3 mt-2 mt-md-0 position-relative">
         <label for="" class="d-md-none">Valor Referencial</label>
-        <input name="item[${num_item}][valor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
+        <input name="item[${num_item}][valor]" type="number" step="any" min="0"  class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
         <div class="valid-tooltip">  Correcto </div>
       </div>
     `

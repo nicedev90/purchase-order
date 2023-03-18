@@ -18,20 +18,36 @@
 			return $minas;
 		}
 
+    // funciones para mostrar en HISTORIAL todoso los Registros
+    public function getAllOrdenesUserPe($user) {
+      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC');
+      $this->db->bind(':user', $user);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getAllOrdenesUserCl($user) {
+      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC');
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    // funciones para tabla INDEX mostrar 10 ultimos registros
 		public function getOrdenesPe($user) {
-			$this->db->query('SELECT *,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_peru WHERE usuario = :user GROUP BY num_os');
+			$this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
 			$this->db->bind(':user', $user);
 			$ordenes = $this->db->getSet();
 			return $ordenes;
 		}
 
 		public function getOrdenesCl($user) {
-			$this->db->query('SELECT num_os,usuario,mina,proveedor,DATE_FORMAT(creado, "%d-%b-%Y") AS creado FROM os_chile WHERE usuario = :user  GROUP BY num_os');
-			$this->db->bind(':user', $user);
-			$ordenes = $this->db->getSet();
-			return $ordenes;
+      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
+      $this->db->bind(':user', $user);
+      $ordenes = $this->db->getSet();
+      return $ordenes;
 		}
 
+    // funciones para ver DETALLES, mostrar info de la orden
     public function getOrdenDataPe($num_os) {
       $this->db->query('SELECT * FROM os_peru WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
@@ -46,7 +62,7 @@
       return $res;
     }
 
-
+    // get mina y categorias segun TIPO de orden para CREAR nueva orden
 		public function getMinaByIdPe($id) {
       $this->db->query('SELECT * FROM minas_pe WHERE id = :id');
       $this->db->bind(':id', $id);
@@ -71,11 +87,12 @@
     	return $res;
     }
 
-    public function getMinaCategCl($id) {
-    	$this->db->query('SELECT * FROM categ_chile WHERE mina_cl_id = :id');
-    	$this->db->bind(':id', $id);
-    	$res = $this->db->getSet();
-    	return $res;
+    public function getMinaCategCl($id,$tipo) {
+      $this->db->query('SELECT * FROM categ_chile WHERE mina_cl_id = :id AND tipo = :tipo');
+      $this->db->bind(':id', $id);
+      $this->db->bind(':tipo', $tipo);
+      $res = $this->db->getSet();
+      return $res;
     }
 
 		public function getNumeroCl() {
@@ -149,6 +166,14 @@
 
         $this->db->execute();
       }
+    }
+
+    public function updateOrdenPe($data) {
+
+    }
+
+    public function updateOrdenCl($data) {
+
     }
 
 

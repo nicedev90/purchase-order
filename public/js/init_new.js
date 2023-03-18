@@ -1,4 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
+	const btnInit = document.querySelector('#btn_init')
+	btnInit?.addEventListener('click', create)
+
 	checkModal()
 })
 
@@ -11,9 +14,8 @@ const checkModal = () => {
 	}
 }
 
-const btnInit = document.querySelector('#btn_init')
 
-btnInit?.addEventListener('click', (e) => {
+const create = (e) => {
 	let btn = e.target
 	let tipo = document.querySelector('input[name="tipo"]:checked')
 	let id = document.querySelector('#mina').value
@@ -31,6 +33,5 @@ btnInit?.addEventListener('click', (e) => {
 		const modalWarning = new bootstrap.Modal(warningModal)
 		modalWarning.show()
 	}
-
-})
+}
 
