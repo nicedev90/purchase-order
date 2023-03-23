@@ -6,6 +6,7 @@
 			$this->db = new Database;
 		}
 
+    // ************ BEGIN INDEX VIEW
 		public function getMinasPe() {
 			$this->db->query('SELECT * FROM minas_pe');
 			$minas = $this->db->getSet();
@@ -18,7 +19,22 @@
 			return $minas;
 		}
 
-    // funciones para mostrar en HISTORIAL todoso los Registros
+    public function getOrdenesPe($user) {
+      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
+      $this->db->bind(':user', $user);
+      $ordenes = $this->db->getSet();
+      return $ordenes;
+    }
+
+    public function getOrdenesCl($user) {
+      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
+      $this->db->bind(':user', $user);
+      $ordenes = $this->db->getSet();
+      return $ordenes;
+    }
+    // ************ END INDEX VIEW
+    // 
+    // ************ BEGIN HISTORIAL VIEW
     public function getAllOrdenesUserPe($user) {
       $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC');
       $this->db->bind(':user', $user);
@@ -32,38 +48,31 @@
       $res = $this->db->getSet();
       return $res;
     }
-
-    // funciones para tabla INDEX mostrar 10 ultimos registros
-		public function getOrdenesPe($user) {
-			$this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
-			$this->db->bind(':user', $user);
-			$ordenes = $this->db->getSet();
-			return $ordenes;
-		}
-
-		public function getOrdenesCl($user) {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
-      $this->db->bind(':user', $user);
-      $ordenes = $this->db->getSet();
-      return $ordenes;
-		}
-
-    // funciones para ver DETALLES, mostrar info de la orden
+    // ************ END HISTORIAL VIEW
+    // 
+    // ************ BEGIN DETALLES VIEW
     public function getOrdenDataPe($num_os) {
-      $this->db->query('SELECT * FROM os_peru WHERE num_os = :num_os');
+      $this->db->query('SELECT o.*, c.categoria AS name_categ, m.nombre AS name_mina FROM os_peru o
+        INNER JOIN  minas_pe m ON o.mina = m.codigo 
+        INNER JOIN categ_peru c ON o.categoria = c.codigo
+        WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $res = $this->db->getSet();
       return $res;
     }
 
     public function getOrdenDataCl($num_os) {
-      $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
+      $this->db->query('SELECT o.*, c.categoria AS name_categ, m.nombre AS name_mina FROM os_chile o
+        INNER JOIN  minas_cl m ON o.mina = m.codigo 
+        INNER JOIN categ_chile c ON o.categoria = c.codigo
+        WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $res = $this->db->getSet();
       return $res;
     }
-
-    // get mina y categorias segun TIPO de orden para CREAR nueva orden
+    // ************ END DETALLES VIEW
+    // 
+    // ************ BEGIN CREAR ORDEN
 		public function getMinaByIdPe($id) {
       $this->db->query('SELECT * FROM minas_pe WHERE id = :id');
       $this->db->bind(':id', $id);
@@ -98,9 +107,9 @@
       $this->db->query('SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1');
       $res =  $this->db->getSingle();
       if ($this->db->rows() > 0) {
-      	return $res;
+        return $res;
       } else {
-      	return false;
+        return false;
       }
     }
 
@@ -178,6 +187,50 @@
       }
     }
 
+    public function getSuperPe($sede,$tipo) {
+      $this->db->query('SELECT funcion,nombre,email FROM supervisores WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getSuperCl($sede,$tipo) {
+      $this->db->query('SELECT funcion,nombre,email FROM supervisores WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function setRevisionPe($num_os,$tipo,$rev1,$rev2) {
+      $this->db->query('INSERT INTO revision_pe (num_os, tipo, revisor_1, revisor_2)
+        VALUES (:num_os, :tipo, :rev1, :rev2)');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':tipo', $tipo);
+      $this->db->bind(':rev1', $rev1);
+      $this->db->bind(':rev2', $rev2);
+
+      $this->db->execute();
+    }
+
+    public function setRevisionCl($num_os,$tipo,$rev1,$rev2) {
+      $this->db->query('INSERT INTO revision_cl (num_os, tipo, revisor_1, revisor_2)
+        VALUES (:num_os, :tipo, :rev1, :rev2)');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':tipo', $tipo);
+      $this->db->bind(':rev1', $rev1);
+      $this->db->bind(':rev2', $rev2);
+
+      $this->db->execute();
+    }
+
+    // ************ END CREAR ORDEN
+
+
+
+
+
     public function updateOrdenPe($data) {
 
     }
@@ -185,6 +238,109 @@
     public function updateOrdenCl($data) {
 
     }
+
+    public function setItemPe($id,$cantidad,$unidad,$descripcion,$proveedor,$valor) {
+      $this->db->query('UPDATE os_peru SET 
+        cantidad = :cantidad,
+        unidad = :unidad,
+        descripcion = :descripcion,
+        proveedor = :proveedor,
+        valor = :valor 
+        WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $this->db->bind(':cantidad', $cantidad);
+      $this->db->bind(':unidad', $unidad);
+      $this->db->bind(':descripcion', $descripcion);
+      $this->db->bind(':proveedor', $proveedor);
+      $this->db->bind(':valor', $valor);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function setItemCl($id,$cantidad,$unidad,$descripcion,$proveedor,$valor) {
+      $this->db->query('UPDATE os_chile SET 
+        cantidad = :cantidad,
+        unidad = :unidad,
+        descripcion = :descripcion,
+        proveedor = :proveedor,
+        valor = :valor 
+        WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $this->db->bind(':cantidad', $cantidad);
+      $this->db->bind(':unidad', $unidad);
+      $this->db->bind(':descripcion', $descripcion);
+      $this->db->bind(':proveedor', $proveedor);
+      $this->db->bind(':valor', $valor);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+    // ********  BEGIN CREAR PDF
+    public function getOrdenItemsPe($num_os) {
+      $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_peru o 
+        INNER JOIN minas_pe m ON o.mina = m.codigo 
+        INNER JOIN categ_peru c ON o.categoria = c.codigo
+        INNER JOIN usuarios u ON o.usuario = u.usuario
+        WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenFilesPe($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenRevisionPe($num_os) {
+      $this->db->query('SELECT * FROM revision_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenItemsCl($num_os) {
+      $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_chile o 
+        INNER JOIN minas_cl m ON o.mina = m.codigo 
+        INNER JOIN categ_chile c ON o.categoria = c.codigo
+        INNER JOIN usuarios u ON o.usuario = u.usuario
+        WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenFilesCl($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenRevisionCl($num_os) {
+      $this->db->query('SELECT * FROM revision_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    // ********  END CREAR PDF
+
+
+
+
 
 
 

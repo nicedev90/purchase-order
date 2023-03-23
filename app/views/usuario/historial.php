@@ -49,7 +49,7 @@
                 <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
                 <td class="fw-bold">
                   <?php if (strtoupper($orden->tipo) == 'FONDOS') : ?>
-                    <span class="<?= bgFondos() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
+                    <span class="<?= bgFondos() ?> btn-sm"><?php echo setName($orden->tipo) ?></span> 
                   <?php else: ?>
                     <span class="<?= bgCompra() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
                   <?php endif; ?>

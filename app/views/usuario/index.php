@@ -119,7 +119,7 @@
             <div class="d-flex justify-content-between justify-content-md-around col-md-10">
               <div class="col-4 col-md-3 form-check ">
                 <input class="form-check-input" type="radio" name="tipo" id="tipoFondos" value="Fondos" required>
-                <label class="form-check-label fw-bold" for="tipoFondos"> FONDOS </label>
+                <label class="form-check-label fw-bold" for="tipoFondos"> <?= setTipoBySede() ?> </label>
               </div>
 
               <div class="col-4 col-md-3 form-check ">
@@ -176,7 +176,7 @@
                 <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
                 <td class="fw-bold">
                   <?php if (strtoupper($orden->tipo) == 'FONDOS') : ?>
-                    <span class="<?= bgFondos() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
+                    <span class="<?= bgFondos() ?> btn-sm"><?php echo setName($orden->tipo); ?></span> 
                   <?php else: ?>
                     <span class="<?= bgCompra() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
                   <?php endif; ?>

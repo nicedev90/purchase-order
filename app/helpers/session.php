@@ -9,6 +9,22 @@
 		}
 	}
 
+	function setName($tipo) {
+		if ($_SESSION['user_sede'] == 'Peru') {
+			echo "CAJA CHICA";
+		} else {
+			echo strtoupper($tipo);
+		}
+	}
+
+	function setTipoBySede() {
+		if ($_SESSION['user_sede'] == 'Peru') {
+			echo "CAJA CHICA";
+		} else {
+			echo "FONDOS";
+		}
+	}
+
 	function showAlert() {
 
 		if (!empty($_SESSION['alerta']) && !empty($_SESSION['mensaje'])) {

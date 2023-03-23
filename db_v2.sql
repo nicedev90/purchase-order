@@ -261,5 +261,15 @@ INSERT INTO revision_areas (sede,tipo,area_1,area_2) VALUES
   ('Chile', 'Compra', 'compras chile 1', 'compras chile 2');
 
 
+CREATE TABLE supervisores (
+id INT NOT NULL AUTO_INCREMENT,
+sede VARCHAR (30) NOT NULL,
+tipo VARCHAR (30) NOT NULL,
+funciton VARCHAR (30) NOT NULL,
+nombre VARCHAR (100) NOT NULL,
+email VARCHAR(100) NOT NULL,
+PRIMARY KEY (id)
+)ENGINE=INNODB;
+
 
 

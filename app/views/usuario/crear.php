@@ -15,73 +15,6 @@
   </div>
 
   <section class="section dashboard">
-    <!--  **************** CARDS **************** -->
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="row">
-
-          <div class="col-lg-4">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                  </div>
-
-                  <div class="ps-3">
-                    <h6>145</h6>
-                    <a href="<?php echo URLROOT; ?>/encargados/consultar_os">
-                      <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Historial OS
-                        <i class="bi bi-folder"></i>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <div class="card info-card customers-card">
-              <div class="card-body">
-                <h5 class="card-title">Última Orden <span>| Creada</span></h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-send-check-fill"></i>
-                  </div>
-                  <div class="ps-3">
-                    <h6>OS N°50</h6>
-                    <a href="" data-bs-toggle="modal" data-bs-target="#largeModal">
-                      <span class="text-success pt-1 small pt-1 fw-bold"> Ver Detalles
-                        <i class="bi bi-files"></i>
-                      </span>
-                    </a>
-                    <?php require APPROOT . '/views/usuario/partials/modal_ultima_orden.php'; ?>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <h5 class="card-title">Orden Completas <span>| Aceptadas</span></h5>
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-clipboard2-check-fill"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
-
-        </div>
-    </div>
 
 
     <!-- ======= INICIO FORMULARIO ======= -->
@@ -103,7 +36,7 @@
           <div class="col-md-6 d-flex justify-content-around justify-content-md-between justify-content-md-end align-items-center"> 
             <?php if (strtoupper($data['tipo_os']) == 'FONDOS') : ?>
               <div class="col-md-4 p-2 fw-bold <?= bgFondos() ?> rounded text-center">
-                <b><?php echo strtoupper($data['tipo_os']) ?></b>
+                <b><?php echo setName($data['tipo_os']) ?></b>
               </div>
             <?php else : ?>
               <div class="col-md-4 p-2 fw-bold <?= bgCompra() ?> rounded text-center">
@@ -229,7 +162,7 @@
           <div class="row mb-3 d-none d-md-flex text-sm text-center">
             <div class="col-md-1">Item  </div>
             <div class="col-md-8">Descripcion </div>
-            <div class="col-md-3">Valor Refer. </div>
+            <div class="col-md-3">Monto </div>
           </div>
 
           <!-- FILA 4 Filas de Items -->
