@@ -237,7 +237,7 @@
         $totalFiles = count($files['name']);
 
     		mkdir('../public/files/pe/' . $num_os);
-        $filesDir = '../public/files/pe/' . $num_os . '/';
+        $filesDir = '../public/files/pe/' . $num_os;
 
       	$enlaces = [];
         // array de archivos, primer index = 1
