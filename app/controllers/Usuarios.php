@@ -142,7 +142,7 @@
 
 				$archivos = $_FILES['adjunto']['name'];
 
-				if (count($archivos) > 0) {
+				if (!empty($archivos)) {
         	// array de archivos name="adjunto[]"
       		$files = $_FILES['adjunto'];
       		$urlFiles = $this->uploadFiles($files,$num_os);
@@ -236,9 +236,9 @@
 	  	if ($_SESSION['user_sede'] == 'Peru') {
         $totalFiles = count($files['name']);
 
-    		mkdir('../public/files/pe/' . $num_os, 6640, true);
-        // $filesDir = '../public/files/pe/' . $num_os . '/';
-        $filesDir = '../public/files/pe/' . $num_os;
+    		mkdir('../public/files/pe/' . $num_os);
+        $filesDir = '../public/files/pe/' . $num_os . '/';
+        // $filesDir = '../public/files/pe/' . $num_os;
 
       	$enlaces = [];
         // array de archivos, primer index = 1
