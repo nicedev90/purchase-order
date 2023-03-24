@@ -153,14 +153,14 @@
 				$enviarData = $this->enviarOrden($data);
 
 
-        $tipo = $_POST['item'][1]['tipo'];
+        // $tipo = $_POST['item'][1]['tipo'];
 
-        $revs = $this->getSupervisores($tipo);
+        // $revs = $this->getSupervisores($tipo);
 
-        $rev1 = $revs[0]->nombre;
-        $rev2 = $revs[1]->nombre;
+        // $rev1 = $revs[0]->nombre;
+        // $rev2 = $revs[1]->nombre;
 
-        $this->setRevision($num_os,$tipo,$rev1,$rev2);
+        // $this->setRevision($num_os,$tipo,$rev1,$rev2);
 				
 
 			// echo "<pre>";
@@ -171,7 +171,7 @@
 
 
 				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
-				if ($enviarData == 0) {
+				if ($enviarData) {
 					// set index 'alerta' para mostrar modal SUCCESS en INDEX
 					$_SESSION['alerta'] = 'success';
 					redirect('usuarios/index');
@@ -236,7 +236,8 @@
 	  	if ($_SESSION['user_sede'] == 'Peru') {
         $totalFiles = count($files['name']);
 
-    		mkdir('../public/files/pe/' . $num_os, 6640, true);
+    		// mkdir('../public/files/pe/' . $num_os, 6640, true);
+    		mkdir('../public/files/pe/' . $num_os);
         $filesDir = '../public/files/pe/' . $num_os . '/';
         // $filesDir = '../public/files/pe/' . $num_os;
 

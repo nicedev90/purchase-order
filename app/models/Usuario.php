@@ -140,7 +140,12 @@
         $this->db->bind(':estado', $row['estado']);
         $this->db->bind(':valor', $row['valor']);
 
-        $this->db->execute();
+        $saved = $this->db->execute();
+        if ($saved) {
+          return true;
+        } else {
+          return false;
+        }
       }            
     }
 
@@ -161,7 +166,12 @@
         $this->db->bind(':estado', $row['estado']);
         $this->db->bind(':valor', $row['valor']);
 
-        $this->db->execute();
+        $saved = $this->db->execute();
+        if ($saved) {
+          return true;
+        } else {
+          return false;
+        }
       }            
     }
 
