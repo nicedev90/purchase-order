@@ -236,7 +236,7 @@
 	  	if ($_SESSION['user_sede'] == 'Peru') {
         $totalFiles = count($files['name']);
 
-    		mkdir('../public/files/pe/' . $num_os);
+    		mkdir('../public/files/pe/' . $num_os, 6640, true);
         $filesDir = '../public/files/pe/' . $num_os . '/';
         // $filesDir = '../public/files/pe/' . $num_os;
 
