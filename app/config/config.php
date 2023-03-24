@@ -1,13 +1,13 @@
 <?php 
 	define('DB_HOST', '127.0.0.1');
 	define('DB_USER', 'root');
-	// define('DB_PASS', '');
-	define('DB_PASS', 'root');
+	define('DB_PASS', '');
+	// define('DB_PASS', 'root');
 	define('DB_NAME', 'ordenes1');
 
 	define('APPROOT', dirname(dirname(__FILE__)));
-	// define('URLROOT', 'http://192.168.8.100/purchase-order');
-	define('URLROOT', 'https://nicedev90.pro/purchase-order');
+	define('URLROOT', 'http://192.168.8.100/purchase-order');
+	// define('URLROOT', 'https://nicedev90.pro/purchase-order');
 	define('APPNAME', 'SOS CLONSA');
 
 //	define('DB_HOST', '190.107.177.60');
