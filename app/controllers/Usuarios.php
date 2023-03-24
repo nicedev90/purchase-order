@@ -237,7 +237,7 @@
         $totalFiles = count($files['name']);
 
     		// mkdir('../public/files/pe/' . $num_os, 6640, true);
-    		mkdir('/home/ubuntu/html/purchase-order/public/files/pe/' . $num_os);
+    		mkdir('/var/www/html/purchase-order/public/files/pe/' . $num_os, 6640, true);
         // $filesDir = '../public/files/pe/' . $num_os . '/';
         $filesDir = '../public/files/pe/' . $num_os;
 
