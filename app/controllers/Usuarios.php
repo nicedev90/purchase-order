@@ -163,11 +163,11 @@
         $this->setRevision($num_os,$tipo,$rev1,$rev2);
 				
 
-			// echo "<pre>";
-			// echo $tipo . "<br>" . $num_os . ' ' . $rev1 . '   ' . $rev2;
-			// print_r($revs);
+			echo "<pre>";
+			echo $tipo . "<br>" . $num_os . ' ' . $rev1 . '   ' . $rev2;
+			print_r($revs);
 
-			// die();
+			die();
 
 
 				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
