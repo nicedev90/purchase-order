@@ -238,8 +238,8 @@
 
     		// mkdir('../public/files/pe/' . $num_os, 6640, true);
     		mkdir('../public/files/pe/' . $num_os);
-        $filesDir = '../public/files/pe/' . $num_os . '/';
-        // $filesDir = '../public/files/pe/' . $num_os;
+        // $filesDir = '../public/files/pe/' . $num_os . '/';
+        $filesDir = '../public/files/pe/' . $num_os;
 
       	$enlaces = [];
         // array de archivos, primer index = 1
