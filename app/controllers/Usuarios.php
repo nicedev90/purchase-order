@@ -241,8 +241,8 @@
     		// $old = umask(0000);
     		// mkdir('/var/www/html/purchase-order/public/files/pe/' . $num_os, 6640, true);
     		// umask($old);
-        // $filesDir = '../public/files/pe/' . $num_os . '/';
-        $filesDir = '../public/files/pe/' . $num_os;
+        $filesDir = '../public/files/pe/' . $num_os . '/';
+        // $filesDir = '../public/files/pe/' . $num_os;
 
       	$enlaces = [];
         // array de archivos, primer index = 1
