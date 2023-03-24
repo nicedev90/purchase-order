@@ -265,11 +265,21 @@ CREATE TABLE supervisores (
 id INT NOT NULL AUTO_INCREMENT,
 sede VARCHAR (30) NOT NULL,
 tipo VARCHAR (30) NOT NULL,
-funciton VARCHAR (30) NOT NULL,
+funcion VARCHAR (30) NOT NULL,
 nombre VARCHAR (100) NOT NULL,
 email VARCHAR(100) NOT NULL,
-PRIMARY KEY (id)
+PRIMARY KEY (id)  
 )ENGINE=INNODB;
 
+
+INSERT INTO `supervisores` (`id`, `sede`, `tipo`, `funcion`, `nombre`, `email`) VALUES
+(1, 'Peru', 'Compra', 'sup_1', 'Enzo Jimenez', 'jluis@g.com'),
+(2, 'Peru', 'Compra', 'sup_2', 'Hans Morales', ''),
+(3, 'Peru', 'Fondos', 'sup_1', 'Francisco Duran', ''),
+(4, 'Peru', 'Fondos', 'sup_2', 'Francisco Duran', ''),
+(5, 'Chile', 'Compra', 'sup_1', 'Juan Carlos Valdivia', ''),
+(6, 'Chile', 'Compra', 'sup_2', 'Victor Castillo', ''),
+(7, 'Chile', 'Fondos', 'sup_1', 'Juan Carlos Valdivia', ''),
+(8, 'Chile', 'Fondos', 'sup_2', 'Enrique Porras', '');
 
 
