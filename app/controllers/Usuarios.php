@@ -237,7 +237,9 @@
         $totalFiles = count($files['name']);
 
     		// mkdir('../public/files/pe/' . $num_os, 6640, true);
-    		mkdir('/var/www/html/purchase-order/public/files/pe/' . $num_os, 6640, true);
+    		$old = umask(0000);
+    		mkdir('../public/files/pe/' . $num_os);
+    		umask($old);
         // $filesDir = '../public/files/pe/' . $num_os . '/';
         $filesDir = '../public/files/pe/' . $num_os;
 
