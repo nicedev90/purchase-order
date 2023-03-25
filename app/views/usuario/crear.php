@@ -56,7 +56,7 @@
 
         <form id="form_crear" action="<?php echo URLROOT; ?>/usuarios/crear " class="col-md-12 mt-4 mt-md-2 needs-validation" novalidate method="POST" enctype="multipart/form-data">
           
-          <!-- FILA 0  mina - categoria -->
+          <!-- FILA 1  mina - categoria -->
           <div class="row my-3 d-flex">
             <input type="hidden" name="item[1][num_os]" id="num_os"  value="<?php echo $data['numero_os']; ?>">
             <input type="hidden" name="item[1][usuario]" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
@@ -108,20 +108,18 @@
           <!-- FILA 4 Filas de Items -->
           <div id="lista">
             <div id="1" class="row mb-3">
-              <!-- INICIO INPUT ITEM -->
+            
               <div class="col-4 d-flex-col col-md-1 position-relative">
                 <label for="" class="d-md-none">Item</label>
                 <input type="text" name="item[1][item]" class="form-control-plaintext form-control-sm text-center" id="numItem" value="1" required readonly>
               </div>
-              <!-- FIN INPUT ITEM -->
-              <!-- INICIO INPUT CANTIDAD -->
+
               <div class="col-4 d-flex-col  col-md-1 position-relative">
                 <label for="" class="d-md-none">Cantidad</label>
                 <input name="item[1][cantidad]"  type="number" step="any" min="0"  class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required  autocomplete="off">
                 <div class="valid-tooltip">Correcto</div>
               </div>
-              <!-- FIN INPUT CANTIDAD -->
-              <!-- INICIO SELECT UNIDAD -->
+
               <div class="col-4 d-flex-col flex-col  col-md-1 position-relative">
                 <label for="" class="d-md-none">Unidad</label>
                 <select name="item[1][unidad]" class="form-control form-control-sm" id="validationTooltip04" required>
@@ -132,7 +130,6 @@
                 </select>
                 <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
               </div>
-              <!-- FIN SELECT UNIDAD -->
 
               <div class="col-md-5 mt-2 mt-md-0 position-relative">
                 <label for="" class="d-md-none">Descripcion</label>
@@ -217,9 +214,18 @@
 
           <?php endif; ?>
 
+          <!-- FILA 5 OBSERVACIONES -->
+          <div class="d-flex-col mt-3 alert alert-secondary p-2">
+            <div class="d-flex-col justify-content-md-start p-2">
+                <label for="observaciones" class="fw-bold" >Observaciones</label>
+                <input name="observaciones" type="text" class="form-control form-control-sm " id="observaciones" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" autocomplete="off">
+                <div class="valid-tooltip">  Correcto </div>
+            </div>
+          </div>
 
 
-          <!-- FILA 5 ENLACES -->
+
+          <!-- FILA 6 ENLACES -->
           <div class="d-flex-col mt-3 alert alert-info p-2">
 
             <div class="d-flex-col d-md-flex justify-content-md-start">
@@ -233,24 +239,29 @@
                   <button id="add_link" class="btn btn-sm btn-success" type="button"> + Agregar Enlace</button>
                 </div>
 
-                <div class="col-md-5">
+<!--                 <div class="col-md-5">
                   <button id="delete_link" class="btn btn-sm btn-danger" type="button"> - Eliminar Enlace</button>
-                </div>
+                </div> -->
               </div>
             </div>
 
-            <div class="d-flex-col d-md-flex mt-2 mx-1 ">
-              <div class="d-flex col-12 mt-3 mt-md-1" id="lista_enlace">
-                <div class="col-md-2 btn">Enlace</div>
-                <input name="enlace[1]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ingrea el enlace" autocomplete="off">
+            
+            <div class="d-flex-col col-12 mt-3 mt-md-1" id="lista_enlace" data-link="1">
+              <input type="hidden" name="enlaces[1][num_os]" value="<?php echo $data['numero_os']; ?>">
+
+              <div id="link_1" class="d-flex-col  col-12">
+                <div class="col-md-2 btn">Enlace 1</div>
+                <input name="enlaces[1][enlace]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ingrea el enlace" autocomplete="off">
                 <div class="valid-tooltip">  Correcto </div>
-
               </div>
+
+
             </div>
+           
 
           </div>
             
-          <!-- FILA 6 ARCHIVOS ADJUNTOS -->
+          <!-- FILA 7 ARCHIVOS ADJUNTOS -->
           <div class="d-flex-col mt-3 alert alert-secondary p-2">
 
             <div class="d-flex-col d-md-flex justify-content-md-start">
@@ -294,7 +305,7 @@
 
           </div>
 
-          <!-- FILA 7 BOTON DE ENVIAR -->
+          <!-- FILA 8 BOTON DE ENVIAR -->
           <div class="row col-12 col-md-5 mx-auto">
             <button name="guardar_os" class="p-3 fw-bold btn btn-primary" type="submit">ENVIAR</button>
           </div>
@@ -350,6 +361,27 @@
     </div>
   </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="adjunto_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Solo puede agregar 5 archivos
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script src="<?php echo URLROOT; ?>/js/form_usuario.js"></script>

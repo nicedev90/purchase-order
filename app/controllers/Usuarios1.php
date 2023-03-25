@@ -119,6 +119,7 @@
 				}
 
 
+
 				$controller = strtolower(get_called_class());
 				$method = ucwords(__FUNCTION__);
 
@@ -165,27 +166,37 @@
         	$files = '';
         }
 
+
 				$enviarData = $this->enviarOrden($data);
 
-					// enviar enlaces
-					$enlaces = $_POST['enlaces'];
-					$this->setEnlaces($enlaces);
+				$enlaces = $_POST['enlaces'];
+				$this->setEnlaces($enlaces);
 
-					// enviar aprobaciones
-	        $tipo = $_POST['item'][1]['tipo'];
-	        $revs = $this->getSupervisores($tipo);
 
-	        $rev1 = $revs[0]->nombre;
-	        $rev2 = $revs[1]->nombre;
+        $tipo = $_POST['item'][1]['tipo'];
 
-	        $this->setRevision($num_os,$tipo,$rev1,$rev2);
-					// enviar observaciones
-					if (isset($_POST['observaciones'])) {
-	        	$obs = $_POST['observaciones'];
+        $revs = $this->getSupervisores($tipo);
 
-	        	$this->setObservaciones($num_os,$obs);
-	        } 
-		
+        $rev1 = $revs[0]->nombre;
+        $rev2 = $revs[1]->nombre;
+
+        $this->setRevision($num_os,$tipo,$rev1,$rev2);
+				
+
+				if (isset($_POST['observaciones'])) {
+        	$obs = $_POST['observaciones'];
+
+        	$this->setObservaciones($num_os,$obs);
+        } 
+
+			// echo "<pre>";
+			// echo $tipo . "<br>" . $num_os . ' ' . $rev1 . '   ' . $rev2;
+			// print_r($revs);
+
+			// die();
+
+
+				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
 				if ($enviarData) {
 					// set index 'alerta' para mostrar modal SUCCESS en INDEX
 					$_SESSION['alerta'] = 'success';
@@ -266,27 +277,35 @@
 
 	  	if ($_SESSION['user_sede'] == 'Peru') {
 
-      	$totalFiles = count($files['name']);
+        	$totalFiles = count($files['name']);
 
-    		mkdir('../public/files/pe/' . $num_os);
-        $filesDir = '../public/files/pe/' . $num_os . '/';
+        	// mkdir('../public/files/pe/' . $num_os, 6640, true);
+	    		mkdir('../public/files/pe/' . $num_os);
+	    		// $old = umask(0000);
+	    		// mkdir('/var/www/html/purchase-order/public/files/pe/' . $num_os, 6640, true);
+	    		// umask($old);
+	        $filesDir = '../public/files/pe/' . $num_os . '/';
+	        // $filesDir = '../public/files/pe/' . $num_os;
 
-      	$enlaces = [];
-        // array de archivos, primer index = 1
-	        for ($i = 1; $i <= $totalFiles; $i++) {
-	        	$i_name = $files['name'][$i];
-						$i_tmp = $files['tmp_name'][$i];
+	      	$enlaces = [];
+	        // array de archivos, primer index = 1
+		        for ($i = 1; $i <= $totalFiles; $i++) {
+		        	$i_name = $files['name'][$i];
+							$i_tmp = $files['tmp_name'][$i];
 
-						move_uploaded_file($i_tmp, $filesDir . $i_name);
+							move_uploaded_file($i_tmp, $filesDir . $i_name);
 
-						$urlAdjunto[$i] = '/files/pe/' . $num_os . '/' . $i_name;
-		        $enlaces[$i]['num_os'] = $num_os;
-		        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
-	        }
+							$urlAdjunto[$i] = '/files/pe/' . $num_os . '/' . $i_name;
+			        $enlaces[$i]['num_os'] = $num_os;
+			        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
+		        }
 
-        $this->usuario->guardarAdjuntoPe($enlaces);
+	        $this->usuario->guardarAdjuntoPe($enlaces);
+
+
 
       } else {
+
     		$totalFiles = count($files['name']);
 
     		mkdir('../public/files/cl/' . $num_os);
@@ -366,7 +385,6 @@
 
 		public function editar($num_os = null) {
 
-			// click en el boton editar
 			if (isset($_POST['edit_item'])) {
 				$id = $_POST['id'];
 				$cantidad = $_POST['cantidad'];
@@ -383,23 +401,8 @@
 				if ($updated) {
 					redirect('usuarios/editar' . '/' . $num_os);
 				}
-			}
 
-			// click en boton editar enlace
-			if (isset($_POST['edit_link'])) {
-				$id = $_POST['id'];
-				$enlace = $_POST['enlace'];
-
-				$num_os = $_POST['num_os'];
-
-
-				$upLink = $this->updateEnlace($id,$enlace);
-
-				if ($upLink) {
-					redirect('usuarios/editar' . '/' . $num_os);
-				}
 			}  
-
 
 			if (is_null($num_os)) {
 				redirect('usuarios/index');
@@ -411,22 +414,8 @@
 				$controller = strtolower(get_called_class());
 				$method = ucwords(__FUNCTION__);
 
-				if ($_SESSION['user_sede'] == 'Peru') {
-					$enlaces = $this->usuario->getEnlacesPe($num_os);
-					$observ = $this->usuario->getObsPe($num_os);
-					$files = $this->usuario->getAdjuntosPe($num_os);
-					if (count($files) > 0) {
-						$adjuntos = $files;
-					} else {
-						$adjuntos = '';
-					}
-				}
-
 				$data = [
 					'orden' => $orden,
-					'enlaces' => $enlaces,
-					'observ' => $observ,
-					'adjuntos' => $adjuntos,
 					'pagename' => $method,
 					'controller' => $controller
 				];
@@ -438,14 +427,6 @@
 		
 
 			// $updateOrden = $this->updateOrden($data);
-		}
-
-		public function updateEnlace($id,$enlace) {
-			if ($_SESSION['user_sede'] == 'Peru') {
-        return $this->usuario->updateEnlacePe($id,$enlace);
-      } else {
-        return $this->usuario->updateEnlaceCl($id,$enlace);
-      }
 		}
 
 		public function setItem($id,$cantidad,$unidad,$descripcion,$proveedor,$valor) {

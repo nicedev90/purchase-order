@@ -1,6 +1,6 @@
 <?php if (strtoupper($data['orden'][0]->tipo)  == 'FONDOS') : ?>
 
-  <div class="modal fade" id="edit_item_<?= $orden->id ?>" tabindex="-1">
+  <div class="modal fade" id="edit_enlace_<?= $link->id ?>" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
@@ -8,24 +8,17 @@
           <div class="card">
             <div class="card-body"> 
               <form action="" class="col-md-12 needs-validation" novalidate method="POST" >
-                <input type="hidden" name="id" value="<?php echo $orden->id ?>">
-                <input type="hidden" name="num_os" value="<?php echo $orden->num_os ?>">
+                <input type="hidden" name="id" value="<?php echo $link->id ?>">
+                <input type="hidden" name="num_os" value="<?php echo $link->num_os ?>">
 
                 <div class="my-3 mt-2 mt-md-0 position-relative">
-                  <label for="">Descripcion</label>
-                  <input name="descripcion" type="text" class="form-control form-control-sm" id="" value="<?= $orden->descripcion ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
+                  <label for="">Enlace</label>
+                  <input name="enlace" type="text" class="form-control form-control-sm" id="" value="<?= $link->enlace ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
                   <div class="valid-tooltip"> Correcto </div>
                 </div>
 
-                <div class="col-md-6 mt-2 mt-md-0 position-relative">
-                  <label for="" >Monto</label>
-                  <input name="valor" type="number" class="form-control form-control-sm " id="validationTooltip02" value="<?=$orden->valor?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
-                  <div class="valid-tooltip">  Correcto </div>
-                </div>
-
-
                 <div class="row col-12 col-md-5 pt-4 mx-auto">
-                  <button name="edit_item" class="p-3 fw-bold btn btn-primary" type="submit">ACTUALIZAR</button>
+                  <button name="edit_link" class="p-3 fw-bold btn btn-primary" type="submit">ACTUALIZAR LINK</button>
                 </div>
 
               </form>

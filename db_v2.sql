@@ -282,4 +282,20 @@ INSERT INTO `supervisores` (`id`, `sede`, `tipo`, `funcion`, `nombre`, `email`) 
 (7, 'Chile', 'Fondos', 'sup_1', 'Juan Carlos Valdivia', ''),
 (8, 'Chile', 'Fondos', 'sup_2', 'Enrique Porras', '');
 
+CREATE TABLE obs_cl (
+id INT NOT NULL AUTO_INCREMENT,
+num_os VARCHAR(20) NOT NULL,
+observaciones VARCHAR(100) NOT NULL,
+creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
+
+CREATE TABLE obs_pe (
+id INT NOT NULL AUTO_INCREMENT,
+num_os VARCHAR(20) NOT NULL,
+observaciones VARCHAR(100) NOT NULL,
+creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY(id)
+)ENGINE=INNODB;
+
 

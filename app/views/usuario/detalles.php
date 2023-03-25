@@ -244,8 +244,42 @@
             </div>
           </div>
 
-
         <!-- FILA 5- botones  -->
+        <div class="row d-md-flex-col p-4  my-0 justify-content-start card-title">
+          <div class="col-6 col-md-3 p-1">Observaciones  : </div>
+          <?php if (!empty($data['observ'][0]->observaciones)) : ?>
+          <?php foreach($data['observ'] as $obs) : ?>
+            <input type="text" class="my-1 px-2 form-control-plaintext form-control-sm alert alert-info text-dark" value=" <?= $obs->observaciones ?>" readonly>
+          <?php endforeach; ?>
+        <?php endif; ?>
+        </div>
+
+        <!-- FILA 6 - botones  -->
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-3 p-1">Enlaces  : </div>
+          <?php if (!empty($data['enlaces'][0]->enlace)) : ?>
+          <?php foreach($data['enlaces'] as $link) : ?>
+            <input type="text" class="my-1 px-2 form-control-plaintext form-control-sm alert alert-warning text-dark" value=" <?= $link->enlace ?>" readonly>
+          <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-3 p-1">Adjuntos  : </div>
+          <div class="d-md-flex alert alert-success text-dark ">
+            <?php if (!empty($data['adjuntos'])) : ?>
+              <?php foreach($data['adjuntos'] as $adjunto) : ?>              
+                <div class="row col-md-4 p-4">
+                  <img src="<?= URLROOT . $adjunto->archivo ?>" style="width:40%" class="img-thumbnail">
+                  <a href="<?= URLROOT . $adjunto->archivo ?>" target="_blank"> Ver Completo  </a>
+                </div>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </div>
+        </div>
+
+
+        <!-- FILA 7  botones  -->
         <div class="row d-md-flex flex-md-row flex-column-reverse p-2 justify-content-around justify-content-md-between justify-content-md-end align-items-center">
           <?php if (strtoupper($data['orden'][0]->estado)  == 'APROBADO') : ?>
             <button id="btn-return" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">

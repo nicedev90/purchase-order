@@ -205,7 +205,7 @@
                  <i class="bi bi-trash"></i>  
               </a> -->
 
-              <a href="" data-bs-toggle="modal" data-bs-target="#edit_modal_<?= $orden->id ?>" class=" btn btn-success fw-bold">
+              <a href="" data-bs-toggle="modal" data-bs-target="#edit_item_<?= $orden->id ?>" class=" btn btn-success fw-bold">
                 
                 <i class="bi bi-pencil-square"></i>  
               </a>
@@ -222,6 +222,7 @@
             </div>
 
           </div>
+
           <?php require APPROOT . '/views/usuario/partials/modal_edit_item.php'; ?>
 
         <?php endforeach; ?>
@@ -241,6 +242,33 @@
               <div class="col-6 col-md-4 p-1 btn btn-secondary"> <?= setCurrency() . number_format(floatval($total), 2, '.', ' ') ?></div>
             </div>
           </div>
+
+          <!-- fila 5 editar enlaces -->
+          <div class="col-6 col-md-3 p-1">Enlaces  : </div>
+            <?php foreach($data['enlaces'] as $link) : ?>
+              <div class="row mt-2 d-md-flex justify-content-md-start justify-content-around align-items-center ">
+                <div class="row d-md-flex justify-content-md-between ">
+                  <div class="row col-12">
+                    <div class="col-md-6 fw-bold  bg-light"> 
+                      <a href="" data-bs-toggle="modal" data-bs-target="#edit_enlace_<?= $link->id ?>" class="col-md-3 btn btn-success fw-bold">
+                        <i class="bi bi-pencil-square"></i>  
+                      </a>
+                    </div>
+                    <div class="col-md-6 bg-light"> <?= $link->enlace ?> </div>
+                  </div>
+                </div>
+              </div>
+
+              <?php require APPROOT . '/views/usuario/partials/modal_edit_enlace.php'; ?>
+            <?php endforeach; ?>
+          </div>
+
+
+
+
+
+
+
 
 
         <!-- FILA 5- botones  -->

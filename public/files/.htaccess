@@ -1,7 +1,1 @@
-<IfModule mod_rewrite.c>
-
-Options +FollowSymLinks
-RewriteEngine On
-RewriteRule ^(.+\.jpeg|.png|.gif|.jpg)$ img.php?img=$1 [L]
-
-</ifModule>
+Options -Indexes +FollowSymLinks

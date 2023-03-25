@@ -22,11 +22,57 @@ window.addEventListener('DOMContentLoaded', () => {
 	const deleteAdjunto = document.querySelector('#delete_adjunto')
 	deleteAdjunto?.addEventListener('click', deleteRowAdjunto)
 
+	const addLink = document.querySelector('#add_link')
+	addLink?.addEventListener('click', addRowLink)
+
+	const deleteLink = document.querySelector('#delete_link')
+	deleteLink?.addEventListener('click', deleteRowLink)
+
 	// cargar primer adjunto
 	const adjunto1 = document.querySelector('#adjunto1')
 	adjunto1?.addEventListener('change', readFile)
 
 })
+
+const listaEnlace = document.querySelector('#lista_enlace')
+const addRowLink = () => {
+
+	const n_osLink = document.querySelector('#num_os')
+	const n_os = n_osLink.value
+
+	let numLink, linkCount =2
+	let lastLink = listaEnlace.lastChild.id
+
+	if (lastLink) {
+		numLink = lastLink.slice(5)
+		console.log(numLink)
+	} 
+	
+	if (numLink >= 1) {
+		linkCount = +numLink+1
+		console.log(linkCount)
+
+	}
+	
+	const linkRow = document.createElement('div')
+	linkRow.classList.add('d-flex-col','col-12')
+	linkRow.setAttribute('id', `link_${linkCount}`)
+
+	linkContent =   `
+			<input type="hidden" name="enlaces[${linkCount}][num_os]" value="${n_os}">
+		  <div class="col-md-2 btn">Enlace ${linkCount}</div>
+      <input name="enlaces[${linkCount}][enlace]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ingrea el enlace" autocomplete="off">
+      <div class="valid-tooltip">  Correcto </div>
+	  ` 
+
+	linkRow.innerHTML = linkContent
+	listaEnlace.append(linkRow)
+	console.log(linkRow)
+
+
+}
+
+
 
 const checkFiles = (e) => {
 	const formul = e.target
@@ -108,7 +154,13 @@ const addRowAdjunto = () => {
 	if (adjunto5) {
 		const addAdjunto = document.querySelector('#add_adjunto')
 		addAdjunto.removeEventListener('click', addRowAdjunto)
-		alert('No puede agregar más de 5 archivos adjuntos.')
+
+		const adjuntoModal = document.querySelector('#adjunto_modal')
+		const modalAdj = new bootstrap.Modal(adjuntoModal)
+		modalAdj.show()
+
+		// e.preventDefault()
+		// alert('No puede agregar más de 5 archivos adjuntos.')
 	} 
 
 	initFiles()

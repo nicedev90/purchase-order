@@ -52,10 +52,13 @@
     // 
     // ************ BEGIN DETALLES VIEW
     public function getOrdenDataPe($num_os) {
-      $this->db->query('SELECT o.*, c.categoria AS name_categ, m.nombre AS name_mina FROM os_peru o
+      $this->db->query('SELECT o.*, 
+        c.categoria AS name_categ, 
+        m.nombre AS name_mina
+        FROM os_peru o
         INNER JOIN  minas_pe m ON o.mina = m.codigo 
         INNER JOIN categ_peru c ON o.categoria = c.codigo
-        WHERE num_os = :num_os');
+        WHERE o.num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $res = $this->db->getSet();
       return $res;
@@ -70,6 +73,36 @@
       $res = $this->db->getSet();
       return $res;
     }
+
+    public function getEnlacesPe($num_os) {
+      $this->db->query('SELECT * FROM enlaces_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getObsPe($num_os) {
+      $this->db->query('SELECT * FROM obs_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getAdjuntosPe($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getAdjuntosCl($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+
     // ************ END DETALLES VIEW
     // 
     // ************ BEGIN CREAR ORDEN
@@ -102,6 +135,56 @@
       $res = $this->db->getSet();
       return $res;
     }
+
+    public function setObsPe($num_os,$obs) {
+      $this->db->query('INSERT INTO obs_pe (num_os, observaciones)
+          VALUES (:num_os, :obs)');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':obs', $obs);
+      $this->db->execute();
+    }
+
+    public function setObsCl($num_os,$obs) {
+      $this->db->query('INSERT INTO obs_cl (num_os, observaciones)
+          VALUES (:num_os, :obs)');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':obs', $obs);
+      $this->db->execute();
+    }
+
+    public function setEnlacesPe($enlaces) {
+      foreach($enlaces as $row) {
+        $this->db->query('INSERT INTO enlaces_pe (num_os,enlace) 
+            VALUES (:num_os, :enlace)');
+        $this->db->bind(':num_os', $row['num_os']);
+        $this->db->bind(':enlace', $row['enlace']);
+
+        $saved = $this->db->execute();
+        if ($saved) {
+          return true;
+        } else {
+          return false;
+        }
+      }            
+    }
+
+    public function setEnlacesCl($enlaces) {
+      foreach($enlaces as $row) {
+        $this->db->query('INSERT INTO enlaces_cl (num_os,enlace) 
+            VALUES (:num_os, :enlace)');
+        $this->db->bind(':num_os', $row['num_os']);
+        $this->db->bind(':enlace', $row['enlace']);
+
+        $saved = $this->db->execute();
+        if ($saved) {
+          return true;
+        } else {
+          return false;
+        }
+      }            
+    }
+
+        
 
     public function getNumeroPe() {
       $this->db->query('SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1');
@@ -237,7 +320,18 @@
 
     // ************ END CREAR ORDEN
 
+    // ************ BEGIN EDITAR ORDEN
+    public function updateEnlacePe($id,$enlace) {
+      $this->db->query('UPDATE enlaces_pe SET enlace = :enlace  WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $this->db->bind(':enlace', $enlace);
 
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
 
 
