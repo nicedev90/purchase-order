@@ -244,7 +244,7 @@
             </div>
           </div>
 
-        <!-- FILA 5- botones  -->
+        <!-- FILA 5- observaciones  -->
         <div class="row d-md-flex-col p-4  my-0 justify-content-start card-title">
           <div class="col-6 col-md-3 p-1">Observaciones  : </div>
           <?php if (!empty($data['observ'][0]->observaciones)) : ?>
@@ -254,7 +254,7 @@
         <?php endif; ?>
         </div>
 
-        <!-- FILA 6 - botones  -->
+        <!-- FILA 6 - enlaces  -->
         <div class="row d-md-flex-col p-4 justify-content-start card-title">
           <div class="col-6 col-md-3 p-1">Enlaces  : </div>
           <?php if (!empty($data['enlaces'][0]->enlace)) : ?>
@@ -266,16 +266,18 @@
 
         <div class="row d-md-flex-col p-4 justify-content-start card-title">
           <div class="col-6 col-md-3 p-1">Adjuntos  : </div>
-          <div class="d-md-flex alert alert-success text-dark ">
-            <?php if (!empty($data['adjuntos'])) : ?>
+          
+            <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
+              <div class="d-md-flex alert alert-success text-dark ">
               <?php foreach($data['adjuntos'] as $adjunto) : ?>              
                 <div class="row col-md-4 p-4">
                   <img src="<?= URLROOT . $adjunto->archivo ?>" style="width:40%" class="img-thumbnail">
                   <a href="<?= URLROOT . $adjunto->archivo ?>" target="_blank"> Ver Completo  </a>
                 </div>
               <?php endforeach; ?>
+              </div>
             <?php endif; ?>
-          </div>
+          
         </div>
 
 

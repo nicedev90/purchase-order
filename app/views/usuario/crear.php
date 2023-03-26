@@ -247,17 +247,13 @@
 
             
             <div class="d-flex-col col-12 mt-3 mt-md-1" id="lista_enlace" data-link="1">
-              <input type="hidden" name="enlaces[1][num_os]" value="<?php echo $data['numero_os']; ?>">
-
               <div id="link_1" class="d-flex-col  col-12">
+                <input type="hidden" name="enlaces[1][num_os]" value="<?php echo $data['numero_os']; ?>">
                 <div class="col-md-2 btn">Enlace 1</div>
                 <input name="enlaces[1][enlace]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ingrea el enlace" autocomplete="off">
                 <div class="valid-tooltip">  Correcto </div>
               </div>
-
-
             </div>
-           
 
           </div>
             

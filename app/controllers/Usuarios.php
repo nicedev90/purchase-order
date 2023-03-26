@@ -169,6 +169,11 @@
 
 					// enviar enlaces
 					$enlaces = $_POST['enlaces'];
+					// echo "<pre>";
+					// print_r($enlaces);
+					// print_r($data);
+
+					// die();
 					$this->setEnlaces($enlaces);
 
 					// enviar aprobaciones
@@ -185,8 +190,9 @@
 
 	        	$this->setObservaciones($num_os,$obs);
 	        } 
-		
-				if ($enviarData) {
+				
+				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
+				if ($enviarData == 0) {
 					// set index 'alerta' para mostrar modal SUCCESS en INDEX
 					$_SESSION['alerta'] = 'success';
 					redirect('usuarios/index');
@@ -366,7 +372,7 @@
 
 		public function editar($num_os = null) {
 
-			// click en el boton editar
+			// click en el boton editar item
 			if (isset($_POST['edit_item'])) {
 				$id = $_POST['id'];
 				$cantidad = $_POST['cantidad'];
@@ -398,7 +404,56 @@
 				if ($upLink) {
 					redirect('usuarios/editar' . '/' . $num_os);
 				}
-			}  
+			}
+
+			// click en boton editar observacion
+			if (isset($_POST['edit_obs'])) {
+				$id = $_POST['id'];
+				$observ = $_POST['observaciones'];
+
+				$num_os = $_POST['num_os'];
+
+
+				$updateObs = $this->updateObs($id,$observ);
+
+				if ($updateObs) {
+					redirect('usuarios/editar' . '/' . $num_os);
+				}
+			} 
+
+			// click en boton SUBIR ADJUNTO
+			if (isset($_POST['subir_adjunto'])) {
+		  	if ($_SESSION['user_sede'] == 'Peru') {
+
+		  		$adjunto = $_FILES['subir_file'];
+		  		// $_FILES['adjunto']['name']
+
+		  		// $adjunto = isset($_FILES['subir_file']) ? $_FILES['subir_file']['name'] : 'not set';
+		  		// echo $adjunto;
+		  		// die();
+
+	      	if (isset($adjunto['name'])) {
+	      		$num_os = $_POST['num_os'];
+	      		$filesDir = '../public/files/pe/' . $num_os . '/';
+
+	      		$i_name = $adjunto['name'];
+						$i_tmp = $adjunto['tmp_name'];
+
+						move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+						$urlAdjunto = '/files/pe/' . $num_os . '/' . $i_name;
+
+						$updateObs = $this->usuario->subirAdjuntoPe($num_os,$urlAdjunto);
+
+						if ($updateObs) {
+							redirect('usuarios/editar' . '/' . $num_os);
+						}
+	      	}
+
+	      }
+
+			} 
+
 
 
 			if (is_null($num_os)) {
@@ -438,6 +493,14 @@
 		
 
 			// $updateOrden = $this->updateOrden($data);
+		}
+
+		public function updateObs($id,$observ) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+        return $this->usuario->updateObsPe($id,$observ);
+      } else {
+        return $this->usuario->updateObsCl($id,$observ);
+      }
 		}
 
 		public function updateEnlace($id,$enlace) {
@@ -505,6 +568,56 @@
 				$this->view('usuario/crear_pdf', $data);
       }
     }
+
+
+
+    public function config_general() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 
+    		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+				} else {
+
+					$id = $_SESSION['user_id'];
+					$dataUser = $this->getDataUser($id);
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
+
+
+					$data = [
+						'dataUser' => $dataUser,
+
+						'controller' => $controller,
+						'pagename' => $method
+					];
+
+				 echo "<pre>";
+				print_r($data);
+				echo $_SESSION['user_id'];
+				die();
+
+					$this->view('usuario/config_general', $data);
+				}
+    	}
+    }
+
+    public function getDataUser($id) {
+    	if ($_SESSION['user_sede'] == 'Peru') {
+        return $this->usuario->getDataUserPe($id);
+      } else {
+        return $this->usuario->getDataUserCl($id);
+      }
+    }
+
+    public function config_seguridad() {
+    	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+			} else {
+				$this->view('usuario/config_seguridad', $data);
+			}
+    }
+    
 
 			
 

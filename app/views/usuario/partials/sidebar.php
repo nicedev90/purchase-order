@@ -64,7 +64,7 @@
     </a>
     <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="configuracion/general.php">
+        <a href="<?php echo URLROOT; ?>/usuarios/config_general">
           <i class="bi bi-circle"></i><span>General</span>
         </a>
       </li>

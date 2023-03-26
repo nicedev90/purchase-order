@@ -243,25 +243,69 @@
             </div>
           </div>
 
-          <!-- fila 5 editar enlaces -->
-          <div class="col-6 col-md-3 p-1">Enlaces  : </div>
-            <?php foreach($data['enlaces'] as $link) : ?>
-              <div class="row mt-2 d-md-flex justify-content-md-start justify-content-around align-items-center ">
-                <div class="row d-md-flex justify-content-md-between ">
-                  <div class="row col-12">
-                    <div class="col-md-6 fw-bold  bg-light"> 
-                      <a href="" data-bs-toggle="modal" data-bs-target="#edit_enlace_<?= $link->id ?>" class="col-md-3 btn btn-success fw-bold">
-                        <i class="bi bi-pencil-square"></i>  
-                      </a>
-                    </div>
-                    <div class="col-md-6 bg-light"> <?= $link->enlace ?> </div>
-                  </div>
-                </div>
-              </div>
 
+
+        <!-- FILA 5- observaciones  -->
+
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-3 p-1">Observaciones  :</div>
+          <?php if (!empty($data['observ'][0]->observaciones)) : ?>
+            <div class="d-md-flex-col alert alert-warning text-dark ">
+            <?php foreach($data['observ'] as $obs) : ?>
+              <div class="d-md-flex mt-1">
+                <a href="" data-bs-toggle="modal" data-bs-target="#edit_obs_<?= $obs->id ?>" class="col-md-1 btn btn-success"><i class="bi bi-pencil-square"></i>  </a>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"><?= $obs->observaciones ?></textarea>
+                <!-- <div class="col-md-10 btn btn-light text-center"><?= $obs->observaciones ?> </div> -->
+              </div>
+              <?php require APPROOT . '/views/usuario/partials/modal_edit_obs.php'; ?>
+            <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+        </div>
+
+
+        <!-- FILA 6 - enlaces  -->
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-3 p-1">Enlaces  : </div>
+          <?php if (!empty($data['enlaces'][0]->enlace)) : ?>
+            <div class="d-md-flex-col alert alert-warning text-dark ">
+            <?php foreach($data['enlaces'] as $link) : ?>
+              <div class="d-md-flex mt-1">
+                <a href="" data-bs-toggle="modal" data-bs-target="#edit_enlace_<?= $link->id ?>" class="col-md-1 btn btn-success"><i class="bi bi-pencil-square"></i>  </a>
+                <a href="<?= $link->enlace ?>" target="_blank" class="col-md-1 btn btn-primary">Abrir <i class="bi bi-arrow-up"></i>  </a>
+                <div class="col-md-10 btn btn-light text-center"><?= $link->enlace ?> </div>
+              </div>
               <?php require APPROOT . '/views/usuario/partials/modal_edit_enlace.php'; ?>
             <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+        </div>
+
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-8 p-1">
+            Adjuntos  : 
+            <a href="" data-bs-toggle="modal" data-bs-target="#subir_adjunto" class="fw-bold col-md-3 justify-content-center btn btn-info">
+              Subir Archivo 
+              <i class="bi bi-pencil-square"></i>
+            </a>
+            <?php require APPROOT . '/views/usuario/partials/modal_subir_adjunto.php'; ?>
           </div>
+          
+            <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
+              <div class="d-md-flex alert alert-success text-dark ">
+              <?php foreach($data['adjuntos'] as $adjunto) : ?>              
+                <div class="row d-md-flex-col p-4">
+
+                  <img src="<?= URLROOT . $adjunto->archivo ?>" style="width:40%" class="img-thumbnail">
+                  <a href="<?= URLROOT . $adjunto->archivo ?>" target="_blank"> Ver Completo  </a>
+                  <a href="" data-bs-toggle="modal" data-bs-target="#edit_enlace_<?= $link->id ?>" class="col-md-3 justify-content-center btn btn-success"><i class="bi bi-pencil-square"></i>  </a>
+
+                </div>
+              <?php endforeach; ?>
+              </div>
+            <?php endif; ?>
+          
+        </div>
 
 
 

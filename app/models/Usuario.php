@@ -153,34 +153,20 @@
     }
 
     public function setEnlacesPe($enlaces) {
-      foreach($enlaces as $row) {
-        $this->db->query('INSERT INTO enlaces_pe (num_os,enlace) 
-            VALUES (:num_os, :enlace)');
-        $this->db->bind(':num_os', $row['num_os']);
-        $this->db->bind(':enlace', $row['enlace']);
-
-        $saved = $this->db->execute();
-        if ($saved) {
-          return true;
-        } else {
-          return false;
-        }
+      foreach($enlaces as $link) {
+        $this->db->query('INSERT INTO enlaces_pe (num_os,enlace) VALUES (:num_os, :enlace)');
+        $this->db->bind(':num_os', $link['num_os']);
+        $this->db->bind(':enlace', $link['enlace']);
+        $this->db->execute();
       }            
     }
 
     public function setEnlacesCl($enlaces) {
       foreach($enlaces as $row) {
-        $this->db->query('INSERT INTO enlaces_cl (num_os,enlace) 
-            VALUES (:num_os, :enlace)');
+        $this->db->query('INSERT INTO enlaces_cl (num_os,enlace) VALUES (:num_os, :enlace)');
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':enlace', $row['enlace']);
-
-        $saved = $this->db->execute();
-        if ($saved) {
-          return true;
-        } else {
-          return false;
-        }
+        $this->db->execute();
       }            
     }
 
@@ -222,13 +208,7 @@
         $this->db->bind(':proveedor', $row['proveedor']);
         $this->db->bind(':estado', $row['estado']);
         $this->db->bind(':valor', $row['valor']);
-
-        $saved = $this->db->execute();
-        if ($saved) {
-          return true;
-        } else {
-          return false;
-        }
+        $this->db->execute();
       }            
     }
 
@@ -248,13 +228,7 @@
         $this->db->bind(':proveedor', $row['proveedor']);
         $this->db->bind(':estado', $row['estado']);
         $this->db->bind(':valor', $row['valor']);
-
-        $saved = $this->db->execute();
-        if ($saved) {
-          return true;
-        } else {
-          return false;
-        }
+        $this->db->execute();
       }            
     }
 
@@ -333,6 +307,36 @@
       }
     }
 
+    public function updateObsPe($id,$observ) {
+      $this->db->query('UPDATE obs_pe SET observaciones = :observ  WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $this->db->bind(':observ', $observ);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function updateAdjunto($id,$enlace) {
+      $this->db->query('UPDATE enlaces_pe SET enlace = :enlace  WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $this->db->bind(':enlace', $enlace);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function subirAdjuntoPe($num_os,$urlAdjunto) {
+      $this->db->query('INSERT INTO adjuntos_pe (num_os, archivo) VALUES (:num_os, :urlAdjunto)');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':urlAdjunto', $urlAdjunto);
+      $this->db->execute();
+    }
 
 
     public function updateOrdenPe($data) {
@@ -443,6 +447,13 @@
     // ********  END CREAR PDF
 
 
+
+    public function getDataUserPe($id) {
+      $this->db->query('SELECT * FROM usuarios WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $res = $this->db->getSingle();
+      return $res;
+    }
 
 
 
