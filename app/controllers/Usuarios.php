@@ -177,15 +177,15 @@
 					$this->setEnlaces($enlaces);
 
 					// enviar aprobaciones
-	        $tipo = $_POST['item'][1]['tipo'];
-	        $revs = $this->getSupervisores($tipo);
+	        $tipoOs = $_POST['item'][1]['tipo'];
+	        $revs = $this->getSupervisores($tipoOs);
 
 	        $rev1 = $revs[0]->nombre;
 	        $rev2 = $revs[1]->nombre;
 
-	        $this->setRevision($num_os,$tipo,$rev1,$rev2);
+	        $this->setRevision($num_os,$tipoOs,$rev1,$rev2);
 					// enviar observaciones
-					if (!empty($_POST['observaciones'])) {
+					if (isset($_POST['observaciones'])) {
 	        	$obs = $_POST['observaciones'];
 
 	        	$this->setObservaciones($num_os,$obs);
