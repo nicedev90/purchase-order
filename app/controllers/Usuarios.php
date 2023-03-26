@@ -579,7 +579,7 @@
 				} else {
 
 					$id = $_SESSION['user_id'];
-					$dataUser = $this->getDataUser($id);
+					$dataUser = $this->usuario->getDataUser($id);
 
 					$controller = strtolower(get_called_class());
 					$method = ucwords(__FUNCTION__);
@@ -592,31 +592,90 @@
 						'pagename' => $method
 					];
 
-				 echo "<pre>";
-				print_r($data);
-				echo $_SESSION['user_id'];
-				die();
+				//  echo "<pre>";
+				// print_r($data);
+				// echo $_SESSION['user_id'];
+				// die();
 
 					$this->view('usuario/config_general', $data);
 				}
     	}
     }
 
-    public function getDataUser($id) {
-    	if ($_SESSION['user_sede'] == 'Peru') {
-        return $this->usuario->getDataUserPe($id);
-      } else {
-        return $this->usuario->getDataUserCl($id);
-      }
-    }
+    // public function getDataUser($id) {
+    // 	if ($_SESSION['user_sede'] == 'Peru') {
+    //     return $this->usuario->getDataUserPe($id);
+    //   } else {
+    //     return $this->usuario->getDataUserCl($id);
+    //   }
+    // }
 
     public function config_seguridad() {
-    	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-			} else {
-				$this->view('usuario/config_seguridad', $data);
-			}
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 
+    		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+				} else {
+
+					$id = $_SESSION['user_id'];
+					$dataUser = $this->usuario->getDataUser($id);
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
+
+
+					$data = [
+						'dataUser' => $dataUser,
+
+						'controller' => $controller,
+						'pagename' => $method
+					];
+
+				//  echo "<pre>";
+				// print_r($data);
+				// echo $_SESSION['user_id'];
+				// die();
+
+					$this->view('usuario/config_seguridad', $data);
+				}
+    	}
     }
+
+
+    public function version() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 
+  			$controller = strtolower(get_called_class());
+				$method = ucwords(__FUNCTION__);
+
+				$data = [
+
+					'controller' => $controller,
+					'pagename' => $method
+				];
+
+
+				$this->view('usuario/version', $data);
+				
+    	}
+    }
+
+    public function registros() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 
+  			$controller = strtolower(get_called_class());
+				$method = ucwords(__FUNCTION__);
+
+				$data = [
+
+					'controller' => $controller,
+					'pagename' => $method
+				];
+
+
+				$this->view('usuario/registros', $data);
+				
+    	}
+    }
+    
     
 
 			

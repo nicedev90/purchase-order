@@ -1,6 +1,6 @@
-create database ordenes1 character set utf8 collate utf8_general_ci;
+create database ordenes2 character set utf8 collate utf8_general_ci;
 
-use ordenes1;
+use ordenes2;
 
 create table roles (
   id INT NOT NULL AUTO_INCREMENT,

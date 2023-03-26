@@ -82,18 +82,18 @@
                 </div>
                     
                     <div class="row mb-3">
-                      <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
+                      <label for="password" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="nombre" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nombres Completos" required autocomplete="off">
+                        <input name="password" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nombres Completos" required autocomplete="off">
                         <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
                     
 
                     <div class="row mb-3">
-                      <label for="usuario" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
+                      <label for="password_confirm" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="usuario" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nuevo Usuario" required autocomplete="off">
+                        <input name="password_confirm" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nuevo Usuario" required autocomplete="off">
                         <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>

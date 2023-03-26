@@ -448,8 +448,11 @@
 
 
 
-    public function getDataUserPe($id) {
-      $this->db->query('SELECT * FROM usuarios WHERE id = :id');
+    public function getDataUser($id) {
+      $this->db->query('SELECT u.*, r.rol AS rol , s.sede AS sede FROM usuarios u 
+        INNER JOIN roles r ON u.rol_id = r.id 
+        INNER JOIN sedes s ON u.sede_id = s.id 
+        WHERE u.id = :id');
       $this->db->bind(':id', $id);
       $res = $this->db->getSingle();
       return $res;

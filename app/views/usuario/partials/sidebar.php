@@ -23,12 +23,12 @@
     </a>
     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="historial/consultar_os.php">
+        <a href="<?php echo URLROOT; ?>/usuarios/historial">
           <i class="bi bi-circle"></i><span>Consultar OS</span>
         </a>
       </li>
       <li>
-        <a href="historial/actividad_sesión.php">
+        <a href="<?php echo URLROOT; ?>/usuarios/registros">
           <i class="bi bi-circle"></i><span>Actividad de sesión</span>
         </a>
       </li>
@@ -69,7 +69,7 @@
         </a>
       </li>
       <li>
-        <a href="configuracion/seguridad.php">
+        <a href="<?php echo URLROOT; ?>/usuarios/config_seguridad">
           <i class="bi bi-circle"></i><span>Seguridad</span>
         </a>
       </li>
@@ -79,7 +79,7 @@
   <li class="nav-heading">INFORMACIÓN</li>
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="version/version.php">
+    <a class="nav-link collapsed" href="<?php echo URLROOT; ?>/usuarios/version">
       <i class="bi bi-person"></i>
       <span>Versión</span>
     </a>

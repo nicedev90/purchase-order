@@ -69,13 +69,13 @@
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
-                <form action="" method="post">
-                <input type="hidden" name="" value="">
+                <form action="<?php echo URLROOT; ?>/usuarios/config_general" method="post">
+                <input type="hidden" name="user_id" value="<?php echo $data['dataUser']->id ?>">
                     
                     <div class="row mb-3">
                       <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="nombre" type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nombres Completos" required autocomplete="off">
+                        <input name="nombre" type="text" value="<?php echo $data['dataUser']->nombre ?>" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nombres Completos" required autocomplete="off">
                         <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
@@ -83,7 +83,7 @@
                     <div class="row mb-3">
                       <label for="usuario" class="col-md-4 col-lg-3 col-form-label">Usuario</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="usuario" type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nuevo Usuario" required autocomplete="off" disabled>
+                        <input name="usuario" type="text" value="<?php echo $data['dataUser']->usuario ?>" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nuevo Usuario" required autocomplete="off" disabled>
                         <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
@@ -91,7 +91,7 @@
                     <div class="row mb-3">
                       <label for="email" class="col-md-4 col-lg-3 col-form-label">Correo Electrónico</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Correo Electrónico" required autocomplete="off" disabled>
+                        <input name="email" type="text" value="<?php echo $data['dataUser']->email ?>" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Correo Electrónico" required autocomplete="off" disabled>
                         <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
@@ -99,7 +99,7 @@
                     <div class="row mb-3">
                       <label for="validationTooltip04" class="col-md-4 col-lg-3 col-form-label">Rol de Usuario</label>
                       <div class="col-md-8 col-lg-9">
-                            <input name="email" type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom"       placeholder="Rol de Usuario" required autocomplete="off" disabled>
+                            <input name="rol" type="text" value="<?php echo $data['dataUser']->rol ?>" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom"       placeholder="Rol de Usuario" required autocomplete="off" disabled>
                             <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
@@ -107,7 +107,7 @@
                     <div class="row mb-3">
                       <label for="validationTooltip04" class="col-md-4 col-lg-3 col-form-label">Función</label>
                       <div class="col-md-8 col-lg-9">
-                            <input name="email" type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom"       placeholder="Función" required autocomplete="off" disabled>
+                            <input name="email" type="text" value="<?php echo $data['dataUser']->funcion ?>" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom"       placeholder="Función" required autocomplete="off" disabled>
                             <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
@@ -115,7 +115,7 @@
                     <div class="row mb-3">
                       <label for="validationTooltip04" class="col-md-4 col-lg-3 col-form-label">Estado</label>
                       <div class="col-md-8 col-lg-9">
-                            <input name="email" type="text" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom"       placeholder="Estado" required autocomplete="off" disabled>
+                            <input name="email" type="text" value="<?php echo $data['dataUser']->estado ?>" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom"       placeholder="Estado" required autocomplete="off" disabled>
                             <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
