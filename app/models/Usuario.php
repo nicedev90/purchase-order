@@ -137,16 +137,14 @@
     }
 
     public function setObsPe($num_os,$obs) {
-      $this->db->query('INSERT INTO obs_pe (num_os, observaciones)
-          VALUES (:num_os, :obs)');
+      $this->db->query('INSERT INTO obs_pe (num_os, observaciones) VALUES (:num_os, :obs)');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':obs', $obs);
       $this->db->execute();
     }
 
     public function setObsCl($num_os,$obs) {
-      $this->db->query('INSERT INTO obs_cl (num_os, observaciones)
-          VALUES (:num_os, :obs)');
+      $this->db->query('INSERT INTO obs_cl (num_os, observaciones) VALUES (:num_os, :obs)');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':obs', $obs);
       $this->db->execute();

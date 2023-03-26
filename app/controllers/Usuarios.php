@@ -185,7 +185,7 @@
 
 	        $this->setRevision($num_os,$tipo,$rev1,$rev2);
 					// enviar observaciones
-					if (isset($_POST['observaciones'])) {
+					if (!empty($_POST['observaciones'])) {
 	        	$obs = $_POST['observaciones'];
 
 	        	$this->setObservaciones($num_os,$obs);
