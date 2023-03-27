@@ -283,7 +283,7 @@
 
     public function setRevisionPe($num_os,$tipo,$rev1,$rev2) {
       $this->db->query('INSERT INTO revision_pe (num_os, tipo, obs_1, aprob_1 revisor_1, obs_2, aprob_2 revisor_2)
-        VALUES (:num_os, :tipo, :rev1, :rev2)');
+        VALUES (:num_os, :tipo, , :obs_1, :aprob_1, :rev1, :obs2, :aprob_2, :rev2)');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':tipo', $tipo);
       $this->db->bind(':obs_1', '-');
