@@ -195,7 +195,9 @@
 
 			} else {
 
-
+				if (is_null($tipo) || is_null($id)) {
+					redirect('usuarios/index');
+				} else {
 					// obtener numero de orden segun sede del usuario
 					$num_os = $this->getNumOrden();
 
@@ -215,7 +217,7 @@
 					];
 
 					$this->view('usuario/crear', $data);
-						
+				}				
 
 			}
 		}

@@ -54,7 +54,7 @@
                 
 
 
-        <form id="form_crear" action="<?php echo URLROOT; ?>/usuarios/crear " class="col-md-12 mt-4 mt-md-2 needs-validation" novalidate method="POST" enctype="multipart/form-data">
+        <form id="form_crear" action="<?php echo URLROOT; ?>/usuarios/crear" class="col-md-12 mt-4 mt-md-2 needs-validation" novalidate method="POST" enctype="multipart/form-data">
           
           <!-- FILA 1  mina - categoria -->
           <div class="row my-3 d-flex">
