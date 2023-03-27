@@ -65,10 +65,13 @@
     }
 
     public function getOrdenDataCl($num_os) {
-      $this->db->query('SELECT o.*, c.categoria AS name_categ, m.nombre AS name_mina FROM os_chile o
+      $this->db->query('SELECT o.*, 
+        c.categoria AS name_categ, 
+        m.nombre AS name_mina
+        FROM os_chile o
         INNER JOIN  minas_cl m ON o.mina = m.codigo 
         INNER JOIN categ_chile c ON o.categoria = c.codigo
-        WHERE num_os = :num_os');
+        WHERE o.num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $res = $this->db->getSet();
       return $res;
@@ -81,8 +84,22 @@
       return $res;
     }
 
+    public function getEnlacesCl($num_os) {
+      $this->db->query('SELECT * FROM enlaces_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
     public function getObsPe($num_os) {
       $this->db->query('SELECT * FROM obs_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getObsCl($num_os) {
+      $this->db->query('SELECT * FROM obs_cl WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $res = $this->db->getSet();
       return $res;
@@ -168,8 +185,6 @@
       }            
     }
 
-        
-
     public function getNumeroPe() {
       $this->db->query('SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1');
       $res =  $this->db->getSingle();
@@ -236,7 +251,6 @@
           VALUES (:num_os, :archivo)');
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':archivo', $row['archivo']);
-
         $this->db->execute();
       }
     }
@@ -247,7 +261,6 @@
           VALUES (:num_os, :archivo)');
         $this->db->bind(':num_os', $row['num_os']);
         $this->db->bind(':archivo', $row['archivo']);
-
         $this->db->execute();
       }
     }
@@ -275,7 +288,6 @@
       $this->db->bind(':tipo', $tipo);
       $this->db->bind(':rev1', $rev1);
       $this->db->bind(':rev2', $rev2);
-
       $this->db->execute();
     }
 
@@ -286,7 +298,6 @@
       $this->db->bind(':tipo', $tipo);
       $this->db->bind(':rev1', $rev1);
       $this->db->bind(':rev2', $rev2);
-
       $this->db->execute();
     }
 
@@ -295,6 +306,18 @@
     // ************ BEGIN EDITAR ORDEN
     public function updateEnlacePe($id,$enlace) {
       $this->db->query('UPDATE enlaces_pe SET enlace = :enlace  WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $this->db->bind(':enlace', $enlace);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function updateEnlaceCl($id,$enlace) {
+      $this->db->query('UPDATE enlaces_cl SET enlace = :enlace  WHERE id = :id');
       $this->db->bind(':id', $id);
       $this->db->bind(':enlace', $enlace);
 
@@ -317,10 +340,10 @@
       }
     }
 
-    public function updateAdjunto($id,$enlace) {
-      $this->db->query('UPDATE enlaces_pe SET enlace = :enlace  WHERE id = :id');
+    public function updateObsCl($id,$observ) {
+      $this->db->query('UPDATE obs_cl SET observaciones = :observ  WHERE id = :id');
       $this->db->bind(':id', $id);
-      $this->db->bind(':enlace', $enlace);
+      $this->db->bind(':observ', $observ);
 
       if ($this->db->execute()) {
         return true;
@@ -336,13 +359,11 @@
       $this->db->execute();
     }
 
-
-    public function updateOrdenPe($data) {
-
-    }
-
-    public function updateOrdenCl($data) {
-
+    public function subirAdjuntoCl($num_os,$urlAdjunto) {
+      $this->db->query('INSERT INTO adjuntos_cl (num_os, archivo) VALUES (:num_os, :urlAdjunto)');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':urlAdjunto', $urlAdjunto);
+      $this->db->execute();
     }
 
     public function setItemPe($id,$cantidad,$unidad,$descripcion,$proveedor,$valor) {
@@ -445,7 +466,7 @@
     // ********  END CREAR PDF
 
 
-
+    // ********  BEGIN EDITAR USUARIO
     public function getDataUser($id) {
       $this->db->query('SELECT u.*, r.rol AS rol , s.sede AS sede FROM usuarios u 
         INNER JOIN roles r ON u.rol_id = r.id 
@@ -455,7 +476,15 @@
       $res = $this->db->getSingle();
       return $res;
     }
+    // ********  END EDITAR USUARIO
 
+
+    public function getUserLog($usuario) {
+      $this->db->query('SELECT * FROM logs WHERE usuario = :usuario');
+      $this->db->bind(':usuario', $usuario);
+      $res = $this->db->getSet();
+      return $res;  
+    }
 
 
 

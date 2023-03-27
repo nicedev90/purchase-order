@@ -75,7 +75,7 @@
               <a href="<?php echo URLROOT . '/usuarios/editar/' . $data['orden'][0]->num_os; ?>" class=" btn btn-secondary fw-bold">
                 <?php echo $orden->item ?> 
               </a>
-<!--               <a href="" data-bs-toggle="modal" data-bs-target="#edit_modal_<?= $orden->id ?>" class=" btn btn-danger fw-bold">
+              <!-- <a href="" data-bs-toggle="modal" data-bs-target="#edit_modal_<?= $orden->id ?>" class=" btn btn-danger fw-bold">
                  <i class="bi bi-trash"></i>  
               </a> -->
 
@@ -118,15 +118,93 @@
 
         <?php endforeach; ?>
 
+        <!-- FILA 4 - observaciones  -->
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-3 p-1">Observaciones  :</div>
+          <?php if (!empty($data['observ'][0]->observaciones)) : ?>
+            <div class="d-md-flex-col alert alert-warning text-dark ">
+            <?php foreach($data['observ'] as $obs) : ?>
+              <div class="d-md-flex mt-1">
+                <a href="" data-bs-toggle="modal" data-bs-target="#edit_obs_<?= $obs->id ?>" class="col-md-1 btn btn-success"><i class="bi bi-pencil-square"></i>  </a>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"><?= $obs->observaciones ?></textarea>
+                <!-- <div class="col-md-10 btn btn-light text-center"><?= $obs->observaciones ?> </div> -->
+              </div>
+              <?php require APPROOT . '/views/usuario/partials/modal_edit_obs.php'; ?>
+            <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+        </div>
 
-        <!-- FILA 5- botones  -->
+        <!-- FILA 5 - enlaces  -->
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-3 p-1">Enlaces  : </div>
+          <?php if (!empty($data['enlaces'][0]->enlace)) : ?>
+            <div class="d-md-flex-col alert alert-warning text-dark ">
+            <?php foreach($data['enlaces'] as $link) : ?>
+              <div class="d-md-flex mt-1">
+                <a href="" data-bs-toggle="modal" data-bs-target="#edit_enlace_<?= $link->id ?>" class="col-md-1 btn btn-success"><i class="bi bi-pencil-square"></i>  </a>
+                <a href="<?= $link->enlace ?>" target="_blank" class="col-md-1 btn btn-primary">Abrir <i class="bi bi-arrow-up"></i>  </a>
+                <div class="col-md-10 btn btn-light text-center"><?= $link->enlace ?> </div>
+              </div>
+              <?php require APPROOT . '/views/usuario/partials/modal_edit_enlace.php'; ?>
+            <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+        </div>
+
+        <!-- FILA 6 - Adjuntos  -->
+        <div class="row d-md-flex-col p-4 justify-content-start card-title">
+          <div class="col-6 col-md-8 p-1">
+            Adjuntos  : 
+            <a href="" data-bs-toggle="modal" data-bs-target="#subir_adjunto" class="fw-bold col-md-3 justify-content-center btn btn-info">
+              Subir Archivo 
+              <i class="bi bi-pencil-square"></i>
+            </a>
+            <?php require APPROOT . '/views/usuario/partials/modal_subir_adjunto.php'; ?>
+          </div>
+          
+
+              <div class="d-md-flex alert alert-success text-dark ">
+                <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                  <div class="row col-md-4 p-4">
+                    <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
+                    <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
+                  </div>
+                <?php endfor; ?>
+              </div>
+ 
+          
+        </div>
+        <!-- FILA 7 - botones  -->
         <div class="row d-md-flex flex-md-row flex-column-reverse p-2 justify-content-around justify-content-md-between justify-content-md-end align-items-center">
+          <?php if (strtoupper($data['orden'][0]->estado)  == 'APROBADO') : ?>
+            <button id="btn-return" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+              <i class="bi bi-arrow-left mr-5"></i>
+              <span>REGRESAR</span>
+            </button>
 
-          <button id="btn-return" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
-            <i class="bi bi-arrow-left mr-5"></i>
-            <span>REGRESAR</span>
-          </button>
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+              <i class="bi bi-printer"></i>
+              <span>IMPRIMIR</span>
+            </a>
 
+          <?php elseif (strtoupper($data['orden'][0]->estado)  == 'RECHAZADO') : ?>
+            <button id="btn-return" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+              <i class="bi bi-arrow-left mr-5"></i>
+              <span>REGRESAR</span>
+            </button>
+
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+              <i class="bi bi-printer"></i>
+              <span>IMPRIMIR</span>
+            </a>
+          <?php else : ?>
+            <a href="<?php echo URLROOT; ?>/usuarios/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+              <i class="bi bi-arrow-left mr-5"></i>
+              <span>REGRESAR</span>
+            </a>
+             
+          <?php endif; ?> 
         </div>
 
         
@@ -201,7 +279,7 @@
               <a href="<?php echo URLROOT . '/usuarios/editar/' . $data['orden'][0]->num_os; ?>" class=" btn btn-secondary fw-bold">
                 <?php echo $orden->item ?> 
               </a>
-<!--               <a href="" data-bs-toggle="modal" data-bs-target="#delete_modal_<?= $orden->id ?>" class=" btn btn-danger fw-bold">
+            <!-- <a href="" data-bs-toggle="modal" data-bs-target="#delete_modal_<?= $orden->id ?>" class=" btn btn-danger fw-bold">
                  <i class="bi bi-trash"></i>  
               </a> -->
 
@@ -243,10 +321,7 @@
             </div>
           </div>
 
-
-
         <!-- FILA 5- observaciones  -->
-
         <div class="row d-md-flex-col p-4 justify-content-start card-title">
           <div class="col-6 col-md-3 p-1">Observaciones  :</div>
           <?php if (!empty($data['observ'][0]->observaciones)) : ?>
@@ -262,7 +337,6 @@
             </div>
           <?php endif; ?>
         </div>
-
 
         <!-- FILA 6 - enlaces  -->
         <div class="row d-md-flex-col p-4 justify-content-start card-title">
@@ -281,6 +355,7 @@
           <?php endif; ?>
         </div>
 
+        <!-- FILA 7 - Adjuntos  -->
         <div class="row d-md-flex-col p-4 justify-content-start card-title">
           <div class="col-6 col-md-8 p-1">
             Adjuntos  : 
@@ -291,37 +366,27 @@
             <?php require APPROOT . '/views/usuario/partials/modal_subir_adjunto.php'; ?>
           </div>
           
-            <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
+
               <div class="d-md-flex alert alert-success text-dark ">
-              <?php foreach($data['adjuntos'] as $adjunto) : ?>              
-                <div class="row d-md-flex-col p-4">
-
-                  <img src="<?= URLROOT . $adjunto->archivo ?>" style="width:40%" class="img-thumbnail">
-                  <a href="<?= URLROOT . $adjunto->archivo ?>" target="_blank"> Ver Completo  </a>
-                  <a href="" data-bs-toggle="modal" data-bs-target="#edit_enlace_<?= $link->id ?>" class="col-md-3 justify-content-center btn btn-success"><i class="bi bi-pencil-square"></i>  </a>
-
-                </div>
-              <?php endforeach; ?>
+                <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                  <div class="row col-md-4 p-4">
+                    <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
+                    <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
+                  </div>
+                <?php endfor; ?>
               </div>
-            <?php endif; ?>
+
           
         </div>
 
 
-
-
-
-
-
-
-
-        <!-- FILA 5- botones  -->
+        <!-- FILA 8- botones  -->
         <div class="row d-md-flex flex-md-row flex-column-reverse p-2 justify-content-around justify-content-md-between justify-content-md-end align-items-center">
           <?php if (strtoupper($data['orden'][0]->estado)  == 'APROBADO') : ?>
-            <button id="btn-return" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+            <a href="<?php echo URLROOT; ?>/usuarios/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
-            </button>
+            </a>
 
             <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
@@ -329,20 +394,20 @@
             </a>
 
           <?php elseif (strtoupper($data['orden'][0]->estado)  == 'RECHAZADO') : ?>
-            <button id="btn-return" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+            <a href="<?php echo URLROOT; ?>/usuarios/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
-            </button>
+            </a>
 
             <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
           <?php else : ?>
-            <button id="btn-return" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+            <a href="<?php echo URLROOT; ?>/usuarios/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
-            </button>
+            </a>
              
           <?php endif; ?> 
         </div>

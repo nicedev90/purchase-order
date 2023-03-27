@@ -3,7 +3,7 @@
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
-          <a class="nav-link " href="dashboard.php">
+          <a class="nav-link " href="<?php echo URLROOT; ?>/usuarios/index">
             <i class="bi bi-grid"></i>
             <span>Dashboard </span>
             <p class="text-light">text-light</p>
