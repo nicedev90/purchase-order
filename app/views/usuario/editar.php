@@ -165,12 +165,19 @@
           
           <div class="d-md-flex alert alert-success text-dark ">
             <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
-              <?php for ($i = 1; $i <= count($data['adjuntos']); $i++) : ?> 
+
+              <div class="row col-md-4 p-4">
+                <img src="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" style="width:40%" class="img-thumbnail">
+                <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank"> Ver Completo  </a>
+              </div>
+
+              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
                 <div class="row col-md-4 p-4">
                   <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
                   <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
                 </div>
               <?php endfor; ?>
+
             <?php else : ?>
 
               <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
@@ -380,12 +387,19 @@
 
           <div class="d-md-flex alert alert-success text-dark ">
             <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
-              <?php for ($i = 1; $i <= count($data['adjuntos']); $i++) : ?> 
+
+              <div class="row col-md-4 p-4">
+                <img src="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" style="width:40%" class="img-thumbnail">
+                <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank"> Ver Completo  </a>
+              </div>
+
+              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
                 <div class="row col-md-4 p-4">
                   <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
                   <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
                 </div>
               <?php endfor; ?>
+
             <?php else : ?>
 
               <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 

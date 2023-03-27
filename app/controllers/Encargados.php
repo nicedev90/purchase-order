@@ -635,6 +635,8 @@
 					'observ' => $observ,
 					'adjuntos' => $adjuntos,
 					'revisor1' => $revisor1,
+					'aprob_1' => $revisores->aprob_1,
+					'aprob_2' => $revisores->aprob_2,
 					'revisor2' => $revisor2,
 					'pagename' => $method,
 					'controller' => $controller

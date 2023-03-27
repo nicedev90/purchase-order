@@ -163,15 +163,34 @@
             <?php require APPROOT . '/views/encargado/partials/modal_subir_adjunto.php'; ?>
           </div>
           
+          <div class="d-md-flex alert alert-success text-dark ">
 
-              <div class="d-md-flex alert alert-success text-dark ">
-                <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
-                  <div class="row col-md-4 p-4">
-                    <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
-                    <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
-                  </div>
-                <?php endfor; ?>
+            <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
+
+              <div class="row col-md-4 p-4">
+                <img src="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" style="width:40%" class="img-thumbnail">
+                <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank"> Ver Completo  </a>
               </div>
+
+              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                <div class="row col-md-4 p-4">
+                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
+                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
+                </div>
+              <?php endfor; ?>
+
+            <?php else : ?>
+
+              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                <div class="row col-md-4 p-4">
+                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
+                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
+                </div>
+              <?php endfor; ?>
+
+            <?php endif; ?>
+
+          </div>
 
           
         </div>
@@ -199,11 +218,14 @@
               <span>IMPRIMIR</span>
             </a>
           <?php else : ?>
+
             <a href="<?php echo URLROOT; ?>/encargados/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
             </a>
-            <?php if ($data['revisor1'] == $_SESSION['user_nombre']) : ?>
+
+            <!-- Verificar si User es Revisor 1 y Aprob 1  -->
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) != 'APROBADO') : ?>
               <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden1" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>1° REVISION </span>
@@ -211,13 +233,22 @@
               <?php require APPROOT . '/views/encargado/partials/modal_aprobacion1.php'; ?>
             <?php endif; ?>
 
-            <?php if ($data['revisor2'] == $_SESSION['user_nombre']) : ?>
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
+              <div class="col-12 col-md-3 mt-4 p-3 btn btn-success fw-bold">
+                <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
+              </div>
+            <?php endif; ?>
+
+
+            <!-- Verificar si User es Revisor 2 y Aprob 2  -->
+            <?php if ($data['revisor2'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
               <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden2" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>2° REVISION </span>
               </a>
               <?php require APPROOT . '/views/encargado/partials/modal_aprobacion2.php'; ?>
             <?php endif; ?>
+
              
           <?php endif; ?> 
         </div>
@@ -382,14 +413,33 @@
           </div>
           
 
-              <div class="d-md-flex alert alert-success text-dark ">
-                <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
-                  <div class="row col-md-4 p-4">
-                    <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
-                    <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
-                  </div>
-                <?php endfor; ?>
+          <div class="d-md-flex alert alert-success text-dark ">
+            <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
+
+              <div class="row col-md-4 p-4">
+                <img src="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" style="width:40%" class="img-thumbnail">
+                <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank"> Ver Completo  </a>
               </div>
+
+              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                <div class="row col-md-4 p-4">
+                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
+                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
+                </div>
+              <?php endfor; ?>
+
+            <?php else : ?>
+
+              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                <div class="row col-md-4 p-4">
+                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
+                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
+                </div>
+              <?php endfor; ?>
+
+            <?php endif; ?>
+          
+          </div>
 
         </div>
 
@@ -418,12 +468,16 @@
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
+            <!-- SI LA ORDEN NO ESTA NI ACEPTADA NI RECHAZADA -> en proceso -->
           <?php else : ?>
+
             <a href="<?php echo URLROOT; ?>/encargados/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
             </a>
-            <?php if ($data['revisor1'] == $_SESSION['user_nombre']) : ?>
+
+            <!-- Verificar si User es Revisor 1 y Aprob 1  -->
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) != 'APROBADO') : ?>
               <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden1" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>1° REVISION </span>
@@ -431,7 +485,15 @@
               <?php require APPROOT . '/views/encargado/partials/modal_aprobacion1.php'; ?>
             <?php endif; ?>
 
-            <?php if ($data['revisor2'] == $_SESSION['user_nombre']) : ?>
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
+              <div class="col-12 col-md-3 mt-4 p-3 btn btn-success fw-bold">
+                <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
+              </div>
+            <?php endif; ?>
+
+
+            <!-- Verificar si User es Revisor 2 y Aprob 2  -->
+            <?php if ($data['revisor2'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
               <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden2" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>2° REVISION </span>
