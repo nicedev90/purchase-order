@@ -7,7 +7,7 @@
 		}
 
 		// ************ BEGIN INDEX VIEW
-		public static function index() {
+		public function index() {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
 				$user = $_SESSION['user_usuario'];
 				$minas = $this->getMinas();
