@@ -251,7 +251,7 @@
 
       	$totalFiles = count($files['name']);
 
-    		mkdir('../public/files/pe/' . $num_os);
+    		// mkdir('../public/files/pe/' . $num_os);
         $filesDir = '../public/files/pe/' . $num_os . '/';
 
       	$enlaces = [];
@@ -272,7 +272,7 @@
       } else {
     		$totalFiles = count($files['name']);
 
-    		mkdir('../public/files/cl/' . $num_os);
+    		// mkdir('../public/files/cl/' . $num_os);
         $filesDir = '../public/files/cl/' . $num_os . '/';
 
       	$enlaces = [];
