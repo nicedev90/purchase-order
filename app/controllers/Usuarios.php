@@ -7,11 +7,12 @@
 		}
 
 		// ************ BEGIN INDEX VIEW
-		public function index() {
+		public static function index() {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
 				$user = $_SESSION['user_usuario'];
 				$minas = $this->getMinas();
-				$controller = strtolower(get_called_class());
+				// $controller = strtolower(get_called_class());
+				$controller = strtolower(static::class);
 
 				$ordenes = $this->getOrdenes($user);
 				$method = ucwords(__FUNCTION__);
