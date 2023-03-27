@@ -81,7 +81,7 @@
                     </div>
                     <div class="ps-3">
                       <?php 
-                        if (count($data['totalOrdenes']) > 0) {
+                        if (isset($data['totalOrdenes'])) {
                           $totalAprobados = 0; 
 
                           foreach($data['totalOrdenes'] as $orden) {
