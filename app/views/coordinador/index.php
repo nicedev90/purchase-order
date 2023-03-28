@@ -18,7 +18,6 @@
  
  <!-- <?php print_r($data)  ?> -->
 <section class="section dashboard">
-
     <!-- Inicio tabla resumen Ordenes -->
     <div class="col-12">
         <div class="card recent-sales overflow-auto">
@@ -28,28 +27,54 @@
                 <table class="table table-hover table-borderless datatable">
                     <thead>
                         <tr>
-                        <th scope="col">N° O.S.</th>
-                        <th scope="col">Creado por</th>
-                        <th scope="col">Detalle </th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Fecha de Creación</th>
-                        <th scope="col">Acción</th>
+                        <th class="col text-center">Rol</th>
+                        <th class="col text-center">Funcion</th>
+                        <th class="col text-center">Nombre</th>
+                        <th class="col text-center">Usuario</th>
+                        <th class="col text-center">Email</th>
+                        <th class="col text-center">Estado</th>
+                        <th class="col text-center"> Accion </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($data['ordenes'] as $orden): ?>
+                        <?php foreach($data['usuarios'] as $usuario): ?>
                         <tr>
-                            <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                            <td><?php echo utf8_encode($orden->usuario); ?></td>
-                            <td class="text-primary"><?php echo utf8_encode($orden->descripcion); ?></td>
-                            <td><button class="btn btn-success"><?php echo utf8_encode($orden->estado); ?></span></td>
-                            <td class="text-primary"><?php echo fixedFecha($orden->creado); ?></td>
-                            <td class="d-flex justify-content-around">
-                                <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#largeModal2"><i class="bi bi-search"></i></a>
-                                <a href="<?php echo URLROOT; ?>/encargados/editar_os" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>   
-                                <?php require APPROOT . '/views/encargado/partials/modal_tabla.php'; ?>
-                                
+                            <td class="text-center fw-bold "> 
+                            <?php if($usuario->user_rol=="Encargado"){ ?>
+                            <?php  echo '<a class="badge bg-danger">Encargado</a>'; ?>
+                            <?php } 
+                            else if ($usuario->user_rol == "Usuario" ){?>
+                                <?php echo '<a class="badge bg-primary">Usuario</a>'; ?>
+                            <?php } ?>
+                            </td>
 
+                            <td class="text-dark text-center ">
+                            <?php if($usuario->funcion=="Normal"){ ?>
+                            <?php  echo '<a class="badge bg-primary">Normal</a>'; ?>
+                            <?php } 
+                            else if ($usuario->funcion == "Revisor" ){?>
+                                <?php echo '<a class="badge bg-dark">Revisor</a>'; ?>
+                            <?php } ?>
+                            </td>
+
+                            <td class="text-dark text-center fw-bold "><?php echo utf8_encode($usuario->nombre); ?></td>
+                            <td  class="text-dark text-center"><?php echo utf8_encode($usuario->usuario); ?></span></td>
+                            <td class="text-primary text-center"><?php echo utf8_encode($usuario->email); ?></td>
+                            <td class="text-primary text-center">
+                                
+                                <?php if($usuario->estado=="Activo"){ ?>
+                                  <?php  echo '<a class="badge bg-success">Activo</a>'; ?>
+                                <?php } 
+                                  else if ($usuario->estado == "Inactivo" ){?>
+                                  <?php echo '<a class="badge bg-danger">Inactivo</a>'; ?>
+                                <?php } ?>
+                                </td>
+                            <td class="d-flex justify-content-around ">
+                                
+                                <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit_user_<?php echo $usuario->id ?>"><i class="bi bi-check2-square"></i></a>   
+                                <?php require APPROOT . '/views/coordinador/partials/modal_edit_user.php'; ?>
+                                <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#edit_user_<?php echo $usuario->id ?>"><i class="bi bi-trash3-fill"></i></i></a>   
+            
                             </td>
                             
                         </tr>
@@ -60,10 +85,11 @@
             </div>
         </div>
     </div>
-    <!-- Fin tabla resumen Ordenes -->
+    <!-- Fin tabla resumen usuarioes -->
 
 
 </section>
+
 
 </main><!-- End #main -->
 

@@ -761,53 +761,7 @@
       }
     }
 	  // ************ END CREAR PDF
-	  // 
-    // ************ BEGIN EDITAR AREAS SUPERVISORES
-		public function edit_revision() {
-			if (isset($_POST['btn_fondo'])) {
-      	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-      		$sede = $_SESSION['user_sede'];
-      		$tipo = $_POST['tipo_fondo'];
-
-      		$area_1 = $_POST['area_fondo_1'];
-      		$area_2 = $_POST['area_fondo_2'];
-      		$area_3 = $_POST['area_fondo_3'];
-
-      	$this->encargado->updateRevFondos($sede,$tipo,$area_1,$area_2,$area_3);
-
-      	redirect('encargados/edit_revision');
-			}
-
-			if (isset($_POST['btn_compra'])) {
-      	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-      		$sede = $_SESSION['user_sede'];
-      		$tipo = $_POST['tipo_compra'];
-
-      		$area_1 = $_POST['area_compra_1'];
-      		$area_2 = $_POST['area_compra_2'];
-
-      	$this->encargado->updateRevCompras($sede,$tipo,$area_1,$area_2);
-
-      	redirect('encargados/edit_revision');
-			}
-
-
-			$user = $_SESSION['user_usuario'];
-
-			$sede = $_SESSION['user_sede'];
-
-			$areas = $this->encargado->getRevAreas($sede);
-	
-			$data = [
-				'areas' => $areas
-			];
-
-			$this->view('encargado/edit_revision', $data);
-			
-		}
-
-	  // ************ END EDITAR AREAS SUPERVISORES
-	  // 
+    // 
     // ************ VISTAS SIDEBAR
     public function config_general() {
     	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
@@ -869,7 +823,7 @@
 					'pagename' => $method
 				];
 
-				$this->view('usuario/version', $data);
+				$this->view('encargado/version', $data);
 				
     	}
     }

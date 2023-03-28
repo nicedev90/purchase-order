@@ -60,7 +60,7 @@
                                         <label for="validationTooltip04" class="col-md-4 col-lg-3 col-form-label"><b>Rol de Usuario</b> </label>
                                             <div class="col-md-8 col-lg-9">
                                                 <select name="rol_id" class="form-select" required>
-                                                    <option selected value="<?php echo utf8_encode($usuario->rol_id); ?>"><?php echo utf8_encode        ($usuario->user_rol); ?></option> 
+                                                    <option selected value="<?php echo utf8_encode($usuario->rol_id); ?>"><?php echo utf8_encode($usuario->user_rol); ?></option> 
                                                         <?php foreach($data['roles'] as $rol): ?>
                                                     <option value="<?php echo $rol->id; ?>"> <?php echo $rol->rol; ?></option>
                                                         <?php endforeach; ?>

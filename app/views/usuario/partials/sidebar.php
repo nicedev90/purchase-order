@@ -23,12 +23,12 @@
     </a>
     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="<?php echo URLROOT; ?>/usuarios/historial">
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/historial'?>">
           <i class="bi bi-circle"></i><span>Consultar OS</span>
         </a>
       </li>
       <li>
-        <a href="<?php echo URLROOT; ?>/usuarios/registros">
+        <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/registros'?>">
           <i class="bi bi-circle"></i><span>Actividad de sesión</span>
         </a>
       </li>
@@ -44,13 +44,13 @@
     </a>
     <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="informacion/informacion_pe.php">
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/guia_compra'?>">
           <i class="bi bi-circle"></i><span>Compra</span>
         </a>
       </li>
       <li>
-        <a href="informacion/informacion_cl.php">
-          <i class="bi bi-circle"></i><span>Fondo</span>
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/guia_fondos'?>">
+          <i class="bi bi-circle"></i><span><?php echo ($_SESSION['user_sede'] == 'Peru') ? 'Caja Chica' : 'Fondos' ?></span>
         </a>
       </li>
     </ul>
@@ -64,12 +64,12 @@
     </a>
     <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="<?php echo URLROOT; ?>/usuarios/config_general">
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/config_general'?>">
           <i class="bi bi-circle"></i><span>General</span>
         </a>
       </li>
       <li>
-        <a href="<?php echo URLROOT; ?>/usuarios/config_seguridad">
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/config_seguridad'?>">
           <i class="bi bi-circle"></i><span>Seguridad</span>
         </a>
       </li>
@@ -79,7 +79,7 @@
   <li class="nav-heading">INFORMACIÓN</li>
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="<?php echo URLROOT; ?>/usuarios/version">
+    <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/version'?>">
       <i class="bi bi-person"></i>
       <span>Versión</span>
     </a>
