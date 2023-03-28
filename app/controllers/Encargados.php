@@ -504,7 +504,14 @@
 				$aprobacion = $_POST['aprobacion'];
 				$num_os = $_POST['num_os'];
 
-				$update = $this->setRevision1($num_os,$observacion,$aprobacion);
+				if (strtoupper($aprobacion) == 'RECHAZADO') {
+					$update = $this->setRevision1($num_os,$observacion,$aprobacion);
+					$upOrden = $this->updateOrdenStatus($num_os,$aprobacion);
+				} else {
+					$update = $this->setRevision1($num_os,$observacion,$aprobacion);
+				}
+
+				
 
 				if ($update) {
 					redirect('encargados/editar' . '/' . $num_os);

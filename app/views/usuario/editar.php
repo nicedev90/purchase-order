@@ -201,7 +201,7 @@
               <span>REGRESAR</span>
             </button>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -212,7 +212,7 @@
               <span>REGRESAR</span>
             </button>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -424,7 +424,7 @@
               <span>REGRESAR</span>
             </a>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -435,7 +435,7 @@
               <span>REGRESAR</span>
             </a>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>

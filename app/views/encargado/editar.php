@@ -202,7 +202,7 @@
               <span>REGRESAR</span>
             </button>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -213,7 +213,7 @@
               <span>REGRESAR</span>
             </button>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -225,7 +225,7 @@
             </a>
 
             <!-- Verificar si User es Revisor 1 y Aprob 1  -->
-            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) != 'APROBADO') : ?>
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  &&  str_contains(strtoupper($data['aprob_1']), '-') ) : ?>
               <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden1" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>1° REVISION </span>
@@ -235,6 +235,12 @@
 
             <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
               <div class="col-12 col-md-3 mt-4 p-3 btn btn-success fw-bold">
+                <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
+              </div>
+            <?php endif; ?>
+
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'RECHAZADO') : ?>
+              <div class="col-12 col-md-3 mt-4 p-3 btn btn-danger fw-bold">
                 <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
               </div>
             <?php endif; ?>
@@ -453,7 +459,7 @@
               <span>REGRESAR</span>
             </a>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -464,7 +470,7 @@
               <span>REGRESAR</span>
             </a>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['orden'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -477,7 +483,7 @@
             </a>
 
             <!-- Verificar si User es Revisor 1 y Aprob 1  -->
-            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) != 'APROBADO') : ?>
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  &&  str_contains(strtoupper($data['aprob_1']), '-') ) : ?>
               <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden1" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>1° REVISION </span>
@@ -487,6 +493,12 @@
 
             <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
               <div class="col-12 col-md-3 mt-4 p-3 btn btn-success fw-bold">
+                <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
+              </div>
+            <?php endif; ?>
+
+            <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'RECHAZADO') : ?>
+              <div class="col-12 col-md-3 mt-4 p-3 btn btn-danger fw-bold">
                 <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
               </div>
             <?php endif; ?>
