@@ -310,7 +310,7 @@
     }
 
     // ************ END CREAR ORDEN
-
+    // 
     // ************ BEGIN EDITAR ORDEN
     public function updateEnlacePe($id,$enlace) {
       $this->db->query('UPDATE enlaces_pe SET enlace = :enlace  WHERE id = :id');
@@ -418,8 +418,8 @@
       }
     }
 
-
-
+    // ************ END EDITAR ORDEN
+    // 
     // ********  BEGIN CREAR PDF
     public function getOrdenItemsPe($num_os) {
       $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_peru o 
@@ -442,6 +442,28 @@
     public function getOrdenRevisionPe($num_os) {
       $this->db->query('SELECT * FROM revision_pe WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenEnlacesPe($num_os) {
+      $this->db->query('SELECT * FROM enlaces_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenObsPe($num_os) {
+      $this->db->query('SELECT * FROM obs_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getRevisionAreasPe($sede, $tipo) {
+      $this->db->query('SELECT * FROM revision_areas WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
       $res = $this->db->getSet();
       return $res;
     }
@@ -471,9 +493,9 @@
       return $res;
     }
 
+
     // ********  END CREAR PDF
-
-
+    // 
     // ********  BEGIN EDITAR USUARIO
     public function getDataUser($id) {
       $this->db->query('SELECT u.*, r.rol AS rol , s.sede AS sede FROM usuarios u 

@@ -184,8 +184,15 @@ class Pdf extends FPDF{
 // colocar imagen de fondo / marco en toda  la pagina
 // Image($watermark, 0, 0, $this->w, $this->h, 'PNG');
 
+  function setNameOs($tipo) {
+    if ($_SESSION['user_sede'] == 'Peru' && $tipo == 'FONDOS') {
+      return 'Caja Chica';
+    } else {
+      return $tipo;
+    }
+  }
 
-  function displayItems($data) {
+  function displayItemsCompra($data) {
     $rowTableHeight = 7;
 
     foreach($data as $row) {
@@ -195,9 +202,69 @@ class Pdf extends FPDF{
       $this->Cell(8,$rowTableHeight,$row->item, 1,0,'C',true);
       $this->Cell(10,$rowTableHeight,$row->unidad, 1,0,'C',true);
       $this->Cell(10,$rowTableHeight,$row->cantidad, 1,0,'C',true);
-      $this->Cell(107,$rowTableHeight, $row->descripcion, 1,0,'L',true);
+      $this->Cell(97,$rowTableHeight, $row->descripcion, 1,0,'L',true);
       $this->Cell(30,$rowTableHeight,$row->proveedor, 1,0,'C',true);
-      $this->Cell(20,$rowTableHeight,number_format($row->valor, 2, '.', ' ') . ' ', 1,1,'R',true);
+      $this->Cell(30,$rowTableHeight, $this->setMoneda() . number_format(floatval($row->valor), 2, '.', ' ') . ' ', 1,1,'R',true);
+    }
+  }
+
+  function displayItemsFondos($data) {
+    $rowTableHeight = 7;
+
+    foreach($data as $row) {
+      $this->SetFont('Helvetica','',8);
+      $this->bgWhite();
+      $this->textDark();
+      $this->Cell(8,$rowTableHeight,$row->item, 1,0,'C',true);
+      $this->Cell(137,$rowTableHeight, $row->descripcion, 1,0,'L',true);
+      $this->Cell(40,$rowTableHeight,$this->setMoneda() . number_format(floatval($row->valor), 2, '.', ' ') . ' ', 1,1,'R',true);
+    }
+  } 
+
+  function setMoneda() {
+    if ($_SESSION['user_sede'] == 'Peru') {
+      return 'S/. ';
+    } else {
+      return '$. ';
+    }
+  }
+
+  function displayObs($data,$width) {
+    $row_title = floor($width/5);
+    $row_details = $width - $row_title;
+    $border_obs = TRUE;
+    $fill_obs = TRUE;
+
+      $this->SetFont('Helvetica','',9);
+      $this->bgPrimary();
+      $this->textWhite();
+      $this->Cell($row_title,7,utf8_decode('Observación : '), $border_obs,0,'C',$fill_obs);
+
+      $this->SetFont('Helvetica','',8);
+      $this->bgWhite();
+      $this->SetTextColor(0,0,255);
+      $this->Cell($row_details,7, '  ' . $data[0]->observaciones, $border_obs,1,'L',$fill_obs);
+    
+  }
+
+  function displayLinks($data,$width) {
+    $row_title = floor($width/5);
+    $row_details = $width - $row_title;
+    $border_obs = TRUE;
+    $fill_obs = TRUE;
+
+    foreach($data as $row) {
+      $link = '  ' . $row;
+
+      $this->SetFont('Helvetica','',9);
+      $this->bgPrimary();
+      $this->textWhite();
+      $this->Cell($row_title,7,utf8_decode('Enlace Referencia: '), $border_obs,0,'C',$fill_obs);
+
+      $this->SetFont('Helvetica','',8);
+      $this->bgWhite();
+      $this->SetTextColor(0,0,255);
+      $this->Cell($row_details,7,$link, $border_obs,1,'L',$fill_obs, $row);
     }
   }
 
@@ -223,28 +290,7 @@ class Pdf extends FPDF{
     }
   }
 
-  function displayLinks($data,$width) {
-    $row_title = floor($width/5);
-    $row_details = $width - $row_title;
-    $border_obs = TRUE;
-    $fill_obs = TRUE;
-
-    foreach($data as $row) {
-      $link = '  ' . $row;
-
-      $this->SetFont('Helvetica','',9);
-      $this->bgPrimary();
-      $this->textWhite();
-      $this->Cell($row_title,7,utf8_decode('Enlace Referencia: '), $border_obs,0,'C',$fill_obs);
-
-      $this->SetFont('Helvetica','',8);
-      $this->bgWhite();
-      $this->SetTextColor(0,0,255);
-      $this->Cell($row_details,7,$link, $border_obs,1,'L',$fill_obs, $row);
-    }
-  }
-
-  function checkPurchase($data,$width) {
+  function checkPurchase($data,$rev,$width) {
       $signatureSpace = 10;
       $numero_col = 2;
       $margin_r = 14;
@@ -286,8 +332,8 @@ class Pdf extends FPDF{
     $this->bgPrimary();
     $this->textWhite();
     $this->Cell($leftMargin,7,utf8_decode(''),0,0,'C',FALSE);
-    $this->Cell($col-10,7,utf8_decode('Area Tecnica: '), $border_firmas,0,'C',$fill_firmas);
-    $this->Cell($col-10,7,utf8_decode('Area Adquisiciones: '), $border_firmas,1,'C',$fill_firmas);
+    $this->Cell($col-10,7,strtoupper($rev->area_1), $border_firmas,0,'C',$fill_firmas);
+    $this->Cell($col-10,7,strtoupper($rev->area_2), $border_firmas,1,'C',$fill_firmas);
 
     // row 2 NOMBRE DE APROBACIONES
     $this->SetFont('Helvetica','',10);
@@ -308,7 +354,7 @@ class Pdf extends FPDF{
     $this->Ln($signatureSpace);
   }
 
-  function checkFund($data,$width) {
+  function checkFund($data,$rev,$width) {
       $signatureSpace = 10;
       $numero_col = 2;
       $margin_r = 14;
@@ -350,8 +396,8 @@ class Pdf extends FPDF{
     $this->bgPrimary();
     $this->textWhite();
     $this->Cell($leftMargin,7,utf8_decode(''),0,0,'C',FALSE);
-    $this->Cell($col-10,7,utf8_decode('Area Tecnica: '), $border_firmas,0,'C',$fill_firmas);
-    $this->Cell($col-10,7,utf8_decode('Area Adquisiciones: '), $border_firmas,1,'C',$fill_firmas);
+    $this->Cell($col-10,7,strtoupper($rev->area_1), $border_firmas,0,'C',$fill_firmas);
+    $this->Cell($col-10,7,strtoupper($rev->area_2), $border_firmas,1,'C',$fill_firmas);
 
     // row 2 NOMBRE DE APROBACIONES
     $this->SetFont('Helvetica','',10);
@@ -379,10 +425,9 @@ class Pdf extends FPDF{
       $suma_fondos += floatval($row->valor);
     }
 
-    return number_format($suma_fondos, 2, '.', ' ');
+    return $this->setMoneda() . number_format($suma_fondos, 2, '.', ' ');
   }
 
-  
 
 
 

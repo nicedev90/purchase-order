@@ -445,7 +445,7 @@
 
 
     public function setRevision1Pe($num_os,$observacion,$aprobacion) {
-      $this->db->query('UPDATE revision_pe SET obs_1 = :observacion, aprob_1 = :aprobacion  WHERE num_os = :num_os');
+      $this->db->query('UPDATE revision_pe SET obs_1 = :observacion, aprob_1 = :aprobacion, fecha_aprob_1 = NOW()  WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':observacion', $observacion);
       $this->db->bind(':aprobacion', $aprobacion);
@@ -458,7 +458,7 @@
     }
 
     public function setRevision2Pe($num_os,$observacion,$aprobacion) {
-      $this->db->query('UPDATE revision_pe SET obs_2 = :observacion, aprob_2 = :aprobacion  WHERE num_os = :num_os');
+      $this->db->query('UPDATE revision_pe SET obs_2 = :observacion, aprob_2 = :aprobacion, fecha_aprob_2 = NOW()  WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':observacion', $observacion);
       $this->db->bind(':aprobacion', $aprobacion);
@@ -471,7 +471,7 @@
     }
 
     public function setRevision1Cl($num_os,$observacion,$aprobacion) {
-      $this->db->query('UPDATE revision_cl SET obs_1 = :observacion, aprob_1 = :aprobacion  WHERE num_os = :num_os');
+      $this->db->query('UPDATE revision_cl SET obs_1 = :observacion, aprob_1 = :aprobacion, fecha_aprob_1 = NOW()  WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':observacion', $observacion);
       $this->db->bind(':aprobacion', $aprobacion);
@@ -484,7 +484,7 @@
     }
 
     public function setRevision2Cl($num_os,$observacion,$aprobacion) {
-      $this->db->query('UPDATE revision_cl SET obs_2 = :observacion, aprob_2 = :aprobacion  WHERE num_os = :num_os');
+      $this->db->query('UPDATE revision_cl SET obs_2 = :observacion, aprob_2 = :aprobacion, fecha_aprob_2 = NOW()  WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':observacion', $observacion);
       $this->db->bind(':aprobacion', $aprobacion);
@@ -497,7 +497,19 @@
     }
 
     public function updateOrdenStatusPe($num_os,$status) {
-      $this->db->query('UPDATE os_peru SET estado = :status WHERE num_os = :num_os');
+      $this->db->query('UPDATE os_peru SET estado = :status, actualizado = NOW() WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':status', $status);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function updateOrdenStatusCl($num_os,$status) {
+      $this->db->query('UPDATE os_chile SET estado = :status, actualizado = NOW() WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
       $this->db->bind(':status', $status);
 

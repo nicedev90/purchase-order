@@ -330,15 +330,6 @@
       }
 		}
 
-		// public function enviarOrden($data) {
-    //   if ($_SESSION['user_sede'] == 'Peru') {
-    //     return $this->usuario->registrarOrdenPe($data);
-    //   } else {
-    //     return $this->usuario->registrarOrdenCl($data);
-    //   }
-	  // }
-
-
 	  public function enviarOrden($data) {
       if ($_SESSION['user_sede'] == 'Peru') {
         $guardado = $this->usuario->registrarOrdenPe($data);
@@ -419,9 +410,7 @@
       $mensajeCompleto =  "\n Se ha creado la orden de servicio: " . $num_os;
   
       mail($destinatario,$mensajeCompleto,$contenido);
-
     }
-
 
 
 	  // If is not POST the form
@@ -611,29 +600,29 @@
         return $this->usuario->setItemCl($id,$cantidad,$unidad,$descripcion,$proveedor,$valor);
       }
 	  }
-
-
-	  // public function updateOrden($data) {
-    //   if ($_SESSION['user_sede'] == 'Peru') {
-    //     return $this->usuario->updateOrdenPe($data);
-    //   } else {
-    //     return $this->usuario->updateOrdenCl($data);
-    //   }
-	  // }
-
-
-
-
+	  
+	  // ************ END EDITAR  ORDEN
+	  // 
+	  // ************ BEGIN CREAR PDF
 	  public function crear_pdf($num_os) {
 	  	if ($_SESSION['user_sede'] == 'Peru') {
 				$items = $this->usuario->getOrdenItemsPe($num_os);
 				$adjuntos = $this->usuario->getOrdenFilesPe($num_os);
 				$revision = $this->usuario->getOrdenRevisionPe($num_os);
+				$enlaces = $this->usuario->getOrdenEnlacesPe($num_os);
+				$observ = $this->usuario->getOrdenObsPe($num_os);
+
+				$sede = $_SESSION['user_sede'];
+				$tipo = $revision[0]->tipo;
+				$areas = $this->usuario->getRevisionAreasPe($sede,$tipo);
 				
 				$data = [
 					'items' => $items,
 					'adjuntos' => $adjuntos,
-					'revision' => $revision
+					'revision' => $revision,
+					'enlaces' => $enlaces,
+					'observ' => $observ,
+					'areas' => $areas
 				];
 
 				// echo "<pre>";
@@ -661,8 +650,8 @@
 				$this->view('usuario/crear_pdf', $data);
       }
     }
-
-
+	  // ************ END CREAR PDF
+	  // 
     // ************ VISTAS SIDEBAR
     public function config_general() {
     	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 
@@ -685,11 +674,6 @@
 						'pagename' => $method
 					];
 
-				//  echo "<pre>";
-				// print_r($data);
-				// echo $_SESSION['user_id'];
-				// die();
-
 					$this->view('usuario/config_general', $data);
 				}
     	}
@@ -708,18 +692,11 @@
 					$controller = strtolower(get_called_class());
 					$method = ucwords(__FUNCTION__);
 
-
 					$data = [
 						'dataUser' => $dataUser,
-
 						'controller' => $controller,
 						'pagename' => $method
 					];
-
-				//  echo "<pre>";
-				// print_r($data);
-				// echo $_SESSION['user_id'];
-				// die();
 
 					$this->view('usuario/config_seguridad', $data);
 				}
@@ -732,11 +709,9 @@
 				$method = ucwords(__FUNCTION__);
 
 				$data = [
-
 					'controller' => $controller,
 					'pagename' => $method
 				];
-
 
 				$this->view('usuario/version', $data);
 				
@@ -751,15 +726,11 @@
 				$userLogs = $this->usuario->getUserLog($_SESSION['user_usuario']);
 				$data = [
 					'logs' => $userLogs,
-
 					'controller' => $controller,
 					'pagename' => $method
-
 				];
 
-
 				$this->view('usuario/registros', $data);
-				
     	}
     }
     
