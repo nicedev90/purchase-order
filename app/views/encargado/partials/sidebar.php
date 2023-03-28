@@ -3,12 +3,18 @@
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
-          <a class="nav-link " href="dashboard.php">
+          <a class="nav-link " href="<?php echo URLROOT; ?>/usuarios/index">
             <i class="bi bi-grid"></i>
-            <span>Dashboard</span>
-            
+            <span>Dashboard </span>
+            <p class="text-light">text-light</p>
+              <?php if ($_SESSION['user_sede']== "Peru") { ?>
+                  <img src="<?php echo URLROOT; ?>/img/chullo.png" width="40" height="40"/>
+                    <?php } else { ?>
+                  <img src="<?php echo URLROOT; ?>/img/bandera_chile.png" width="40" height="40"/>
+              <?php } ?>
           </a>
   </li>
+
 
   <li class="nav-heading">CONSULTA TUS ORDENES DE SERVICIO</li>
 
@@ -19,19 +25,18 @@
     </a>
     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="historial/consultar_os.php">
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/historial'?>">
           <i class="bi bi-circle"></i><span>Consultar OS</span>
         </a>
       </li>
       <li>
-        <a href="historial/actividad_sesión.php">
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/registros'?>">
           <i class="bi bi-circle"></i><span>Actividad de sesión</span>
         </a>
       </li>
     </ul>
   </li><!-- End Components Nav -->
 
-  
 
 
   <li class="nav-item">
