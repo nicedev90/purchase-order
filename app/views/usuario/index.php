@@ -197,7 +197,7 @@
                 <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
                 <td class="d-flex justify-content-around">
                   <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-                    <a href="<?php echo URLROOT . '/usuarios/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
                   <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
                     <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
                   <?php else: ?>

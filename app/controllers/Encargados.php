@@ -694,8 +694,68 @@
         return $this->encargado->setItemCl($id,$cantidad,$unidad,$descripcion,$proveedor,$valor);
       }
 	  }
+	  // ************ END EDITAR  ORDEN
+	  // 
+	  // ************ BEGIN CREAR PDF
+	  public function crear_pdf($num_os) {
+	  	if ($_SESSION['user_sede'] == 'Peru') {
+				$items = $this->encargado->getOrdenItemsPe($num_os);
+				$adjuntos = $this->encargado->getOrdenFilesPe($num_os);
+				$revision = $this->encargado->getOrdenRevisionPe($num_os);
+				$enlaces = $this->encargado->getOrdenEnlacesPe($num_os);
+				$observ = $this->encargado->getOrdenObsPe($num_os);
+
+				$sede = $_SESSION['user_sede'];
+				$tipo = $revision[0]->tipo;
+				$areas = $this->encargado->getRevisionAreasPe($sede,$tipo);
+				
+				$data = [
+					'items' => $items,
+					'adjuntos' => $adjuntos,
+					'revision' => $revision,
+					'enlaces' => $enlaces,
+					'observ' => $observ,
+					'areas' => $areas
+				];
+
+				// echo "<pre>";
+				// print_r($data);
+				// die();
+
+				$this->view('encargado/crear_pdf', $data);
+
+      } else {
+
+				$items = $this->encargado->getOrdenItemsCl($num_os);
+				$adjuntos = $this->encargado->getOrdenFilesCl($num_os);
+				$revision = $this->encargado->getOrdenRevisionCl($num_os);
+				$enlaces = $this->encargado->getOrdenEnlacesCl($num_os);
+				$observ = $this->encargado->getOrdenObsCl($num_os);
+
+				$sede = $_SESSION['user_sede'];
+				$tipo = $revision[0]->tipo;
+				$areas = $this->encargado->getRevisionAreasCl($sede,$tipo);
+				
+				$data = [
+					'items' => $items,
+					'adjuntos' => $adjuntos,
+					'revision' => $revision,
+					'enlaces' => $enlaces,
+					'observ' => $observ,
+					'areas' => $areas
+				];
 
 
+				// echo "<pre>";
+				// print_r($data);
+				// die();
+
+				$this->view('encargado/crear_pdf', $data);
+      }
+    }
+	  // ************ END CREAR PDF
+	  // 
+    // ************ BEGIN EDITAR AREAS SUPERVISORES
 		public function edit_revision() {
 			if (isset($_POST['btn_fondo'])) {
       	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -739,141 +799,89 @@
 			
 		}
 
-		// public function getOrdenData($num_os) {
-		// 	if ($_SESSION['user_sede'] == 'Peru') {
-		// 		// $ordenData = $this->encargado->getOrdenDataPe($num_os);
-		// 		$ordenData = $this->encargado->getOrdenItemsPe($num_os);
+	  // ************ END EDITAR AREAS SUPERVISORES
+	  // 
+    // ************ VISTAS SIDEBAR
+    public function config_general() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+    		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-		// 		return $ordenData;
-		// 	} else {
-		// 		$ordenData = $this->encargado->getOrdenItemsCl($num_os);
-		// 		return $ordenData;
-		// 	}
-		// }
+				} else {
 
-		// public function crear_pdf($num_os) {
-		// 	if ($_SESSION['user_sede'] == 'Peru') {
-		// 		$items = $this->encargado->getOrdenItemsPe($num_os);
-		// 		$adjuntos = $this->encargado->getOrdenFilesPe($num_os);
-		// 		$revision = $this->encargado->getOrdenRevisionPe($num_os);
+					$id = $_SESSION['user_id'];
+					$dataUser = $this->encargado->getDataUser($id);
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
+
+
+					$data = [
+						'dataUser' => $dataUser,
+
+						'controller' => $controller,
+						'pagename' => $method
+					];
+
+					$this->view('encargado/config_general', $data);
+				}
+    	}
+    }
+
+    public function config_seguridad() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+    		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+				} else {
+
+					$id = $_SESSION['user_id'];
+					$dataUser = $this->encargado->getDataUser($id);
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
+
+					$data = [
+						'dataUser' => $dataUser,
+						'controller' => $controller,
+						'pagename' => $method
+					];
+
+					$this->view('encargado/config_seguridad', $data);
+				}
+    	}
+    }
+
+    public function version() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+  			$controller = strtolower(get_called_class());
+				$method = ucwords(__FUNCTION__);
+
+				$data = [
+					'controller' => $controller,
+					'pagename' => $method
+				];
+
+				$this->view('usuario/version', $data);
 				
-		// 		$data = [
-		// 			'items' => $items,
-		// 			'adjuntos' => $adjuntos,
-		// 			'revision' => $revision
-		// 		];
+    	}
+    }
 
-		// 		// echo "<pre>";
-		// 		// print_r($data);
-		// 		// die();
+    public function registros() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+  			$controller = strtolower(get_called_class());
+				$method = ucwords(__FUNCTION__);
 
+				$userLogs = $this->encargado->getUserLog($_SESSION['user_usuario']);
+				$data = [
+					'logs' => $userLogs,
+					'controller' => $controller,
+					'pagename' => $method
+				];
 
-		// 		$this->view('encargado/crear_pdf', $data);
-		// 	} else {
-		// 		$data = $this->encargado->getDataToPdfCl($num_os);
-		// 		$this->view('encargado/crear_pdf', $data);
-		// 	}
-			
-		// }
-
-		// public function getLastOrder() {
-		// 	if ($_SESSION['user_sede'] == 'Peru') {
-		// 		$last = $this->encargado->getLastOrderPe();
-		// 		return $last;
-		// 	} else {
-		// 		$last = $this->encargado->getLastOrderCl();
-		// 		return $last;
-		// 	}
-		// }
-
-
-
-		// public function editar($num_os = null) {
-		// 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-		// 		$files = $this->getOrdenFiles($num_os);
-		// 		$items = $this->getOrdenItems($num_os);
-		// 		// $items = $items[1]->num_os;
-		// 		echo '<pre>';
-		// 		print_r($items);
-
-		// 		die('detenido');
-		// 		$data = [
-		// 			'files' => $files,
-		// 			'items' => $items,
-		// 			'num_os' => $num_os
-		// 		];
-
-		// 		$this->view('encargado/editar', $data);
-
-		// 	} else {
-
-				
-
-		// 		if (is_null($num_os)) {
-    //       $mina_nombre= '';
-    //       $mina_codigo = '';
-
-    //     } else {
-    //       // obtener info de la orden 
-    //       $files = $this->getOrdenFiles($num_os);
-		// 			$items = $this->getOrdenItems($num_os);
-		// 			// $items = $items[1]->num_os;
-    //       // $mina = $this->getMinaById($num_os);
-    //       // $mina_nombre = $items[1]->mina;
-    //       $mina_codigo = $items[1]->mina;
-    //       $mina_categ = $items[1]->categoria;
-    //       $estado = $items[1]->estado;
-    //     }
-
-		// 		// echo '<pre>';
-		// 		// print_r(count($items));
-
-		// 		// die('detenido');
-
-		// 		$data = [
-    //       'id' => $id,
-    //       'items' => $items,
-    //       'mina_nombre' => $mina_nombre,
-    //       'mina_codigo' => $mina_codigo,
-    //       'mina_categ' => $mina_categ,
-    //       'numero_os' => $num_os,
-    //       'estado' => $estado
-    //     ];
-
-		// 		$this->view('encargado/editar', $data);
-		// 	}
-		// }
-
-		// public function getOrdenFiles($num_os) {
-		// 	if ($_SESSION['user_sede'] == 'Peru') {
-		// 		$files = $this->encargado->getOrdenFilesPe($num_os);
-		// 		return $files;
-		// 	} else {
-		// 		$files = $this->encargado->getOrdenFilesCl($num_os);
-		// 		return $files;
-		// 	}
-		// }
-
-		// public function getOrdenItems($num_os) {
-		// 	if ($_SESSION['user_sede'] == 'Peru') {
-		// 		$orden = $this->encargado->getOrdenItemsPe($num_os);
-		// 		return $orden;
-		// 	} else {
-		// 		$orden = $this->encargado->getOrdenItemsCl($num_os);
-		// 		return $orden;
-		// 	}
-		// }
-
-	
-
-
-
-
-
-
-
-
+				$this->view('encargado/registros', $data);
+    	}
+    }
 
 
 

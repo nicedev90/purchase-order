@@ -421,6 +421,7 @@
     // ************ END EDITAR ORDEN
     // 
     // ********  BEGIN CREAR PDF
+    // Funciones para SEDE PERU
     public function getOrdenItemsPe($num_os) {
       $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_peru o 
         INNER JOIN minas_pe m ON o.mina = m.codigo 
@@ -468,6 +469,7 @@
       return $res;
     }
 
+    // Funciones para SEDE CHILE
     public function getOrdenItemsCl($num_os) {
       $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_chile o 
         INNER JOIN minas_cl m ON o.mina = m.codigo 
@@ -489,6 +491,28 @@
     public function getOrdenRevisionCl($num_os) {
       $this->db->query('SELECT * FROM revision_cl WHERE num_os = :num_os');
       $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenEnlacesCl($num_os) {
+      $this->db->query('SELECT * FROM enlaces_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getOrdenObsCl($num_os) {
+      $this->db->query('SELECT * FROM obs_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getRevisionAreasCl($sede, $tipo) {
+      $this->db->query('SELECT * FROM revision_areas WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
       $res = $this->db->getSet();
       return $res;
     }

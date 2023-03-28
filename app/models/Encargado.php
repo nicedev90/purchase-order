@@ -521,237 +521,130 @@
     }
 
 
-    // public function getMinaByIdPe($id) {
-    //   $this->db->query('SELECT * FROM minas_pe WHERE id = :id');
-    //   $this->db->bind(':id', $id);
 
-    //   $result = $this->db->getSingle();
-    //   return $result;
-    // }
+    // ************ END EDITAR ORDEN
+    // 
+    // ********  BEGIN CREAR PDF
+    // Funciones para SEDE PERU
+    public function getOrdenItemsPe($num_os) {
+      $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_peru o 
+        INNER JOIN minas_pe m ON o.mina = m.codigo 
+        INNER JOIN categ_peru c ON o.categoria = c.codigo
+        INNER JOIN usuarios u ON o.usuario = u.usuario
+        WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    // public function getMinaByIdCl($id) {
-    //   $this->db->query('SELECT * FROM minas_cl WHERE id = :id');
-    //   $this->db->bind(':id', $id);
+    public function getOrdenFilesPe($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    //   $result = $this->db->getSingle();
-    //   return $result;
-    // }
+    public function getOrdenRevisionPe($num_os) {
+      $this->db->query('SELECT * FROM revision_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    // public function getMinaCategPe($id) {
-    // 	$this->db->query('SELECT * FROM categ_peru WHERE mina_pe_id = :id');
-    // 	$this->db->bind(':id', $id);
-    // 	$res = $this->db->getSet();
-    // 	return $res;
-    // }
+    public function getOrdenEnlacesPe($num_os) {
+      $this->db->query('SELECT * FROM enlaces_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    // public function getMinaCategCl($id) {
-    // 	$this->db->query('SELECT * FROM categ_chile WHERE mina_cl_id = :id');
-    // 	$this->db->bind(':id', $id);
-    // 	$res = $this->db->getSet();
-    // 	return $res;
-    // }
+    public function getOrdenObsPe($num_os) {
+      $this->db->query('SELECT * FROM obs_pe WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-		// public function getNumeroCl() {
-    //   $this->db->query('SELECT id,num_os FROM os_chile GROUP BY id DESC LIMIT 1');
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //   	return $res;
-    //   } else {
-    //   	return false;
-    //   }
-    // }
+    public function getRevisionAreasPe($sede, $tipo) {
+      $this->db->query('SELECT * FROM revision_areas WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    // public function getNumeroPe() {
-    //   $this->db->query('SELECT id,num_os FROM os_peru GROUP BY id DESC LIMIT 1');
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //   	return $res;
-    //   } else {
-    //   	return false;
-    //   }
-    // }
+    // Funciones para SEDE CHILE
+    public function getOrdenItemsCl($num_os) {
+      $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_chile o 
+        INNER JOIN minas_cl m ON o.mina = m.codigo 
+        INNER JOIN categ_chile c ON o.categoria = c.codigo
+        INNER JOIN usuarios u ON o.usuario = u.usuario
+        WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    // public function getLastOrderPe() {
-    //   $this->db->query('SELECT * FROM os_peru GROUP BY id DESC LIMIT 1');
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //     return $res;
-    //   } else {
-    //     return false;
-    //   }
-    // }
+    public function getOrdenFilesCl($num_os) {
+      $this->db->query('SELECT * FROM adjuntos_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    // public function getItemsPdfPe($num_os) {
-    //   $this->db->query('SELECT * FROM os_peru WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
+    public function getOrdenRevisionCl($num_os) {
+      $this->db->query('SELECT * FROM revision_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //     return $res;
-    //   } else {
-    //     return false;
-    //   }
-    // }
+    public function getOrdenEnlacesCl($num_os) {
+      $this->db->query('SELECT * FROM enlaces_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    // public function getItemsPdfCl($num_os) {
-    //   $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
+    public function getOrdenObsCl($num_os) {
+      $this->db->query('SELECT * FROM obs_cl WHERE num_os = :num_os');
+      $this->db->bind(':num_os', $num_os);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //     return $res;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-    // public function getDataToPdfCl($num_os) {
-    //   $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-
-    //   $res =  $this->db->getSingle();
-    //   if ($this->db->rows() > 0) {
-    //     return $res;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-    // public function registrarOrdenCl($data) {
-    //   foreach($data as $row) {
-    //     $this->db->query('INSERT INTO os_chile (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor,estado) 
-    //         VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor, :estado)');
-    //     $this->db->bind(':num_os', $row['num_os']);
-    //     $this->db->bind(':usuario', $row['usuario']);
-    //     $this->db->bind(':mina', $row['mina']);
-    //     $this->db->bind(':categoria', $row['categoria']);
-    //     $this->db->bind(':item', $row['item']);
-    //     $this->db->bind(':cantidad', $row['cantidad']);
-    //     $this->db->bind(':unidad', $row['unidad']);
-    //     $this->db->bind(':descripcion', $row['descripcion']);
-    //     $this->db->bind(':proveedor', $row['proveedor']);
-    //     $this->db->bind(':estado', $row['estado']);
-
-    //     $this->db->execute();
-    //   }            
-    // }
-
-    // public function registrarOrdenPe($data) {
-    //   foreach($data as $row) {
-    //     $this->db->query('INSERT INTO os_peru (num_os,usuario,mina,categoria,item,cantidad,unidad,descripcion,proveedor,estado) 
-    //         VALUES (:num_os, :usuario, :mina, :categoria, :item, :cantidad, :unidad, :descripcion, :proveedor, :estado)');
-    //     $this->db->bind(':num_os', $row['num_os']);
-    //     $this->db->bind(':usuario', $row['usuario']);
-    //     $this->db->bind(':mina', $row['mina']);
-    //     $this->db->bind(':categoria', $row['categoria']);
-    //     $this->db->bind(':item', $row['item']);
-    //     $this->db->bind(':cantidad', $row['cantidad']);
-    //     $this->db->bind(':unidad', $row['unidad']);
-    //     $this->db->bind(':descripcion', $row['descripcion']);
-    //     $this->db->bind(':proveedor', $row['proveedor']);
-    //     $this->db->bind(':estado', $row['estado']);
-
-    //     $this->db->execute();
-    //   }            
-    // }
-
-    // public function guardarAdjuntoPe($enlaces) {
-    //   foreach($enlaces as $row) {
-    //     $this->db->query('INSERT INTO adjuntos_pe (num_os, archivo)
-    //       VALUES (:num_os, :archivo)');
-    //     $this->db->bind(':num_os', $row['num_os']);
-    //     $this->db->bind(':archivo', $row['archivo']);
-
-    //     $this->db->execute();
-    //   }
-    // }
-
-    // public function guardarAdjuntoCl($enlaces) {
-    //   foreach($enlaces as $row) {
-    //     $this->db->query('INSERT INTO adjuntos_cl (num_os, archivo)
-    //       VALUES (:num_os, :archivo)');
-    //     $this->db->bind(':num_os', $row['num_os']);
-    //     $this->db->bind(':archivo', $row['archivo']);
-
-    //     $this->db->execute();
-    //   }
-    // }
-
-    // public function getOrdenItemsPe($num_os) {
-    //   $this->db->query('SELECT o.*, m.nombre AS nombre_mina, c.categoria AS categ, u.nombre AS nombre_user FROM os_peru o 
-    //     INNER JOIN minas_pe m ON o.mina = m.codigo 
-    //     INNER JOIN categ_peru c ON o.categoria = c.codigo
-    //     INNER JOIN usuarios u ON o.usuario = u.usuario
-    //     WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
-
-    // public function getOrdenItemsCl($num_os) {
-    //   $this->db->query('SELECT * FROM os_chile WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
-
-    // public function getOrdenFilesPe($num_os) {
-    //   $this->db->query('SELECT * FROM adjuntos_pe WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
-
-    // public function getOrdenFilesCl($num_os) {
-    //   $this->db->query('SELECT * FROM adjuntos_cl WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
-
-    // public function getOrdenRevisionPe($num_os) {
-    //   $this->db->query('SELECT * FROM revision_pe WHERE num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
-
-    // public function getOrdenDataPe($num_os) {
-    //   $this->db->query('SELECT * FROM os_peru o INNER JOIN adjuntos_pe a ON o.num_os = a.num_os WHERE o.num_os = :num_os');
-    //   $this->db->bind(':num_os', $num_os);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
-
-    // public function getRevAreas($sede) {
-    //   $this->db->query('SELECT * FROM revision_areas WHERE sede = :sede');
-    //   $this->db->bind(':sede', $sede);
-    //   $res = $this->db->getSet();
-    //   return $res;
-    // }
+    public function getRevisionAreasCl($sede, $tipo) {
+      $this->db->query('SELECT * FROM revision_areas WHERE sede = :sede AND tipo = :tipo');
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':tipo', $tipo);
+      $res = $this->db->getSet();
+      return $res;
+    }
 
 
-    // public function updateRevFondos($sede,$tipo,$area_1,$area_2,$area_3) {
-    //   $this->db->query('UPDATE revision_areas SET area_1 = :area_1, area_2 = :area_2, area_3 = :area_3 WHERE sede = :sede AND tipo = :tipo');
-    //   $this->db->bind(':area_1', $area_1);
-    //   $this->db->bind(':area_2', $area_2);
-    //   $this->db->bind(':area_3', $area_3);
-    //   $this->db->bind(':sede', $sede);
-    //   $this->db->bind(':tipo', $tipo);
-      
+    // ********  END CREAR PDF
+    // 
+    // ********  BEGIN EDITAR USUARIO
+    public function getDataUser($id) {
+      $this->db->query('SELECT u.*, r.rol AS rol , s.sede AS sede FROM usuarios u 
+        INNER JOIN roles r ON u.rol_id = r.id 
+        INNER JOIN sedes s ON u.sede_id = s.id 
+        WHERE u.id = :id');
+      $this->db->bind(':id', $id);
+      $res = $this->db->getSingle();
+      return $res;
+    }
+    // ********  END EDITAR USUARIO
 
-    //   $this->db->execute();
-    // }
 
-    // public function updateRevCompras($sede,$tipo,$area_1,$area_2) {
-    //   $this->db->query('UPDATE revision_areas SET area_1 = :area_1, area_2 = :area_2 WHERE sede = :sede AND tipo = :tipo');
-    //   $this->db->bind(':area_1', $area_1);
-    //   $this->db->bind(':area_2', $area_2);
-    //   $this->db->bind(':sede', $sede);
-    //   $this->db->bind(':tipo', $tipo);
+    public function getUserLog($usuario) {
+      $this->db->query('SELECT * FROM logs WHERE usuario = :usuario');
+      $this->db->bind(':usuario', $usuario);
+      $res = $this->db->getSet();
+      return $res;  
+    }
 
-    //   $this->db->execute();
-    // }
+
 
 
 	}

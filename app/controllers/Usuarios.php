@@ -636,12 +636,22 @@
 				$items = $this->usuario->getOrdenItemsCl($num_os);
 				$adjuntos = $this->usuario->getOrdenFilesCl($num_os);
 				$revision = $this->usuario->getOrdenRevisionCl($num_os);
+				$enlaces = $this->usuario->getOrdenEnlacesCl($num_os);
+				$observ = $this->usuario->getOrdenObsCl($num_os);
+
+				$sede = $_SESSION['user_sede'];
+				$tipo = $revision[0]->tipo;
+				$areas = $this->usuario->getRevisionAreasCl($sede,$tipo);
 				
 				$data = [
 					'items' => $items,
 					'adjuntos' => $adjuntos,
-					'revision' => $revision
+					'revision' => $revision,
+					'enlaces' => $enlaces,
+					'observ' => $observ,
+					'areas' => $areas
 				];
+
 
 				// echo "<pre>";
 				// print_r($data);
