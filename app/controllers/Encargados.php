@@ -844,6 +844,59 @@
     	}
     }
 
+    // 
+    // ********* BEGIN REPORTES
+    public function reportes_user() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+  			$controller = strtolower(get_called_class());
+				$method = ucwords(__FUNCTION__);
+
+				$userLogs = $this->encargado->getUserLog($_SESSION['user_usuario']);
+				$data = [
+					'logs' => $userLogs,
+					'controller' => $controller,
+					'pagename' => $method
+				];
+
+				$this->view('encargado/registros', $data);
+    	}
+    }
+
+    public function reportes_cc() {
+    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
+
+    		// click en buscado aprobacion 2
+				if (isset($_POST['btn_aprobacion2'])) {
+
+					$observacion = $_POST['observacion'];
+					$aprobacion = $_POST['aprobacion'];
+					$num_os = $_POST['num_os'];
+
+					$update = $this->setRevision2($num_os,$observacion,$aprobacion);
+					$upOrden = $this->updateOrdenStatus($num_os,$aprobacion);
+
+					if ($update) {
+						redirect('encargados/editar' . '/' . $num_os);
+					}
+				} 
+
+
+  			$controller = strtolower(get_called_class());
+				$method = ucwords(__FUNCTION__);
+
+				$userLogs = $this->encargado->getUserLog($_SESSION['user_usuario']);
+
+				$data = [
+					'logs' => $userLogs,
+					'controller' => $controller,
+					'pagename' => $method
+				];
+
+				$this->view('encargado/reportes_cc', $data);
+    	}
+    }
+    // ********* END REPORTES
+
 
 
 	}

@@ -43,19 +43,18 @@ create table usuarios (
   REFERENCES sedes (id)
 )ENGINE=INNODB;
 
-INSERT INTO usuarios (rol_id,sede_id,funcion,nombre,usuario,email,password,estado) VALUES 
-(1, 1, '','Administrador','admin','admin@clonsa.com','123', 'Activo'),
-(2, 1, '','Coord_pe','coord_pe','coor@clonsa.com','123', 'Activo'),
-(3, 1, 'Revisor','Enc_pe1','enc_pe1','enc1@clonsa.com','123', 'Activo'),
-(3, 1, 'Normal','Enc_pe2','enc_pe2','enc2@clonsa.com','123', 'Activo'),
-(4, 1, 'Normal','User_pe','user_pe','usuario@clonsa.com','123', 'Activo');
-
-INSERT INTO usuarios (rol_id,sede_id,funcion,nombre,usuario,email,password,estado) VALUES 
-(2, 2, '','Coord_cl','coord_cl','coor@clonsa.com','123', 'Activo'),
-(3, 2, 'Revisor','Enc_cl1','enc_cl1','enc1@clonsa.com','123', 'Activo'),
-(3, 2, 'Normal','Enc_cl2','enc_cl2','enc2@clonsa.com','123', 'Activo'),
-(4, 2, 'Normal','User_cl','user_cl','usuario@clonsa.com','123', 'Activo');
-
+insert  into `usuarios`(`id`,`rol_id`,`sede_id`,`funcion`,`nombre`,`usuario`,`email`,`password`,`estado`,`fecha_creacion`) values 
+(1,1,1,'','Administrador','admin','admin@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(2,2,1,'','Coord_pe','coord_pe','coor@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(3,3,1,'Supervisor','Francisco Duran','fduran','enc1@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(4,3,1,'Supervisor','Enzo Jimenez','ejimenez','enc2@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(5,4,1,'Normal','User_pe','user_pe','usuario@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(6,2,2,'','Coord_cl','coord_cl','coor@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(7,3,2,'Supervisor','Juan Carlos Valdivia','jvaldivia','enc1@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(8,3,2,'Supervisor','Victor Castillo','vcastillo','enc2@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(9,4,2,'Normal','User_cl','user_cl','usuario@clonsa.com','123','Activo','2023-03-26 12:10:28'),
+(10,3,1,'Supervisor','Hans Morales','hmorales','hmorales@g.com','123','Activo','2023-03-27 08:58:19'),
+(11,3,2,'Supervisor','Enrique Porras','eporras','eporras@g.com','123','Activo','2023-03-27 09:02:26');
 
 
 CREATE TABLE minas_cl (
