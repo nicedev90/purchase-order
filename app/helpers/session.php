@@ -103,5 +103,14 @@
 		return $fecha;
 	}
 
+	function fixedMes($date) {
+		setlocale(LC_TIME, "spanish");
+		$fecha = $date;
+		$fecha = strftime("%B", strtotime($fecha));
+		$fecha = strtoupper($fecha);
+		return $fecha;
+	}
+
+
 
 ?>

@@ -16,113 +16,7 @@
   </div>
  
 <section class="section dashboard">
-      <div class="row">
-      <div class="col-lg-12">
-        <div class="row">
-
-          <div class="col-lg-3">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                  </div>
-
-                  <div class="ps-3">
-                    <h6><?php echo $data['total'] ?></h6>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/historial' ?>">
-                      <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Historial OS
-                        <i class="bi bi-folder"></i>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3">
-            <div class="card info-card customers-card">
-              <div class="card-body">
-                <h5 class="card-title">Última Orden <span>| Creada</span></h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-send-check-fill"></i>
-                  </div>
-                  <div class="ps-3">
-                      <?php 
-                        if (isset($data['ordenes'][0])) {
-                          $lastOrden = current($data['ordenes'][0]); 
-                        } else {
-                          $lastOrden = 0; 
-                        }
-                      ?>
-                    <h6>OS N° - <?php echo $lastOrden ?></h6>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $lastOrden ?>">
-                      <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Detalles
-                        <i class="bi bi-folder"></i>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <h5 class="card-title">Ordenes Completas <span>|</span></h5>
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-clipboard2-check-fill"></i>
-                    </div>
-                    <div class="ps-3">
-                      <?php 
-                        if (isset($data['totalOrdenes'])) {
-                          $totalAprobados = 0; 
-
-                          foreach($data['totalOrdenes'] as $orden) {
-                            if (strtoupper($orden->estado) == "APROBADO") {
-                              $totalAprobados++;
-                            }
-                          }
-                        }
-                      ?>
-                      <h6><?php echo (isset($totalAprobados)) ? $totalAprobados : 0 ?></h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3">
-              <div class="card info-card customers-card">
-                <div class="card-body">
-                  <h5 class="card-title">Mis Ordenes <span>| </span></h5>
-                  <div class="d-flex align-items-center">
-
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-clipboard2-data-fill"></i>
-                    </div>
-                    <div class="ps-3">
-                      <?php 
-                        if (count($data['userOrdenes']) > 0) {
-                          $totalMisOrdenes = count($data['userOrdenes']); 
-                        }
-                      ?>
-                      <h6><?php echo (isset($totalMisOrdenes)) ? $totalMisOrdenes : 0 ?></h6>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-          </div>
-
-        </div>
-    </div>
-
+  <div class="row">
 
     <!-- ======= INICIO FORMULARIO ======= -->
     <div class="card">
@@ -130,44 +24,47 @@
 
         <div class="row d-flex justify-content-between align-items-center">
           <div class="col-md-5 d-flex justify-content-between align-items-center">
-            <div class="col-md-8 card-title"> Nueva Orden de Servicio</div>
+            <div class="col-md-8 card-title"> Reportes Por Mes</div>
           </div>
         </div>
 
         <!-- FILA 1  mina - categoria -->
         <div class="row justify-content-md-around align-items-center "> 
-
-          <div class="d-flex col-md-6 mb-4 mb-md-0 justify-content-around">
-            <div class="row col-md-2">Tipo: </div>
-            <div class="d-flex justify-content-between justify-content-md-around col-md-10">
-              <div class="col-4 col-md-3 form-check ">
-                <input class="form-check-input" type="radio" name="tipo" id="tipoFondos" value="Fondos" required>
-                <label class="form-check-label fw-bold" for="tipoFondos"> <?= setTipoBySede() ?> </label>
-              </div>
-
-              <div class="col-4 col-md-3 form-check ">
-                <input class="form-check-input" type="radio" name="tipo" id="tipoCompra" value="Compra" required>
-                <label class="form-check-label fw-bold" for="tipoCompra"> COMPRA </label>
-              </div>
-            </div>
-          </div>
+          <input type="hidden" name="currentMonth" value="<?php echo date("m") ?>">
 
           <div class="col-md-6">
             <label for="validationTooltip04" class="form-label">Guía de Centros de Costos</label>
             <select name="mina" class="form-select" id="mina" required>
               <option selected disabled value="">Selecciona...</option> 
               <?php foreach($data['minas'] as $mina): ?>
-                <option value="<?php echo $mina->id; ?>"> <?php echo $mina->nombre; ?></option>
+                <option value="<?php echo $mina->codigo; ?>"> <?php echo $mina->nombre; ?></option>
               <?php endforeach; ?>
             </select>
             <div class="invalid-tooltip">Por favor selecciona la Unidad Minera</div>
           </div>
 
+          <div class="col-md-6 mt-4 mt-md-0">
+            <label for="validationTooltip04" class="form-label">Seleccionar Mes</label>
+            <select name="mes" class="form-select" id="mes" required>
+              <option selected disabled value="">Selecciona...</option> 
+              <?php foreach($data['meses'] as $numero => $mes): ?>
+                <option value="<?php echo $numero ?>"> <?php echo $mes ?></option>
+              <?php endforeach; ?>
+            </select>
+            <div class="invalid-tooltip">Por favor selecciona mes</div>
+          </div>
+
         </div>
 
         <!-- FILA 2 BOTON DE ENVIAR -->
-        <div class="row col-12 col-md-5 mt-5 mx-auto">
-          <button id="btn_init" data-method="crear" data-url="<?= URLROOT ?>" data-controller="<?= $data['controller'] ?>" class="p-2 fw-bold btn btn-primary" >CREAR ORDEN</button>
+        <div class="row">
+          <div class="row col-12 col-md-4 mt-5 mx-auto">
+            <button id="btn_compra" data-tipo="compra" data-method="<?= strtolower($data['pagename']) ?>" data-url="<?= URLROOT ?>" data-controller="<?= $data['controller'] ?>" class="p-2 fw-bold btn btn-primary" > REPORTE COMPRA </button>
+          </div>
+
+          <div class="row col-12 col-md-4 mt-5 mx-auto">
+            <button id="btn_fondos" data-tipo="fondos" data-method="<?= strtolower($data['pagename']) ?>" data-url="<?= URLROOT ?>" data-controller="<?= $data['controller'] ?>" class="p-2 fw-bold btn btn-primary" > REPORTE <?php echo ($_SESSION['user_sede'] == 'Peru') ? 'CAJA CHICA' : 'FONDOS' ?> </button>
+          </div>
         </div>
         
       </div>
@@ -175,37 +72,44 @@
     <!-- ======= FIN FORMULARIO ======= -->
 
     <!-- Inicio tabla resumen Ordenes -->
-    <!-- <pre><?php print_r($data) ?></pre> -->
+    <pre><?php print_r($data) ?></pre>
+
+
+    <?php if (isset($data['tipo']) && strtoupper($data['tipo']) == 'FONDOS') : ?>
+
     <div class="col-12">
       <div class="card recent-sales overflow-auto">
         <div class="card-body">
-          <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
+          <h5 class="card-title">Reporte de Mina :<?php echo $data['reporte'][0]->mina_nom ?>
+            <a  href="<?php echo URLROOT . '/' . $data['controller'] . '/reporte_pdf/' . $data['tipo'] . '/' . $data['mina'] . '/' . $data['mes'] ?>" target="_blank" class="p-2 fw-bold btn btn-primary" > GENERAR REPORTE Fondos </a>
+          </h5>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</button>
+          </div>
+          <h5 class="card-title"> Mes : <?php echo fixedMes($data['reporte'][0]->actualizado) ?></h5>
           <table class="table table-hover table-borderless datatable">
             <thead>
               <tr>
               <th scope="col">N°</th>
-              <th scope="col">Tipo</th>
+              <th scope="col">Mina </th>
+              <th scope="col" class="d-none d-md-table-cell">Categoria</th>
               <th scope="col" class="d-none d-md-table-cell">Creado por</th>
-              <th scope="col" class="d-none d-md-table-cell">Mina </th>
+              <th scope="col" class="d-none d-md-table-cell">Monto</th>
               <th scope="col">Estado</th>
               <th scope="col" class="d-none d-md-table-cell">Fecha</th>
-              <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
-              <?php foreach($data['ordenes'] as $orden): ?>
-              <tr>
+              <?php foreach($data['reporte'] as $orden): ?>            <tr>
                 <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                <td class="fw-bold">
-                  <?php if (strtoupper($orden->tipo) == 'FONDOS') : ?>
-                    <span class="<?= bgFondos() ?> btn-sm"><?php echo setName($orden->tipo); ?></span> 
-                  <?php else: ?>
-                    <span class="<?= bgCompra() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
-                  <?php endif; ?>
-                  
-                </td>
+                
+                <td class="text-primary"><?php echo utf8_encode($orden->mina_nom); ?></td>
+                <td class="text-primary"><?php echo utf8_encode($orden->categ_nom); ?></td>
+
                 <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->usuario); ?></th>
-                <td class="text-primary d-none d-md-table-cell"><?php echo utf8_encode($orden->mina_nombre); ?></td>
+
+                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->valor_total); ?></th>
+
                 <td>
                   <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
                     <span class="<?= bgAprobado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
@@ -217,16 +121,7 @@
                   
                 </td>
                 <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
-                <td class="d-flex justify-content-around">
-                  <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
-                  <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
-                  <?php else: ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/editar/' . $orden->num_os ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> 
-                  <?php endif; ?>
-                </td>
+
                   
               </tr>
               <?php endforeach; ?>
@@ -235,7 +130,85 @@
         </div>
       </div>
     </div>
-    <!-- Fin tabla resumen Ordenes -->
+    <?php endif; ?>
+
+
+    <?php if (isset($data['tipo'])  && strtoupper($data['tipo']) == 'COMPRA') : ?>
+
+    <div class="col-12">
+      <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+
+          <?php if (isset($data['reporte'][0]->mina_nom)) : ?>
+
+          <div class="row d-md-flex justify-content-md-start justify-content-around align-items-center card-title ">
+            <div class="d-flex col-md-4 py-2 justify-content-start ">
+              <div class="col-md-6"> Reporte Mina : </div>
+              <div class="col-md-6 p-1 fw-bold btn btn-warning"> <?= $data['reporte'][0]->mina_nom; ?></div>
+            </div>
+
+            <div class="d-flex col-md-4 py-2 justify-content-start justify-content-md-end">
+              <div class="col-md-6 p-1 <?= bgFondos() ?>"> <?=  fixedMes($data['reporte'][0]->actualizado) ?></div>
+              <div class="col-md-6 p-1 <?= bgFondos() ?>"> <?=  setName($data['reporte'][0]->tipo) ?></div>
+            </div>
+
+            <div class="d-flex col-md-4 py-2 justify-content-start justify-content-md-end">
+              <div class="col-md-4">Imprimir : </div>
+              <a  href="<?php echo URLROOT . '/' . $data['controller'] . '/reporte_pdf/' . strtoupper($data['tipo']) . '/' . $data['mina'] . '/' . $data['mes'] ?>" target="_blank" class="p-2 btn btn-danger" ><i class="bi bi-file-earmark-pdf"></i> Descargar PDF </a>
+            </div>
+
+          </div>
+
+          <?php endif; ?>
+
+          <table class="table table-hover table-borderless datatable">
+            <thead>
+              <tr>
+              <th scope="col">N°</th>
+              <th scope="col">Mina </th>
+              <th scope="col" class="d-none d-md-table-cell">Creado por</th>
+              <th scope="col" class="d-none d-md-table-cell">Monto</th>
+
+
+              <th scope="col">Estado</th>
+              <th scope="col" class="d-none d-md-table-cell">Fecha</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach($data['reporte'] as $orden): ?>            <tr>
+                <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
+
+
+                
+                <td class="text-primary"><?php echo utf8_encode($orden->mina_nom); ?></td>
+
+                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->usuario); ?></th>
+
+                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->valor_total); ?></th>
+
+                <td>
+                  <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
+                    <span class="<?= bgAprobado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                  <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
+                    <span class="<?= bgRechazado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                  <?php else: ?>
+                    <span class="<?= bgEnProceso() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                  <?php endif; ?>
+                  
+                </td>
+                <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
+
+                  
+              </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
+
 
 
 </section>
@@ -261,8 +234,6 @@
   </div>
 </div>
 
-
-
 <!-- Success Modal -->
 
 <div class="modal fade" id="<?= createdAlert() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
@@ -284,6 +255,366 @@
 </div>
 
 
-<script src="<?php echo URLROOT; ?>/js/init_new.js"></script>
+
+
+
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Reporte SOS FONDO <i class="bi bi-bar-chart-line-fill"></i></h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Estadística <i class="bi bi-layout-text-window"></i></li>
+                <li class="breadcrumb-item active">Reporte <i class="bi bi-calendar-week-fill"></i></li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section dashboard">
+    <div class="row">
+        
+      <div class="col-6">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Ordenes Totales <i class="bi bi-toggle-on"></i> <span>|Ordenes Aprobadas Totales</span></h5>
+
+            <table class="table table-hover table-borderless datatable ">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Ordenes Totales Fondos <i class="bi bi-calendar2-check-fill"></i></th>
+                  <th scope="col" class="text-center">Ordenes Aprobadas Fondos <i class="bi bi-cursor"></i></th> 
+                </tr>
+              </thead>
+                          
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-center"> 80 </td>
+                  <td class="fw-bold text-center"> 50</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button type="button" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Resumen Ordenes Totales <i class="bi bi-toggle-on"></i> <span>| Usuarios</span></h5>
+
+            <table class="table table-hover table-borderless datatable ">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Item <i class="bi bi-sort-numeric-down"></i></th>
+                  <th scope="col" class="text-center">Creado Por <i class="bi bi-cursor"></i></th> 
+                  <th scope="col" class="text-center">N° Orden <i class="ri-alarm-warning-fill"></i></th>
+                  <th scope="col" class="text-center">Estado <i class="bi bi-calendar2-check-fill"></i></th>
+                </tr>
+              </thead>
+                        
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-center"> 1 </td>
+                  <td class="fw-bold text-center"> Antauro Humala</td>
+                  <td class="text-dark text-center"> N° 30 - 2023 </td>
+                  <td class="text-dark text-center"> Aceptada </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button type="button" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-6">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Gastos Totales Por Mina <i class="bi bi-toggle-on"></i> <span>|Gastos Totales Mina</span></h5>
+
+            <table class="table table-hover table-borderless datatable ">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Item <i class="bi bi-sort-numeric-down"></i></th>
+                  <th scope="col" class="text-center">Mina <i class="bi bi-cloud-drizzle-fill"></i></th> 
+                  <th scope="col" class="text-center">Gasto <i class="bi bi-cash-coin"></i></th> 
+                </tr>
+              </thead>
+                          
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-center"> 1 </td>
+                  <td class="fw-bold text-center"> Bambas</td>
+                  <td class="fw-bold text-center"> 15000</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button type="button" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Gastos Totales Por Persona <i class="bi bi-toggle-on"></i> <span>| Usuario</span></h5>
+
+            <table class="table table-hover table-borderless datatable ">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Item <i class="bi bi-sort-numeric-down"></i></th>
+                  <th scope="col" class="text-center">Usuario <i class="bi bi-person"></i></th> 
+                  <th scope="col" class="text-center">Gasto <i class="bi bi-cash-coin"></i></th> 
+                </tr>
+              </thead>
+                        
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-center"> 1 </td>
+                  <td class="fw-bold text-center"> Antauro Humala</td>
+                  <td class="text-dark text-center"> 1200 </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button type="button" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Fin tabla resumen Ordenes -->
+   <!-- Reports -->
+   <div class="col-12">
+              <div class="card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Reporte <span>/Mensual Ordenes de Servicio</span></h5>
+
+                  <!-- Line Chart -->
+                  <div id="reportsChart"></div>
+
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      new ApexCharts(document.querySelector("#reportsChart"), {
+                        series: [{
+                          name: 'OS Creadas',
+                          data: [31, 40, 28, 51, 42, 82, 56],
+                        }, {
+                          name: 'OS Aprobadas',
+                          data: [11, 32, 45, 32, 34, 52, 41]
+                        }, {
+                          name: 'OS Rechazadas',
+                          data: [15, 11, 32, 18, 9, 24, 11]
+                        }],
+                        chart: {
+                          height: 350,
+                          type: 'area',
+                          toolbar: {
+                            show: false
+                          },
+                        },
+                        markers: {
+                          size: 4
+                        },
+                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                        fill: {
+                          type: "gradient",
+                          gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.3,
+                            opacityTo: 0.4,
+                            stops: [0, 90, 100]
+                          }
+                        },
+                        dataLabels: {
+                          enabled: false
+                        },
+                        stroke: {
+                          curve: 'smooth',
+                          width: 2
+                        },
+                        xaxis: {
+                          type: 'datetime',
+                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                        },
+                        tooltip: {
+                          x: {
+                            format: 'dd/MM/yy HH:mm'
+                          },
+                        }
+                      }).render();
+                    });
+                  </script>
+                  <!-- End Line Chart -->
+
+                </div>
+
+              </div>
+            </div><!-- End Reports -->
+
+
+    <div class="pagetitle">
+        <h1>Reporte SOS COMPRA <i class="bi bi-bar-chart-line-fill"></i></h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Estadística <i class="bi bi-layout-text-window"></i></li>
+                <li class="breadcrumb-item active">Reporte <i class="bi bi-calendar-week-fill"></i></li>
+            </ol>
+        </nav>
+    </div>
+    
+    <div class="row">
+        
+      <div class="col-6">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Ordenes Totales <i class="bi bi-toggle-on"></i> <span>|Ordenes Aprobadas Totales</span></h5>
+
+            <table class="table table-hover table-borderless datatable ">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Ordenes Totales Compra <i class="bi bi-calendar2-check-fill"></i></th>
+                  <th scope="col" class="text-center">Ordenes Aprobadas Compra <i class="bi bi-cursor"></i></th> 
+                </tr>
+              </thead>
+                          
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-center"> 80 </td>
+                  <td class="fw-bold text-center"> 50</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button type="button" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Resumen Ordenes Totales <i class="bi bi-toggle-on"></i> <span>| Usuarios</span></h5>
+
+            <table class="table table-hover table-borderless datatable ">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Item <i class="bi bi-sort-numeric-down"></i></th>
+                  <th scope="col" class="text-center">Creado Por <i class="bi bi-cursor"></i></th> 
+                  <th scope="col" class="text-center">N° Orden <i class="ri-alarm-warning-fill"></i></th>
+                  <th scope="col" class="text-center">Estado <i class="bi bi-calendar2-check-fill"></i></th>
+                </tr>
+              </thead>
+                        
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-center"> 1 </td>
+                  <td class="fw-bold text-center"> Antauro Humala</td>
+                  <td class="text-dark text-center"> N° 30 - 2023 </td>
+                  <td class="text-dark text-center"> Aceptada </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button type="button" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Usuarios | Clonsa SOS<i class="bi bi-file-earmark-code"></i></h5>
+
+              <!-- Pie Chart -->
+              <div id="pieChart" style="min-height: 500px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#pieChart")).setOption({
+                    title: {
+                      text: 'Cuentas',
+                      subtext: 'Personal Clonsa Ingeniería',
+                      left: 'center'
+                    },
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      orient: 'vertical',
+                      left: 'left'
+                    },
+                    series: [{
+                      name: 'Cuenta',
+                      type: 'pie',
+                      radius: '70%',
+                      data: [{
+                          value: 1000,
+                          name: 'Usuario'
+                        },
+                        {
+                          value: 1000,
+                          name: 'Encargado'
+                        },
+                        {
+                          value: 600,
+                          name: 'Coordinador'
+                        },
+                        {
+                          value: 880,
+                          name: 'Administrador'
+                        },
+                      ],
+                      emphasis: {
+                        itemStyle: {
+                          shadowBlur: 10,
+                          shadowOffsetX: 0,
+                          shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                      }
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Pie Chart -->
+
+            </div>
+          </div>
+        </div>
+    </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+
+
+
+<script src="<?php echo URLROOT; ?>/js/reportes_cc.js"></script>
 
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/footer.php'; ?>

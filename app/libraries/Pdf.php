@@ -208,6 +208,22 @@ class Pdf extends FPDF{
     }
   }
 
+  function displayItemsReporteCompra($data) {
+    $rowTableHeight = 7;
+
+    foreach($data as $row) {
+      $this->SetFont('Helvetica','',8);
+      $this->bgWhite();
+      $this->textDark();
+      $this->Cell(8,$rowTableHeight,$row->item, 1,0,'C',true);
+      $this->Cell(10,$rowTableHeight,$row->unidad, 1,0,'C',true);
+      $this->Cell(10,$rowTableHeight,$row->cantidad, 1,0,'C',true);
+      $this->Cell(97,$rowTableHeight, $row->descripcion, 1,0,'L',true);
+      $this->Cell(30,$rowTableHeight,$row->proveedor, 1,0,'C',true);
+      $this->Cell(30,$rowTableHeight, $this->setMoneda() . number_format(floatval($row->valor_total), 2, '.', ' ') . ' ', 1,1,'R',true);
+    }
+  }
+
   function displayItemsFondos($data) {
     $rowTableHeight = 7;
 
@@ -218,6 +234,22 @@ class Pdf extends FPDF{
       $this->Cell(8,$rowTableHeight,$row->item, 1,0,'C',true);
       $this->Cell(137,$rowTableHeight, $row->descripcion, 1,0,'L',true);
       $this->Cell(40,$rowTableHeight,$this->setMoneda() . number_format(floatval($row->valor), 2, '.', ' ') . ' ', 1,1,'R',true);
+    }
+  }
+
+  function displayItemsReporteFondos($data) {
+    $rowTableHeight = 7;
+
+    foreach($data as $row) {
+      $this->SetFont('Helvetica','',8);
+      $this->bgWhite();
+      $this->textDark();
+      $this->Cell(8,$rowTableHeight, $row->num_os, 1,0,'C',true);
+      $this->Cell(55,$rowTableHeight, $row->categ_nom, 1,0,'C',true);
+      $this->Cell(35,$rowTableHeight, $row->usuario, 1,0,'C',true);
+      $this->Cell(25,$rowTableHeight, $row->estado, 1,0,'C',true);
+      $this->Cell(25,$rowTableHeight, fixedFecha($row->actualizado), 1,0,'C',true);
+      $this->Cell(37,$rowTableHeight,$this->setMoneda() . number_format(floatval($row->valor_total), 2, '.', ' ') . ' ', 1,1,'R',true);
     }
   } 
 
@@ -427,6 +459,17 @@ class Pdf extends FPDF{
 
     return $this->setMoneda() . number_format($suma_fondos, 2, '.', ' ');
   }
+
+  function sumReporteFunds($data) {
+    $suma_fondos = 0;
+
+    foreach($data as $row) {
+      $suma_fondos += floatval($row->valor_total);
+    }
+
+    return $this->setMoneda() . number_format($suma_fondos, 2, '.', ' ');
+  }
+
 
 
 

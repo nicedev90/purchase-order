@@ -237,6 +237,9 @@
 					$mina_nombre = $mina->nombre;
 					$mina_codigo = $mina->codigo;
 					$mina_categ = $this->getMinaCateg($id,$tipo);
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
 					
 					$data = [
 						'id' => $id,
@@ -244,7 +247,9 @@
 						'mina_codigo' => $mina_codigo,
 						'mina_categ' => $mina_categ,
 						'numero_os' => $num_os,
-						'tipo_os' => $tipo
+						'tipo_os' => $tipo,
+						'pagename' => $method,
+						'controller' => $controller
 					];
 
 					$this->view('encargado/crear', $data);
@@ -848,55 +853,122 @@
     // ********* BEGIN REPORTES
     public function reportes_user() {
     	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+
+    		$sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
+				$usuarios = $this->encargado->getAllUsers($sede);
+
   			$controller = strtolower(get_called_class());
 				$method = ucwords(__FUNCTION__);
 
-				$userLogs = $this->encargado->getUserLog($_SESSION['user_usuario']);
 				$data = [
-					'logs' => $userLogs,
+					'usuarios' => $usuarios,
 					'controller' => $controller,
 					'pagename' => $method
 				];
 
-				$this->view('encargado/registros', $data);
+				$this->view('encargado/reportes_user', $data);
     	}
     }
 
-    public function reportes_cc() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
+    public function reportes_cc($tipo = null, $mina = null, $mes = null) {
 
-    		// click en buscado aprobacion 2
-				if (isset($_POST['btn_aprobacion2'])) {
+    	if (!is_null($tipo) && !is_null($mina) && !is_null($mes)) {
+    		// Vista inicial 
+    		$reporte = $this->getReporteMina($tipo,$mina,$mes);
 
-					$observacion = $_POST['observacion'];
-					$aprobacion = $_POST['aprobacion'];
-					$num_os = $_POST['num_os'];
-
-					$update = $this->setRevision2($num_os,$observacion,$aprobacion);
-					$upOrden = $this->updateOrdenStatus($num_os,$aprobacion);
-
-					if ($update) {
-						redirect('encargados/editar' . '/' . $num_os);
-					}
-				} 
-
+		    $minas = $this->getMinas();
+				$meses = [
+					'01' => 'Enero',
+					'02' => 'Febrero',
+					'03' => 'Marzo',
+					'04' => 'Abril',
+					'05' => 'Mayo',
+					'06' => 'Junio',
+					'07' => 'Julio',
+					'08' => 'Agosto',
+					'09' => 'Setiembre',
+					'10' => 'Octubre',
+					'11' => 'Noviembre',
+					'12' => 'Diciembre'
+				];
 
   			$controller = strtolower(get_called_class());
 				$method = ucwords(__FUNCTION__);
 
-				$userLogs = $this->encargado->getUserLog($_SESSION['user_usuario']);
+				$data = [
+					'tipo' => $tipo,
+					'mina' => $mina,
+					'mes' => $mes,
+					'minas' => $minas,
+					'meses' => $meses,
+					'reporte' => $reporte,
+					'controller' => $controller,
+					'pagename' => $method
+				];
+
+				// echo "<pre>";
+				// print_r($data);
+				// die();
+
+				$this->view('encargado/reportes_cc', $data);
+    	}
+
+			// Vista inicial 
+		    $minas = $this->getMinas();
+				$meses = [
+					'01' => 'Enero',
+					'02' => 'Febrero',
+					'03' => 'Marzo',
+					'04' => 'Abril',
+					'05' => 'Mayo',
+					'06' => 'Junio',
+					'07' => 'Julio',
+					'08' => 'Agosto',
+					'09' => 'Setiembre',
+					'10' => 'Octubre',
+					'11' => 'Noviembre',
+					'12' => 'Diciembre'
+				];
+
+  			$controller = strtolower(get_called_class());
+				$method = ucwords(__FUNCTION__);
 
 				$data = [
-					'logs' => $userLogs,
+					'minas' => $minas,
+					'meses' => $meses,
 					'controller' => $controller,
 					'pagename' => $method
 				];
 
 				$this->view('encargado/reportes_cc', $data);
-    	}
+
+
+    }
+
+    public function getReporteMina($tipo,$mina,$mes) {
+    	if ($_SESSION['user_sede'] == 'Peru') {
+        return $this->encargado->getReporteMinaPe($tipo,$mina,$mes);
+      } else {
+        return $this->encargado->getReporteMinaCl($tipo,$mina,$mes);
+      }
+    }
+
+    public function reporte_pdf($tipo,$mina,$mes) {
+    	if ($_SESSION['user_sede'] == 'Peru') {
+    		$reporte = $this->encargado->getReporteMinaPe($tipo,$mina,$mes);
+
+				$data = [
+					'reporte' => $reporte
+				];
+
+				// echo "<pre>";
+				// print_r($data);
+				// die();
+
+				$this->view('encargado/reporte_pdf', $data);
+			}
     }
     // ********* END REPORTES
-
 
 
 	}

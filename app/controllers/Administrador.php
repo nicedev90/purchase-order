@@ -1,5 +1,6 @@
 <?php 
     class Administrador extends Controller {
+
         private $admin;
 
         public function __construct() {

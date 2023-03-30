@@ -88,7 +88,14 @@
   <li class="nav-item">
     <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/reportes_cc'?>">
       <i class="bi bi-person"></i>
-      <span>Reportes</span>
+      <span>Reportes Minas</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/reportes_user'?>">
+      <i class="bi bi-person"></i>
+      <span>Reportes Usuario</span>
     </a>
   </li><!-- End Profile Page Nav -->
 

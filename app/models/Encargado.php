@@ -645,6 +645,43 @@
     }
 
 
+    // ********  BEGIN GENERAR REPORTE MINA
+    public function getReporteMinaPe($tipo,$mina,$mes) {
+      $this->db->query('SELECT o.*, m.nombre AS mina_nom, SUM(o.valor) AS valor_total, c.categoria AS categ_nom FROM os_peru o 
+        INNER JOIN minas_pe m ON o.mina = m.codigo 
+        INNER JOIN categ_peru c ON o.categoria = c.codigo
+        WHERE o.mina = :mina AND o.tipo = :tipo AND MONTH(o.actualizado) = :mes GROUP BY o.num_os ORDER BY o.actualizado DESC');
+      $this->db->bind(':mina', $mina);
+      $this->db->bind(':tipo', $tipo);
+      $this->db->bind(':mes', $mes);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function getReporteMinaCl($tipo,$mina,$mes) {
+      $this->db->query('SELECT o.*, m.nombre AS mina_nom, SUM(o.valor) AS valor_total, c.categoria AS categ_nom FROM os_chile o 
+        INNER JOIN minas_cl m ON o.mina = m.codigo 
+        INNER JOIN categ_chile c ON o.categoria = c.codigo
+        WHERE o.mina = :mina AND o.tipo = :tipo AND MONTH(o.actualizado) = :mes GROUP BY o.num_os ORDER BY o.actualizado DESC');
+      $this->db->bind(':mina', $mina);
+      $this->db->bind(':tipo', $tipo);
+      $this->db->bind(':mes', $mes);
+      $res = $this->db->getSet();
+      return $res;
+    }
+    // ********  END GENERAR REPORTE MINA
+
+
+    public function getAllUsers($sede) {
+      $this->db->query('SELECT u.*, r.id AS rol_id, r.rol AS user_rol FROM usuarios u 
+        INNER JOIN roles r ON u.rol_id = r.id
+        WHERE sede_id = :sede AND rol_id IN (3,4)');
+      $this->db->bind(':sede', $sede);
+      $users = $this->db->getSet();
+      return $users;
+    }
+
+
 
 
 	}
