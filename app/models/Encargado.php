@@ -682,6 +682,25 @@
     }
 
 
+    public function getReporteUserPe($user,$mes) {
+      $this->db->query('SELECT o.*, m.nombre AS mina_nom, SUM(o.valor) AS valor_total, c.categoria AS categ_nom, u.nombre AS nombre_user FROM os_peru o 
+        INNER JOIN minas_pe m ON o.mina = m.codigo 
+        INNER JOIN categ_peru c ON o.categoria = c.codigo
+        INNER JOIN usuarios u ON o.usuario = u.usuario
+        WHERE o.usuario = :user AND MONTH(o.actualizado) = :mes 
+        GROUP BY o.num_os ORDER BY o.actualizado DESC');
+      $this->db->bind(':user', $user);
+      $this->db->bind(':mes', $mes);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+
+
+
+
+
+
 
 
 	}

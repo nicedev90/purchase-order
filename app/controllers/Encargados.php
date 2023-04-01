@@ -851,22 +851,89 @@
 
     // 
     // ********* BEGIN REPORTES
-    public function reportes_user() {
+    public function reportes_user($user = null, $mes = null) {
     	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+    		if (!is_null($user) && !is_null($mes)) {
 
-    		$sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
-				$usuarios = $this->encargado->getAllUsers($sede);
+    			if ($_SESSION['user_sede'] == 'Peru') {
+		        $dataUser = $this->encargado->getReporteUserPe($user,$mes);
+		      } else {
+		        $dataUser = $this->encargado->getReporteUserCl($user,$mes);
+		      }
 
-  			$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
+		      $sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
+					$usuarios = $this->encargado->getAllUsers($sede);
 
-				$data = [
-					'usuarios' => $usuarios,
-					'controller' => $controller,
-					'pagename' => $method
-				];
+	  			$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
 
-				$this->view('encargado/reportes_user', $data);
+					$meses = [
+						'01' => 'Enero',
+						'02' => 'Febrero',
+						'03' => 'Marzo',
+						'04' => 'Abril',
+						'05' => 'Mayo',
+						'06' => 'Junio',
+						'07' => 'Julio',
+						'08' => 'Agosto',
+						'09' => 'Setiembre',
+						'10' => 'Octubre',
+						'11' => 'Noviembre',
+						'12' => 'Diciembre'
+					];
+
+		      $data = [
+						'dataUser' => $dataUser,
+						'usuarios' => $usuarios,
+						'meses' => $meses,
+						'mes' => $mes,
+						'controller' => $controller,
+						'pagename' => $method
+					];
+
+
+					// echo "<pre>";
+					// print_r($data);
+					// die();
+
+		      $this->view('encargado/reportes_user', $data);
+
+    		} 
+
+    		if (!is_null($user) && is_null($mes)) {
+    			redirect('encargados/reportes_user');
+    		}
+
+    			$sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
+					$usuarios = $this->encargado->getAllUsers($sede);
+
+	  			$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
+
+					$meses = [
+						'01' => 'Enero',
+						'02' => 'Febrero',
+						'03' => 'Marzo',
+						'04' => 'Abril',
+						'05' => 'Mayo',
+						'06' => 'Junio',
+						'07' => 'Julio',
+						'08' => 'Agosto',
+						'09' => 'Setiembre',
+						'10' => 'Octubre',
+						'11' => 'Noviembre',
+						'12' => 'Diciembre'
+					];
+
+					$data = [
+						'usuarios' => $usuarios,
+						'meses' => $meses,
+						'controller' => $controller,
+						'pagename' => $method
+					];
+
+					$this->view('encargado/reportes_user', $data);
+
     	}
     }
 
