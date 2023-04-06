@@ -15,77 +15,90 @@
           </a>
   </li>
 
-  <li class="nav-heading">CONSULTA TUS ORDENES DE SERVICIO</li>
+  <li class="nav-heading">CONFIGURACIÓN CENTRO DE COSTOS</li>
 
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-menu-button-wide"></i><span>Historial</span><i class="bi bi-chevron-down ms-auto"></i>
+      <i class="bi bi-badge-cc"></i><span>Centros de Costos</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/historial'?>">
-          <i class="bi bi-circle"></i><span>Consultar OS</span>
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/add_cc'?>">
+        <i class="bi bi-circle"></i><span>Agregar CC</span>
         </a>
       </li>
       <li>
-        <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/registros'?>">
-          <i class="bi bi-circle"></i><span>Actividad de sesión</span>
+        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_cc'?>">
+          <i class="bi bi-circle"></i><span>Editar/Eliminar CC</span>
         </a>
       </li>
     </ul>
   </li><!-- End Components Nav -->
 
-  <li class="nav-item">
-    <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/edit_user'?>">
-      <i class="bi bi-menu-button-wide"></i><span>Edit User</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-  </li><!-- End Components Nav -->
+  <li class="nav-heading">CONFIGURACIÓN CATEGORÍA</li>
 
   <li class="nav-item">
-    <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/add_user'?>">
-      <i class="bi bi-menu-button-wide"></i><span> Agregar Usuario</span><i class="bi bi-chevron-down ms-auto"></i>
+    <a class="nav-link collapsed" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-file-earmark-post-fill"></i><span>Categoría</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-  </li><!-- End Components Nav -->
-
-  <li class="nav-item">
-    <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/version'?>">
-      <i class="bi bi-menu-button-wide"></i><span>Version</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-  </li><!-- End Components Nav -->
-
-  <li class="nav-item">
-    <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/edit_revision'?>">
-      <i class="bi bi-menu-button-wide"></i><span>Edit revision</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-  </li><!-- End Components Nav -->
-
-
-  
-
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-layout-text-window-reverse"></i><span>Guía de Usuario</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+    <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/guia_compra'?>">
-          <i class="bi bi-circle"></i><span>Compra</span>
+        <a href="">
+        <i class="bi bi-circle"></i><span>Agregar Categoría</span>
         </a>
       </li>
       <li>
-        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/guia_fondos'?>">
-          <i class="bi bi-circle"></i><span><?php echo ($_SESSION['user_sede'] == 'Peru') ? 'Caja Chica' : 'Fondos' ?></span>
+        <a href="">
+          <i class="bi bi-circle"></i><span>Editar/Eliminar Categoría</span>
+        </a>
+      </li>
+    </ul>
+  </li><!-- End Components Nav -->
+
+  <li class="nav-heading">CONFIGURACIÓN UNIDAD</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_unidad'?>">
+      <i class="bi bi-universal-access"></i>
+      <span>Unidad</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-heading">CONFIGURACIÓN REPORTE PDF</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?php echo URLROOT  . '/' . $data['controller'] . '/edit_revision'?>">
+      <i class="bi bi-receipt-cutoff"></i>
+      <span>Áreas de Revisión</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-heading">CONFIGURACIÓN DE USUARIOS</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-person"></i><span>Usuario</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <li>
+        <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/add_user'?>">
+          <i class="bi bi-circle"></i><span>Agregar Usuario</span>
+        </a>
+      </li>
+      <li>
+        <a href="<?php echo URLROOT  . '/' . $data['controller'] . '/edit_user'?>">
+          <i class="bi bi-circle"></i><span>Tabla de Usuarios </span>
         </a>
       </li>
     </ul>
   </li><!-- End Tables Nav -->
 
-  <li class="nav-heading">CONFIGURACIÓN</li>
+
+  <li class="nav-heading">CONFIGURACIÓN MI CUENTA</li>
 
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-journal-text"></i><span>Configura tu cuenta</span><i class="bi bi-chevron-down ms-auto"></i>
+    <i class="bi bi-rocket-takeoff-fill"></i><span>Mi Cuenta</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
     <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
@@ -105,13 +118,11 @@
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/version'?>">
-      <i class="bi bi-person"></i>
+      <i class="bi bi-android"></i>
       <span>Versión</span>
     </a>
   </li><!-- End Profile Page Nav -->
 
-  <p></p>
-  
 
 
 

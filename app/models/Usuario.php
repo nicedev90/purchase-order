@@ -153,6 +153,13 @@
       return $res;
     }
 
+    public function getUnidadesSede($sede) {
+      $this->db->query('SELECT * FROM unidades WHERE sede = :sede');
+      $this->db->bind(':sede', $sede);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
     public function setObsPe($num_os,$obs) {
       $this->db->query('INSERT INTO obs_pe (num_os, observaciones) VALUES (:num_os, :obs)');
       $this->db->bind(':num_os', $num_os);

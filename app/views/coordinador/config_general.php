@@ -1,7 +1,5 @@
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/header.php'; ?>
-
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/topbar.php'; ?>
-
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
@@ -69,7 +67,7 @@
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
-                <form action="<?php echo URLROOT; ?>/usuarios/config_general" method="post">
+                <form action="<?php echo URLROOT; ?>/coordinadores/config_general" method="post">
                 <input type="hidden" name="user_id" value="<?php echo $data['dataUser']->id ?>">
                     
                     <div class="row mb-3">

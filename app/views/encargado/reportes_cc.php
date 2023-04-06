@@ -1,7 +1,5 @@
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/header.php'; ?>
-
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/topbar.php'; ?>
-
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
@@ -253,8 +251,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 
@@ -552,7 +548,7 @@
               <h5 class="card-title">Usuarios | Clonsa SOS<i class="bi bi-file-earmark-code"></i></h5>
 
               <!-- Pie Chart -->
-              <div id="pieChart" style="min-height: 500px;" class="echart"></div>
+              <div id="pieChart" style="min-height: 300px;" class="echart"></div>
 
               <script>
                 document.addEventListener("DOMContentLoaded", () => {

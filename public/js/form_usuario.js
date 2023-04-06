@@ -280,6 +280,15 @@ const addItem = () => {
 	itemRow.setAttribute('id', num_item)
 	itemRow.classList.add('row','mb-3')
 
+	// el array unidades  viene de la pagina crear.php
+	let lista_unidades = ''
+  for(let i=0; i < unidades.length; i++){	
+		lista_unidades += `<option value="${unidades[i]['unidad']}">${unidades[i]['unidad']} </option>`
+    // console.log(lista_unidades)
+	}
+
+
+
 	let content
 
 	if (tipo == 'compra') {
@@ -305,11 +314,10 @@ const addItem = () => {
                         
       <div class="col-4 d-flex-col flex-col  col-md-1 position-relative">
         <label for="" class="d-md-none">Unidad</label>
-        <select name="item[${num_item}][unidad]" class="form-select form-select-sm" id="validationTooltip04" required>
+        <select name="item[${num_item}][unidad]" class="unidades form-select form-select-sm" id="validationTooltip04" required>
           <option selected disabled value="">Selecciona...</option>
-          <option>Metro</option>
-          <option>Kilo</option>
-          <option>Litro</option>
+          	${lista_unidades}
+          </select>
         </select>
         <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
       </div>

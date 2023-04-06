@@ -600,3 +600,15 @@ INSERT INTO `os_peru` (`id`, `num_os`, `tipo`, `usuario`, `mina`, `categoria`, `
 (27, '9', 'compra', 'user_pe', '600', '603', 1, '15', 'Metro', 'SECTION METRICO', 'KAULTERS', '156000', 'En Proceso', '2023-03-31 05:47:15', '2023-03-31 00:47:15'),
 (28, '10', 'compra', 'user_pe', '1100', '1103', 1, '60', 'Metro', 'CABLE SISTEMA ELECTRICO 9AWG COBRE ALTO IMPACTO', 'ELETRICSCT', '120000', 'En Proceso', '2023-03-31 05:48:06', '2023-03-31 00:48:06');
 
+create table unidades (
+  id INT NOT NULL AUTO_INCREMENT,
+  sede VARCHAR(10) NOT NULL,
+  unidad VARCHAR(30) NOT NULL,
+  PRIMARY KEY (id)
+)ENGINE=INNODB;
+
+INSERT INTO unidades (sede,unidad) VALUES 
+  ('Peru', 'Metro'),
+  ('Peru', 'Kilo'),
+  ('Chile', 'Metro'),
+  ('Chile', 'Kilo');

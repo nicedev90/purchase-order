@@ -16,6 +16,13 @@
       return $users;
     }
 
+    public function getSupervSede($sede) {
+      $this->db->query('SELECT * FROM supervisores WHERE sede = :sede');
+      $this->db->bind(':sede', $sede);
+      $superv = $this->db->getSet();
+      return $superv;
+    }
+
     public function getRoles() {
       $this->db->query('SELECT * FROM roles');
       $roles = $this->db->getSet();
@@ -71,6 +78,17 @@
       }
     }
 
+    public function deleteUser($user_id) {
+      $this->db->query('DELETE FROM usuarios WHERE id = :user_id');
+      $this->db->bind(':user_id', $user_id);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     // ************ END EDITAR USUARIO
     // 
     // ************ BEGIN  AGREGAR USUARIO
@@ -103,6 +121,21 @@
       return $res;
     }
     // ********  END EDITAR USUARIO
+    // 
+    // ********  BEGIN EDITAR MI PERFIL DE USUARIO
+    public function updateProfile($user_id,$nombre) {
+      $this->db->query('UPDATE usuarios SET nombre = :nombre WHERE id = :user_id');
+      $this->db->bind(':user_id', $user_id);
+      $this->db->bind(':nombre', $nombre);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    // ********  END EDITAR MI PERFIL DE USUARIO
+
 
 
     public function getUserLog($usuario) {

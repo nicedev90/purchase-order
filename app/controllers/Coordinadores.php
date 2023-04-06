@@ -13,6 +13,7 @@
 				$sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
 				$usuarios = $this->coordinador->getAllUsers($sede);
 				$roles = $this->coordinador->getRoles();
+				$superv = $this->coordinador->getSupervSede($_SESSION['user_sede']);
 
 				$controller = strtolower(get_called_class());
 				$method = ucwords(__FUNCTION__);
@@ -20,6 +21,7 @@
 				$data = [
 					'usuarios' => $usuarios,
 					'roles' => $roles,
+					'superv' => $superv,
 					'controller' => $controller,
 					'pagename' => $method
 				];
@@ -35,7 +37,7 @@
 		// *********** BEGIN EDIT USER
 		public function edit_user() {
 
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if (isset($_POST['guardar'])) {
 
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 				$user_id = $_POST['user_id'];
@@ -55,7 +57,19 @@
 					redirect('coordinadores/edit_user');
       	}
 
-			} else {
+			}
+
+			if (isset($_POST['eliminar_user'])) {
+				$user_id = $_POST['user_id'];
+
+      	$user_deleted = $this->coordinador->deleteUser($user_id);
+
+      	if ($user_deleted) {
+					redirect('coordinadores/edit_user');
+      	}
+
+			}
+
 
 				$controller = strtolower(get_called_class());
 				$method = ucwords(__FUNCTION__);
@@ -74,7 +88,7 @@
 				];
 				
 				$this->view('coordinador/edit_user', $data);
-			}
+			
 			
 		}
 		// *********** END EDIT USER
@@ -171,6 +185,12 @@
     	if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') { 
     		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+					  $user_id = $_POST['user_id'];
+		    		$nombre = $_POST['nombre'];
+
+		      	$this->coordinador->updateProfile($user_id,$nombre);
+
+		      	redirect('coordinadores/config_general');
 
 				} else {
 
@@ -245,6 +265,35 @@
 
 				$this->view('coordinador/registros', $data);
     	}
+    }
+
+/**
+ * Saluda al visitante
+ * 
+ * Une la palabra hola con el nombre del visitante
+ * 
+ * @param string $nombre nombre del visitante
+ * @return string saludo completo
+ */
+
+/**
+ * @template T of int|array<int>
+ * @param T $id
+ * @return (T is int ? static : array<static>)
+ */
+
+    public function add_cc() {
+    	
+    }
+
+    public function edit_cc()
+    {
+        
+    }
+
+    public function edit_unidad()
+    {
+        
     }
 
 

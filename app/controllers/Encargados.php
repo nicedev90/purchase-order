@@ -31,24 +31,6 @@
 
 				$this->view('encargado/index', $data);
 
-				// $user = $_SESSION['user_usuario'];
-
-				// $minas = $this->getMinas();
-				// $ordenes = $this->getOrdenes();
-				// $lastOrder = $this->getLastOrder();
-				// $num_os  = $lastOrder->num_os;
-				// $lastOrderData = $this->getOrdenData($num_os);
-				// // $userLastOrder = $this->getUserLastOrder($user);
-		
-				// $data = [
-				// 	'minas' => $minas,
-				// 	'ordenes' => $ordenes,
-				// 	'lastOrder' => $lastOrder,
-				// 	'lastOrderData' => $lastOrderData
-				// ];
-
-				// $this->view('encargado/index', $data);
-
 			} else {
 				$this->view('pages/login');
 			}
@@ -237,6 +219,7 @@
 					$mina_nombre = $mina->nombre;
 					$mina_codigo = $mina->codigo;
 					$mina_categ = $this->getMinaCateg($id,$tipo);
+					$unidades = $this->encargado->getUnidadesSede($_SESSION['user_sede']);
 
 					$controller = strtolower(get_called_class());
 					$method = ucwords(__FUNCTION__);
@@ -248,6 +231,7 @@
 						'mina_categ' => $mina_categ,
 						'numero_os' => $num_os,
 						'tipo_os' => $tipo,
+						'unidades' => $unidades,
 						'pagename' => $method,
 						'controller' => $controller
 					];
@@ -981,6 +965,9 @@
     	}
 
 			// Vista inicial 
+			  $sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
+				$usuarios = $this->encargado->getAllUsers($sede);
+
 		    $minas = $this->getMinas();
 				$meses = [
 					'01' => 'Enero',
@@ -1003,6 +990,7 @@
 				$data = [
 					'minas' => $minas,
 					'meses' => $meses,
+					'usuarios' => $usuarios,
 					'controller' => $controller,
 					'pagename' => $method
 				];

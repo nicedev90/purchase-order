@@ -110,7 +110,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" name="guardar" class="btn btn-primary">Guardar <i class="bi bi-person-fill"></i></button>
+                                        <button type="submit" class="btn btn-primary">Guardar <i class="bi bi-person-fill"></i></button>
                                     </div>
 
                                 </form>

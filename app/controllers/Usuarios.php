@@ -206,6 +206,10 @@
 					$mina_nombre = $mina->nombre;
 					$mina_codigo = $mina->codigo;
 					$mina_categ = $this->getMinaCateg($id,$tipo);
+					$unidades = $this->usuario->getUnidadesSede($_SESSION['user_sede']);
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
 					
 					$data = [
 						'id' => $id,
@@ -213,7 +217,10 @@
 						'mina_codigo' => $mina_codigo,
 						'mina_categ' => $mina_categ,
 						'numero_os' => $num_os,
-						'tipo_os' => $tipo
+						'tipo_os' => $tipo,
+						'unidades' => $unidades,
+						'pagename' => $method,
+						'controller' => $controller
 					];
 
 					$this->view('usuario/crear', $data);

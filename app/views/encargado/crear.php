@@ -124,9 +124,9 @@
                 <label for="" class="d-md-none">Unidad</label>
                 <select name="item[1][unidad]" class="form-control form-control-sm" id="validationTooltip04" required>
                   <option selected disabled value="">Selecciona...</option>
-                  <option>Metro</option>
-                  <option>Kilo</option>
-                  <option>Litro</option>
+                <?php foreach($data['unidades'] as $unidad): ?>
+                  <option value="<?php echo utf8_encode($unidad->unidad); ?>"> <?php echo utf8_encode($unidad->unidad); ?></option>
+                <?php endforeach; ?>
                 </select>
                 <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
               </div>
@@ -316,7 +316,9 @@
 
 </main>
 
-
+<script>
+    const unidades = <?php echo json_encode($data['unidades']) ?>
+</script>
 
 <!-- Modal -->
 <div class="modal fade" id="error_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">

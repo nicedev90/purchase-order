@@ -1,20 +1,22 @@
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/header.php'; ?>
+
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/topbar.php'; ?>
+
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Editar / Eliminar Usuario <i class="bi bi-person-check-fill"></i> </h1> 
+        <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">Editar / Eliminar Usuario <i class="bi bi-person-fill-add"></i> </li>
+                <li class="breadcrumb-item active">Dashboard</li>
             </ol>
         </nav>
     </div>
  
-
+ <!-- <?php print_r($data)  ?> -->
 <section class="section dashboard">
     <!-- Inicio tabla resumen Ordenes -->
     <div class="col-12">
@@ -71,8 +73,7 @@
                                 
                                 <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit_user_<?php echo $usuario->id ?>"><i class="bi bi-check2-square"></i></a>   
                                 <?php require APPROOT . '/views/coordinador/partials/modal_edit_user.php'; ?>
-                                <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_user_<?php echo $usuario->id ?>"><i class="bi bi-trash3-fill"></i></i></a>
-                                <?php require APPROOT . '/views/coordinador/partials/modal_delete_user.php'; ?>
+                                <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#edit_user_<?php echo $usuario->id ?>"><i class="bi bi-trash3-fill"></i></i></a>   
             
                             </td>
                             
@@ -84,10 +85,10 @@
             </div>
         </div>
     </div>
+    <!-- Fin tabla resumen usuarioes -->
 
 
 </section>
-
 
 
 </main><!-- End #main -->
