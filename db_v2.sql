@@ -612,3 +612,138 @@ INSERT INTO unidades (sede,unidad) VALUES
   ('Peru', 'Kilo'),
   ('Chile', 'Metro'),
   ('Chile', 'Kilo');
+
+
+
+
+
+INSERT INTO `os_peru` (`num_os`, `tipo`, `usuario`, `mina`, `categoria`, `item`, `cantidad`, `unidad`, `descripcion`, `proveedor`, `valor`, `estado`, `creado`, `actualizado`) VALUES
+('1', 'compra', 'user_pe', '100', '103', 1, '3', 'Metro', 'CABLE DE COBRE AWG 10 ', 'SAC', '1500', 'En Proceso', '2023-04-08 17:31:29', '2023-04-08 12:31:29'),
+('2', 'compra', 'user_pe', '900', '903', 1, '8', 'Kilo', 'COBRE TRENZADO', 'SAC', '4888', 'En Proceso', '2023-04-08 17:35:46', '2023-04-08 12:35:46'),
+('3', 'fondos', 'user_pe', '400', '401', 1, '', '', 'VIATICOS ', '', '1580', 'En Proceso', '2023-04-08 17:37:03', '2023-04-08 12:37:03'),
+('4', 'fondos', 'user_pe', '500', '502', 1, '', '', 'PERSONALES', '', '1500', 'En Proceso', '2023-04-08 17:40:20', '2023-04-08 12:40:20'),
+('5', 'compra', 'user_pe', '200', '203', 1, '6', 'Metro', 'PROTECTOR ANTIBAS', 'SAC', '1500', 'En Proceso', '2023-04-08 17:44:23', '2023-04-08 12:44:23'),
+('5', 'compra', 'user_pe', '200', '203', 2, '12', 'Metro', 'BAS TEC', 'PRIN', '1000', 'En Proceso', '2023-04-08 17:44:23', '2023-04-08 12:44:23'),
+('6', 'fondos', 'user_pe', '700', '701', 1, '', '', 'MATERIALES BASICOS RED', '', '500', 'En Proceso', '2023-04-08 17:46:55', '2023-04-08 12:46:55'),
+('6', 'fondos', 'user_pe', '700', '701', 2, '', '', 'PRUEBA DE RED TESTE', '', '100', 'En Proceso', '2023-04-08 17:46:55', '2023-04-08 12:46:55'),
+('7', 'fondos', 'user_pe', '800', '801', 1, '', '', 'VIATICOS PRIMARIOS', '', '1200', 'En Proceso', '2023-04-08 17:49:28', '2023-04-08 12:49:28'),
+('7', 'fondos', 'user_pe', '800', '801', 2, '', '', 'COMBUSTIBLE AUTOMOVIL', '', '120', 'En Proceso', '2023-04-08 17:49:28', '2023-04-08 12:49:28'),
+('8', 'compra', 'user_pe', '600', '603', 1, '18', 'Metro', 'TOMA CORRIENTE', 'PLIMTEC', '430', 'En Proceso', '2023-04-08 17:56:06', '2023-04-08 12:56:06'),
+('9', 'fondos', 'user_pe', '700', '701', 1, '', '', 'Servicios Primarios', '', '2600', 'En Proceso', '2023-04-08 17:57:39', '2023-04-08 12:57:39'),
+('9', 'fondos', 'user_pe', '700', '701', 2, '', '', 'Servicios de Movilidad', '', '150', 'En Proceso', '2023-04-08 17:57:39', '2023-04-08 12:57:39'),
+('10', 'fondos', 'user_pe', '700', '701', 1, '', '', 'AGRO INDUSTRIAL SERVICIOS', '', '1500', 'En Proceso', '2023-04-08 17:59:43', '2023-04-08 12:59:43'),
+('10', 'fondos', 'user_pe', '700', '701', 2, '', '', 'MOVILIDAD', '', '140', 'En Proceso', '2023-04-08 17:59:43', '2023-04-08 12:59:43');
+
+
+INSERT INTO `os_chile` (`num_os`, `tipo`, `usuario`, `mina`, `categoria`, `item`, `cantidad`, `unidad`, `descripcion`, `proveedor`, `valor`, `estado`, `creado`, `actualizado`) VALUES
+('1', 'compra', 'user_cl', '100', '103', 1, '2', 'Metro', 'CABLE DE COBRE AWG 10 ', 'SAC', '10000', 'En Proceso', '2023-04-08 17:32:55', '2023-04-08 12:32:55'),
+('2', 'compra', 'user_cl', '400', '403', 1, '10', 'Metro', 'COBRE TRENZADO', 'SAC', '160000', 'En Proceso', '2023-04-08 17:35:45', '2023-04-08 12:35:45'),
+('3', 'fondos', 'user_cl', '800', '801', 1, '', '', 'VIATICOS PERSONALES', '', '100000', 'En Proceso', '2023-04-08 17:37:02', '2023-04-08 12:37:02'),
+('4', 'fondos', 'user_cl', '1100', '1101', 1, '', '', 'COMBUSTIBLE CARRO', '', '230000', 'En Proceso', '2023-04-08 17:40:19', '2023-04-08 12:40:19'),
+('4', 'fondos', 'user_cl', '1100', '1101', 2, '', '', 'PASAJES AEREOS', '', '10000', 'En Proceso', '2023-04-08 17:40:19', '2023-04-08 12:40:19'),
+('5', 'compra', 'user_cl', '700', '703', 1, '3', 'Metro', 'PROTECTOR ANTIBAS', 'Ssac', '23000', 'En Proceso', '2023-04-08 17:44:22', '2023-04-08 12:44:22'),
+('5', 'compra', 'user_cl', '700', '703', 2, '50', 'Metro', 'bas tec', '50 CENT', '150000', 'En Proceso', '2023-04-08 17:44:22', '2023-04-08 12:44:22'),
+('6', 'fondos', 'user_cl', '900', '901', 1, '', '', 'MATERIALES BASICOS RED', '', '15000', 'En Proceso', '2023-04-08 17:46:56', '2023-04-08 12:46:56'),
+('6', 'fondos', 'user_cl', '900', '901', 2, '', '', 'PRUEBA DE RED TESTE', '', '1500', 'En Proceso', '2023-04-08 17:46:56', '2023-04-08 12:46:56'),
+('7', 'fondos', 'user_cl', '500', '501', 1, '', '', 'VIATICOS PRIMARIOS', '', '132000', 'En Proceso', '2023-04-08 17:49:27', '2023-04-08 12:49:27'),
+('7', 'fondos', 'user_cl', '500', '501', 2, '', '', 'COMBUSTIBLE CARRO', '', '14000', 'En Proceso', '2023-04-08 17:49:27', '2023-04-08 12:49:27'),
+('8', 'compra', 'user_cl', '600', '603', 1, '5', 'Metro', 'TOMA CORRIENTE TRENZADO', 'PLIMTEC', '50000', 'En Proceso', '2023-04-08 17:56:07', '2023-04-08 12:56:07'),
+('9', 'fondos', 'user_cl', '1000', '1001', 1, '', '', 'Servicios Primarios', '', '15000', 'En Proceso', '2023-04-08 17:57:40', '2023-04-08 12:57:40'),
+('9', 'fondos', 'user_cl', '1000', '1001', 2, '', '', 'Servicios de Movilidad', '', '4200', 'En Proceso', '2023-04-08 17:57:40', '2023-04-08 12:57:40'),
+('9', 'fondos', 'user_cl', '1000', '1001', 3, '', '', 'Gas vehicular', '', '15000', 'En Proceso', '2023-04-08 17:57:40', '2023-04-08 12:57:40'),
+('10', 'fondos', 'user_cl', '1300', '1301', 1, '', '', 'ON PREMISE SERVICE', '', '140000', 'En Proceso', '2023-04-08 17:59:42', '2023-04-08 12:59:42'),
+('10', 'fondos', 'user_cl', '1300', '1301', 2, '', '', 'VIAJES SUB MINA INTERNA', '', '1300', 'En Proceso', '2023-04-08 17:59:42', '2023-04-08 12:59:42');
+
+--
+
+
+
+INSERT INTO `obs_pe` (`id`, `num_os`, `observaciones`, `creado`) VALUES
+(1, '1', 'Ninguna', '2023-04-08 17:31:29'),
+(2, '2', 'Ninguna', '2023-04-08 17:35:46'),
+(3, '3', 'Ninguna', '2023-04-08 17:37:03'),
+(4, '4', 'Ninguna', '2023-04-08 17:40:20'),
+(5, '5', 'Ninguna', '2023-04-08 17:44:23'),
+(6, '6', 'NINGUNA', '2023-04-08 17:46:55'),
+(7, '7', 'SIN OBERSACIONES', '2023-04-08 17:49:28'),
+(8, '8', 'Sin Obervaciones', '2023-04-08 17:56:06'),
+(9, '9', 'Sin obervaciones', '2023-04-08 17:57:39'),
+(10, '10', 'SIN OBSERVACIONES', '2023-04-08 17:59:43');
+
+
+
+
+INSERT INTO `obs_cl` (`id`, `num_os`, `observaciones`, `creado`) VALUES
+(1, '1', 'Ninguna', '2023-04-08 17:32:55'),
+(2, '2', 'Ninguna', '2023-04-08 17:35:45'),
+(3, '3', 'Ninguna', '2023-04-08 17:37:02'),
+(4, '4', 'Ninguna', '2023-04-08 17:40:19'),
+(5, '5', 'Ninguna', '2023-04-08 17:44:22'),
+(6, '6', 'NINGUNA', '2023-04-08 17:46:56'),
+(7, '7', 'SIN OBERSERVACIONES', '2023-04-08 17:49:27'),
+(8, '8', 'Sin Obervaciones', '2023-04-08 17:56:07'),
+(9, '9', 'Sin obervaciones', '2023-04-08 17:57:40'),
+(10, '10', 'SIN OBSERVACIONES', '2023-04-08 17:59:42');
+
+--
+
+INSERT INTO `enlaces_pe` (`id`, `num_os`, `enlace`, `creado`) VALUES
+(1, '1', 'https://listado.mercadolibre.com.pe/cable-awg', '2023-04-08 17:31:29'),
+(2, '2', 'https://listado.mercadolibre.com.pe/cobre#D[A:cobre]', '2023-04-08 17:35:46'),
+(3, '3', '', '2023-04-08 17:37:03'),
+(4, '4', '', '2023-04-08 17:40:20'),
+(5, '5', 'https://articulo.mercadolibre.com.pe/MPE-430015442-moneda-unc-tumi-de-oro-2010-riqueza-y-orgullo-del', '2023-04-08 17:44:23'),
+(6, '6', '', '2023-04-08 17:46:55'),
+(7, '7', '', '2023-04-08 17:49:28'),
+(8, '8', 'https://articulo.mercadolibre.com.pe/MPE-621248218-extension-toma-corriente-con-obturador-3-usb-5-so', '2023-04-08 17:56:06'),
+(9, '9', '', '2023-04-08 17:57:39'),
+(10, '10', '', '2023-04-08 17:59:43');
+
+--
+
+
+INSERT INTO `enlaces_cl` (`id`, `num_os`, `enlace`, `creado`) VALUES
+(1, '1', ' https://listado.mercadolibre.com.pe/cable-awg', '2023-04-08 17:32:55'),
+(2, '2', 'https://listado.mercadolibre.com.pe/cobre#D[A:cobre]', '2023-04-08 17:35:45'),
+(3, '3', '', '2023-04-08 17:37:02'),
+(4, '4', '', '2023-04-08 17:40:19'),
+(5, '5', 'https://articulo.mercadolibre.com.pe/MPE-430015442-moneda-unc-tumi-de-oro-2010-riqueza-y-orgullo-del', '2023-04-08 17:44:22'),
+(6, '6', '', '2023-04-08 17:46:56'),
+(7, '7', '', '2023-04-08 17:49:27'),
+(8, '8', 'https://articulo.mercadolibre.com.pe/MPE-621248218-extension-toma-corriente-con-obturador-3-usb-5-so', '2023-04-08 17:56:07'),
+(9, '9', '', '2023-04-08 17:57:40'),
+(10, '10', '', '2023-04-08 17:59:42');
+
+--
+-- Índices para
+
+
+INSERT INTO `adjuntos_pe` (`id`, `num_os`, `archivo`, `creado`) VALUES
+(1, '1', '/files/pe/1/RP.txt', '2023-04-08 17:31:29'),
+(2, '2', '/files/pe/2/RP.txt', '2023-04-08 17:35:46'),
+(3, '3', '/files/pe/3/h9vwwrd6-1-200x200.png', '2023-04-08 17:37:03'),
+(4, '4', '/files/pe/4/po.png', '2023-04-08 17:40:20'),
+(5, '5', '/files/pe/5/RP.txt', '2023-04-08 17:44:23'),
+(6, '6', '/files/pe/6/RP.txt', '2023-04-08 17:46:55'),
+(7, '7', '/files/pe/7/RP.txt', '2023-04-08 17:49:28'),
+(8, '8', '/files/pe/8/RP.txt', '2023-04-08 17:56:06'),
+(9, '9', '/files/pe/9/RP.txt', '2023-04-08 17:57:39'),
+(10, '10', '/files/pe/10/RP.txt', '2023-04-08 17:59:43');
+
+--
+
+INSERT INTO `adjuntos_cl` (`id`, `num_os`, `archivo`, `creado`) VALUES
+(1, '1', '/files/cl/1/RP.txt', '2023-04-08 17:32:55'),
+(2, '2', '/files/cl/2/RP.txt', '2023-04-08 17:35:45'),
+(3, '3', '/files/cl/3/RP.txt', '2023-04-08 17:37:02'),
+(4, '4', '/files/cl/4/RP.txt', '2023-04-08 17:40:19'),
+(5, '5', '/files/cl/5/RP.txt', '2023-04-08 17:44:22'),
+(6, '6', '/files/cl/6/RP.txt', '2023-04-08 17:46:56'),
+(7, '7', '/files/cl/7/RP.txt', '2023-04-08 17:49:27'),
+(8, '8', '/files/cl/8/RP.txt', '2023-04-08 17:56:07'),
+(9, '9', '/files/cl/9/RP.txt', '2023-04-08 17:57:40'),
+(10, '10', '/files/cl/10/RP.txt', '2023-04-08 17:59:42');
+
+--
+-- Índices para tablas volcadas
+--
