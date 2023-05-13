@@ -703,6 +703,16 @@
     }
 
 
+    public function getReporteCaja($mina,$mes) {
+      $this->db->query('SELECT * FROM caja_chica 
+        WHERE centro_costo = :mina AND MONTH(fecha) = :mes ');
+      $this->db->bind(':mina', $mina);
+      $this->db->bind(':mes', $mes);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+
 
 
 

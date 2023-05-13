@@ -251,21 +251,58 @@
     	}
     }
 
-    public function registros() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') { 
-  			$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
+  public function registros() {
+  	if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') { 
+			$controller = strtolower(get_called_class());
+			$method = ucwords(__FUNCTION__);
 
-				$userLogs = $this->coordinador->getUserLog($_SESSION['user_usuario']);
-				$data = [
-					'logs' => $userLogs,
-					'controller' => $controller,
-					'pagename' => $method
-				];
+			$userLogs = $this->coordinador->getUserLog($_SESSION['user_usuario']);
+			$data = [
+				'logs' => $userLogs,
+				'controller' => $controller,
+				'pagename' => $method
+			];
 
-				$this->view('coordinador/registros', $data);
+			$this->view('coordinador/registros', $data);
+  	}
+  }
+
+  public function edit_unidad()
+  {
+    if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') {
+    	if (isset($_POST['add_unidad'])) {
+    		$sede = $_POST['sede'];
+    		$unidad = $_POST['unidad'];
+
+      	$this->coordinador->addUnidad($sede,$unidad);
+
+      	redirect('coordinadores/edit_unidad');
+
     	}
+
+    	if (isset($_POST['delete_unidad'])) {
+    		$id = $_POST['unidad_id'];
+
+      	$this->coordinador->deleteUnidad($id);
+
+      	redirect('coordinadores/edit_unidad');
+
+    	} 
+
+  		$controller = strtolower(get_called_class());
+			$method = ucwords(__FUNCTION__);
+
+			$unidades = $this->coordinador->getUnidadesSede($_SESSION['user_sede']);
+			$data = [
+				'unidades' => $unidades,
+				'controller' => $controller,
+				'pagename' => $method
+			];
+
+			$this->view('coordinador/edit_unidad', $data);
+    	
     }
+  }
 
 /**
  * Saluda al visitante
@@ -291,10 +328,7 @@
         
     }
 
-    public function edit_unidad()
-    {
-        
-    }
+
 
 
 	}

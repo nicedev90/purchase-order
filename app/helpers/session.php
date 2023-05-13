@@ -111,6 +111,14 @@
 		return $fecha;
 	}
 
+	function checkSedePeru() {
+		if (isset($_SESSION['user_sede']) && $_SESSION['user_sede'] == 'Peru') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 
 ?>

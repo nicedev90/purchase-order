@@ -47,9 +47,7 @@ $pdf->Ln($blockSpace);
 		$pdf->Cell(30,$headerTableHeight,utf8_decode('Valor Ref.'), 1,1,'C',true);
 
 		$pdf->displayItemsReporteCompra($data['reporte']);
-	}
-
-	if (strtoupper($data['reporte'][0]->tipo) == "FONDOS") {
+	} else {
 		$pdf->SetFont('Helvetica','',9);
 		$pdf->bgPrimary();
 		$pdf->textWhite();

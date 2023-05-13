@@ -147,5 +147,34 @@
 
 
 
+    public function getUnidadesSede($sede) {
+      $this->db->query('SELECT * FROM unidades WHERE sede = :sede');
+      $this->db->bind(':sede', $sede);
+      $res = $this->db->getSet();
+      return $res;
+    }
+
+    public function addUnidad($sede,$unidad) {
+      $this->db->query('INSERT INTO unidades (sede, unidad) VALUES (:sede, :unidad)');
+
+      $this->db->bind(':sede', $sede);
+      $this->db->bind(':unidad', $unidad);
+
+      $this->db->execute();
+    }
+
+    public function deleteUnidad($id) {
+      $this->db->query('DELETE FROM unidades WHERE id = :id');
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
 	}
 ?>

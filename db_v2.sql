@@ -747,3 +747,28 @@ INSERT INTO `adjuntos_cl` (`id`, `num_os`, `archivo`, `creado`) VALUES
 --
 -- Índices para tablas volcadas
 --
+
+
+
+
+INSERT INTO `revision_pe` (`num_os`, `tipo`, `revisor_1`, `obs_1`, `aprob_1`, `fecha_aprob_1`, `revisor_2`, `obs_2`, `aprob_2`, `fecha_aprob_2`) VALUES
+('6', 'fondos', 'Francisco Duran', '-', '-', '2023-04-20 10:47:14', 'Francisco Duran', '-', '-', '2023-04-20 10:47:14'),
+('7', 'fondos', 'Francisco Duran', '-', '-', '2023-04-20 10:47:14', 'Francisco Duran', '-', '-', '2023-04-20 10:47:14'),
+('8', 'compra', 'Enzo Jimenez', '-', '-', '2023-04-26 10:40:05', 'Hans Morales', '-', '-', '2023-04-26 10:40:05'),
+('9', 'fondos', 'Francisco Duran', '-', '-', '2023-04-26 10:40:53', 'Francisco Duran', '-', '-', '2023-04-26 10:40:53'),
+('10', 'fondos', 'Francisco Duran', '-', '-', '2023-04-26 10:56:36', 'Francisco Duran', '-', '-', '2023-04-26 10:56:36');
+
+CREATE TABLE caja_chica (
+id INT NOT NULL AUTO_INCREMENT,
+usuario VARCHAR(100) NOT NULL,
+num_os INT NOT NULL,
+fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+centro_costo VARCHAR(150) NOT NULL,
+descripcion VARCHAR(250) NOT NULL,
+proveedor VARCHAR(100) NOT NULL,
+documento VARCHAR(100) NULL,
+monto DECIMAL(20,2) NOT NULL,
+creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+actualizado DATETIME DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (id)
+)ENGINE=INNODB;

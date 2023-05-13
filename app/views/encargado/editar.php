@@ -235,7 +235,7 @@
 
             <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
               <div class="col-12 col-md-3 mt-4 p-3 btn btn-success fw-bold">
-                <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
+                <span> 1° REV. - <?php echo $data['aprob_1'] ?></span>
               </div>
             <?php endif; ?>
 
@@ -477,7 +477,7 @@
             <!-- SI LA ORDEN NO ESTA NI ACEPTADA NI RECHAZADA -> en proceso -->
           <?php else : ?>
 
-            <a href="<?php echo URLROOT; ?>/encargados/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+            <a href="<?php echo URLROOT; ?>/encargados/index" class="col-12 col-md-2 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
             </a>
@@ -492,9 +492,17 @@
             <?php endif; ?>
 
             <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
-              <div class="col-12 col-md-3 mt-4 p-3 btn btn-success fw-bold">
-                <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
+              <!-- si tiene aprobacion 1 mostrar boton para sustentar gastos -->
+              <div class="col-12 col-md-2 mt-4 p-3 btn btn-success fw-bold">
+                <span>1° REV. - <?php echo $data['aprob_1'] ?></span>
               </div>
+
+              <?php if(checkSedePeru()) : ?>
+                <a href="<?php echo URLROOT . '/encargados/sustentar/' . $data['orden'][0]->num_os ; ?>"  class="col-12 col-md-2 mt-4 p-3 btn btn-warning fw-bold">
+                  <i class="bi bi-pencil-square mr-5"></i>
+                  <span> Ir a Sustentar </span>
+                </a>
+              <?php endif; ?> 
             <?php endif; ?>
 
             <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'RECHAZADO') : ?>

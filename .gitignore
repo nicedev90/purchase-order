@@ -7,3 +7,5 @@ node_modules
 # public/files/pe/*
 *.sh
 *.phar
+# evitar carga de archivos con informacion privada
+app/config/config.php
