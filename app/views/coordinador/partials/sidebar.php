@@ -3,57 +3,35 @@
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
-          <a class="nav-link " href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>">
-            <i class="bi bi-grid"></i>
-            <span>Dashboard </span>
-            <p class="text-light">text-light</p>
-              <?php if ($_SESSION['user_sede']== "Peru") { ?>
-                  <img src="<?php echo URLROOT; ?>/img/chullo.png" width="40" height="40"/>
-                    <?php } else { ?>
-                  <img src="<?php echo URLROOT; ?>/img/bandera_chile.png" width="40" height="40"/>
-              <?php } ?>
-          </a>
+    <a class="nav-link " href="<?php echo URLROOT . '/' . $data['controller'] . '/index'?>">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard </span>
+      <p class="text-light">text-light</p>
+        <?php if ($_SESSION['user_sede']== "Peru") { ?>
+            <img src="<?php echo URLROOT; ?>/img/chullo.png" width="40" height="40"/>
+              <?php } else { ?>
+            <img src="<?php echo URLROOT; ?>/img/bandera_chile.png" width="40" height="40"/>
+        <?php } ?>
+    </a>
   </li>
 
   <li class="nav-heading">CONFIGURACIÓN CENTRO DE COSTOS</li>
 
   <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-badge-cc"></i><span>Centros de Costos</span><i class="bi bi-chevron-down ms-auto"></i>
+    <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_cc'?>">
+      <i class="bi bi-universal-access"></i>
+      <span>AGREGAR / ELIMINAR CENTRO</span>
     </a>
-    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/add_cc'?>">
-        <i class="bi bi-circle"></i><span>Agregar CC</span>
-        </a>
-      </li>
-      <li>
-        <a href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_cc'?>">
-          <i class="bi bi-circle"></i><span>Editar/Eliminar CC</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Components Nav -->
+  </li><!-- End Profile Page Nav -->
 
   <li class="nav-heading">CONFIGURACIÓN CATEGORÍA</li>
 
   <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-file-earmark-post-fill"></i><span>Categoría</span><i class="bi bi-chevron-down ms-auto"></i>
+    <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/edit_categoria'?>">
+      <i class="bi bi-universal-access"></i>
+      <span>AGREGAR / ELIMINAR CATEGORIA</span>
     </a>
-    <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="">
-        <i class="bi bi-circle"></i><span>Agregar Categoría</span>
-        </a>
-      </li>
-      <li>
-        <a href="">
-          <i class="bi bi-circle"></i><span>Editar/Eliminar Categoría</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Components Nav -->
+  </li><!-- End Profile Page Nav -->
 
   <li class="nav-heading">CONFIGURACIÓN UNIDAD</li>
 
@@ -70,6 +48,15 @@
     <a class="nav-link collapsed" href="<?php echo URLROOT  . '/' . $data['controller'] . '/edit_revision'?>">
       <i class="bi bi-receipt-cutoff"></i>
       <span>Áreas de Revisión</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-heading">REGISTROS DE ACCESOS</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="<?php echo URLROOT  . '/' . $data['controller'] . '/registros'?>">
+      <i class="bi bi-receipt-cutoff"></i>
+      <span> ACCESOS AL SISTEMA </span>
     </a>
   </li><!-- End Profile Page Nav -->
 

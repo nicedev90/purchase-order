@@ -267,16 +267,17 @@ class Pdf extends FPDF{
     $border_obs = TRUE;
     $fill_obs = TRUE;
 
+    foreach($data as $row) {
       $this->SetFont('Helvetica','',9);
       $this->bgPrimary();
       $this->textWhite();
-      $this->Cell($row_title,7,utf8_decode('Observación : '), $border_obs,0,'C',$fill_obs);
-
+      $this->Cell($row_title,7,utf8_decode('Observaciones : '), $border_obs,0,'C',$fill_obs);
+// 
       $this->SetFont('Helvetica','',8);
       $this->bgWhite();
       $this->SetTextColor(0,0,255);
-      $this->Cell($row_details,7, '  ' . $data[0]->observaciones, $border_obs,1,'L',$fill_obs);
-    
+      $this->Cell($row_details,7, '  ' . $row, $border_obs,1,'L',$fill_obs);
+    }
   }
 
   function displayLinks($data,$width) {
@@ -286,7 +287,6 @@ class Pdf extends FPDF{
     $fill_obs = TRUE;
 
     foreach($data as $row) {
-      $link = '  ' . $row;
 
       $this->SetFont('Helvetica','',9);
       $this->bgPrimary();
@@ -296,7 +296,7 @@ class Pdf extends FPDF{
       $this->SetFont('Helvetica','',8);
       $this->bgWhite();
       $this->SetTextColor(0,0,255);
-      $this->Cell($row_details,7,$link, $border_obs,1,'L',$fill_obs, $row);
+      $this->Cell($row_details,7,'  ' . $row, $border_obs,1,'L',$fill_obs, $row);
     }
   }
 
@@ -307,8 +307,13 @@ class Pdf extends FPDF{
     $fill_obs = TRUE;
 
     foreach($data as $row) {
-      $file = explode('/', $row->archivo);
-      $file = '  ' . $file[4] . '   [click para ver archivo]';
+      if (strlen($row) > 1) {
+        $file = '  ' . $row . '   [click para ver archivo]';
+        $link = URLROOT . $row;
+      } else {
+        $file = '  -';
+        $link = '';
+      }
 
       $this->SetFont('Helvetica','',9);
       $this->bgPrimary();
@@ -318,16 +323,18 @@ class Pdf extends FPDF{
       $this->SetFont('Helvetica','',8);
       $this->bgWhite();
       $this->SetTextColor(0,0,255);
-      $this->Cell($row_details,7,$file, $border_obs,1,'L',$fill_obs, URLROOT . $row->archivo);
+      $this->Cell($row_details,7,$file, $border_obs,1,'L',$fill_obs, $link);
     }
   }
 
   function checkPurchase($data,$rev,$width) {
+    // row 1 APROBACIONES
       $signatureSpace = 10;
       $numero_col = 2;
       $margin_r = 14;
-      $col = floor(($width/3));
+      $col = floor($width/3);
       $leftMargin = $width - $col*$numero_col + $margin_r;
+      $rowHeight = 10;
       $align_text_aprob = "C";
       $border_firmas = 1;
       $fill_firmas = TRUE;
@@ -335,7 +342,7 @@ class Pdf extends FPDF{
       // *********** COL 1
       $status_rev1 = $data->aprob_1;
 
-      if($status_rev1 == "Aprobado") {
+      if(strtoupper($status_rev1) == "APROBADO") {
         $this->bgSuccess();
       } else {
         $this->bgDanger();
@@ -343,12 +350,12 @@ class Pdf extends FPDF{
     $this->SetFont('Helvetica','B',11);
     $this->textWhite();
     $this->Cell($leftMargin,10,utf8_decode(''),0,0,$align_text_aprob,FALSE);
-    $this->Cell($col-10,10,$data->aprob_1, $border_firmas,0,$align_text_aprob,$fill_firmas);
+    $this->Cell($col-10,$rowHeight, $data->aprob_1, $border_firmas,0,$align_text_aprob,$fill_firmas);
 
       // ********* COL 2
       $status_rev2 = $data->aprob_2;
 
-      if($status_rev2 == "Aprobado") {
+      if(strtoupper($status_rev2) == "APROBADO") {
         $this->bgSuccess();
       } else {
         $this->bgDanger();
@@ -356,10 +363,10 @@ class Pdf extends FPDF{
 
     $this->SetFont('Helvetica','B',12);
     $this->textWhite();
-    $this->Cell($col-10,10,$data->aprob_2, $border_firmas,1,'C',$fill_firmas);
+    $this->Cell($col-10,$rowHeight, $data->aprob_2, $border_firmas,1,'C',$fill_firmas);
 
 
-    // row1 AREA DE APROBACIONES
+    // row 2 AREA DE APROBACIONES
     $this->SetFont('Helvetica','B',11);
     $this->bgPrimary();
     $this->textWhite();
@@ -367,15 +374,15 @@ class Pdf extends FPDF{
     $this->Cell($col-10,7,strtoupper($rev->area_1), $border_firmas,0,'C',$fill_firmas);
     $this->Cell($col-10,7,strtoupper($rev->area_2), $border_firmas,1,'C',$fill_firmas);
 
-    // row 2 NOMBRE DE APROBACIONES
+    // row 3 NOMBRE DE APROBADORES
     $this->SetFont('Helvetica','',10);
     $this->bgWhite();
     $this->textDark();
     $this->Cell($leftMargin,10,utf8_decode(''),0,0,'C',FALSE);
-    $this->Cell($col-10,10,$data->revisor_1, $border_firmas,0,$align_text_aprob,$fill_firmas);
-    $this->Cell($col-10,10,$data->revisor_2, $border_firmas,1,$align_text_aprob,$fill_firmas);
+    $this->Cell($col-10,10, $data->revisor_1, $border_firmas,0,$align_text_aprob,$fill_firmas);
+    $this->Cell($col-10,10, $data->revisor_2, $border_firmas,1,$align_text_aprob,$fill_firmas);
 
-    // row 3 FECHA DE APROB
+    // row 4 FECHA DE APROBACIONES
     $this->SetFont('Helvetica','',8);
     $this->bgWhite();
     $this->textDark();
@@ -387,11 +394,13 @@ class Pdf extends FPDF{
   }
 
   function checkFund($data,$rev,$width) {
+    // row 1 APROBACION 
       $signatureSpace = 10;
       $numero_col = 2;
       $margin_r = 14;
-      $col = floor(($width/3));
+      $col = floor($width/3);
       $leftMargin = $width - $col*$numero_col + $margin_r;
+      $rowHeight = 10;
       $align_text_aprob = "C";
       $border_firmas = 1;
       $fill_firmas = TRUE;
@@ -399,7 +408,7 @@ class Pdf extends FPDF{
       // *********** COL 1
       $status_rev1 = $data->aprob_1;
 
-      if($status_rev1 == "Aprobado") {
+      if(strtoupper($status_rev1) == "APROBADO") {
         $this->bgSuccess();
       } else {
         $this->bgDanger();
@@ -407,12 +416,12 @@ class Pdf extends FPDF{
     $this->SetFont('Helvetica','B',11);
     $this->textWhite();
     $this->Cell($leftMargin,10,utf8_decode(''),0,0,$align_text_aprob,FALSE);
-    $this->Cell($col-10,10,$data->aprob_1, $border_firmas,0,$align_text_aprob,$fill_firmas);
+    $this->Cell($col-10,$rowHeight, $data->aprob_1, $border_firmas,0,$align_text_aprob,$fill_firmas);
 
       // ********* COL 2
       $status_rev2 = $data->aprob_2;
 
-      if($status_rev2 == "Aprobado") {
+      if(strtoupper($status_rev2) == "APROBADO") {
         $this->bgSuccess();
       } else {
         $this->bgDanger();
@@ -420,10 +429,10 @@ class Pdf extends FPDF{
 
     $this->SetFont('Helvetica','B',12);
     $this->textWhite();
-    $this->Cell($col-10,10,$data->aprob_2, $border_firmas,1,'C',$fill_firmas);
+    $this->Cell($col-10,$rowHeight, $data->aprob_2, $border_firmas,1,'C',$fill_firmas);
 
 
-    // row1 AREA DE APROBACIONES
+    // row 2 AREA DE APROBACIONES
     $this->SetFont('Helvetica','B',11);
     $this->bgPrimary();
     $this->textWhite();
@@ -431,7 +440,7 @@ class Pdf extends FPDF{
     $this->Cell($col-10,7,strtoupper($rev->area_1), $border_firmas,0,'C',$fill_firmas);
     $this->Cell($col-10,7,strtoupper($rev->area_2), $border_firmas,1,'C',$fill_firmas);
 
-    // row 2 NOMBRE DE APROBACIONES
+    // row 3 NOMBRE DE APROBADORES
     $this->SetFont('Helvetica','',10);
     $this->bgWhite();
     $this->textDark();
@@ -439,7 +448,7 @@ class Pdf extends FPDF{
     $this->Cell($col-10,10,$data->revisor_1, $border_firmas,0,$align_text_aprob,$fill_firmas);
     $this->Cell($col-10,10,$data->revisor_2, $border_firmas,1,$align_text_aprob,$fill_firmas);
 
-    // row 3 FECHA DE APROB
+    // row 4 FECHA DE APROBACIONES
     $this->SetFont('Helvetica','',8);
     $this->bgWhite();
     $this->textDark();

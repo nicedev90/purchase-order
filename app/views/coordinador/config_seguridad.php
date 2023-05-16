@@ -70,8 +70,9 @@
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
-                <form action="" method="post">
-                <input type="hidden" name="" value="">
+                <form action="<?php echo URLROOT; ?>/coordinadores/config_seguridad" class="sign-in-form" method="post">
+                  
+                <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
 
                 <div class="alert alert-warning  alert-dismissible fade show" role="alert">
                   <h4 class="alert-heading text-center"><b> ¡ IMPORTANTE ! </b></h4>
@@ -80,11 +81,16 @@
                   <p class="mb-0 text-center"> <b>Notificación de Área TI Clonsa </b> </p>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                    
+
+                      <div class="row my-3 col-12 col-md-6 mx-auto">
+                        <?php submitAlert(); ?>
+                      </div>
+
                     <div class="row mb-3">
+
                       <label for="password" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nombres Completos" required autocomplete="off">
+                        <input name="password" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce nueva contraseña" required autocomplete="off">
                         <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>
@@ -93,7 +99,7 @@
                     <div class="row mb-3">
                       <label for="password_confirm" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password_confirm" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Introduce Nuevo Usuario" required autocomplete="off">
+                        <input name="password_confirm" type="password" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Confirma nueva contraseña" required autocomplete="off">
                         <div class="valid-tooltip">Correcto</div>
                       </div>
                     </div>

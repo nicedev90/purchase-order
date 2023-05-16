@@ -16,7 +16,7 @@
 			$userData = $this->db->getSingle();
 			$userPass = $userData->password;
 
-			if ($password == $userPass) {
+			if (password_verify($password, $userPass)) {
 				return $userData;
 			} else {
 				return false;

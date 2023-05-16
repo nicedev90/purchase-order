@@ -37,7 +37,11 @@
       $this->db->bind(':area_2', $area_2);
       $this->db->bind(':sede', $sede);
       $this->db->bind(':tipo', $tipo);
-      $this->db->execute();
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     public function updateRevCompras($sede,$tipo,$area_1,$area_2) {
@@ -46,7 +50,11 @@
       $this->db->bind(':area_2', $area_2);
       $this->db->bind(':sede', $sede);
       $this->db->bind(':tipo', $tipo);
-      $this->db->execute();
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     public function getRevAreas($sede) {
@@ -105,7 +113,11 @@
       $this->db->bind(':password', $password);
       $this->db->bind(':estado', $estado);
 
-      $this->db->execute();
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // ************ END AGREGAR USUARIO
@@ -134,18 +146,28 @@
         return false;
       }
     }
+
+    public function updateUserPassword($user_id,$password) {
+      $this->db->query('UPDATE usuarios SET password = :password WHERE id = :user_id');
+      $this->db->bind(':user_id', $user_id);
+      $this->db->bind(':password', $password);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
     // ********  END EDITAR MI PERFIL DE USUARIO
 
-
-
+    // 
+    // ********  BEGIN AGREGAR EDITAR UNIDADES
     public function getUserLog($usuario) {
-      $this->db->query('SELECT * FROM logs WHERE usuario = :usuario');
+      $this->db->query('SELECT * FROM logs WHERE usuario = :usuario ORDER BY fecha DESC');
       $this->db->bind(':usuario', $usuario);
       $res = $this->db->getSet();
       return $res;  
     }
-
-
 
     public function getUnidadesSede($sede) {
       $this->db->query('SELECT * FROM unidades WHERE sede = :sede');
@@ -173,6 +195,157 @@
         return false;
       }
     }
+    // ********  END EDITAR UNIDADES
+    // 
+    // ********  BEGIN EDITAR CENTROS DE COSTO
+    public function getMinasPe() {
+      $this->db->query('SELECT * FROM minas_pe');
+      $minas = $this->db->getSet();
+      return $minas;
+    }
+
+    public function getMinasCl() {
+      $this->db->query('SELECT * FROM minas_cl');
+      $minas = $this->db->getSet();
+      return $minas;
+    }
+
+    public function addMinaPe($codigo,$centro_costo,$sede) {
+      $this->db->query('INSERT INTO minas_pe (codigo,nombre,pais) VALUES (:codigo, :centro_costo, :sede)');
+
+      $this->db->bind(':codigo', $codigo);
+      $this->db->bind(':centro_costo', $centro_costo);
+      $this->db->bind(':sede', $sede);
+
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function addMinaCl($sede,$unidad) {
+      $this->db->query('INSERT INTO minas_cl (codigo,nombre,pais) VALUES (:codigo, :centro_costo, :sede)');
+
+      $this->db->bind(':codigo', $codigo);
+      $this->db->bind(':centro_costo', $centro_costo);
+      $this->db->bind(':sede', $sede);
+
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function deleteMinaPe($id) {
+      $this->db->query('DELETE FROM minas_pe WHERE id = :id');
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function deleteMinaCl($id) {
+      $this->db->query('DELETE FROM minas_cl WHERE id = :id');
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    // ********  END EDITAR CENTROS DE COSTO
+    // 
+    // ********  BEGIN EDITAR CATEGORIAS
+    public function getCategoriasPe($cc) {
+      $this->db->query('SELECT * FROM categ_peru WHERE mina_pe_id = :cc ORDER BY id DESC');
+      $this->db->bind(':cc', $cc);
+      $categorias = $this->db->getSet();
+      return $categorias;
+    }
+
+    public function getCategoriasCl($cc) {
+      $this->db->query('SELECT * FROM categ_chile WHERE mina_cl_id = :cc ORDER BY id DESC');
+      $this->db->bind(':cc', $cc);
+      $categorias = $this->db->getSet();
+      return $categorias;
+    }
+
+
+    public function getMinaByIdPe($id) {
+      $this->db->query('SELECT * FROM minas_pe WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $result = $this->db->getSingle();
+      return $result;
+    }
+
+    public function getMinaByIdCl($id) {
+      $this->db->query('SELECT * FROM minas_cl WHERE id = :id');
+      $this->db->bind(':id', $id);
+      $result = $this->db->getSingle();
+      return $result;
+    }
+
+    public function addCategoriaPe($mina_id,$codigo,$tipo,$categoria) {
+      $this->db->query('INSERT INTO categ_peru (mina_pe_id,codigo,tipo,categoria) VALUES (:mina_id, :codigo, :tipo, :categoria)');
+
+      $this->db->bind(':mina_id', $mina_id);
+      $this->db->bind(':codigo', $codigo);
+      $this->db->bind(':tipo', $tipo);
+      $this->db->bind(':categoria', $categoria);
+
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function addCategoriaCl($mina_id,$codigo,$tipo,$categoria) {
+      $this->db->query('INSERT INTO categ_chile (mina_pe_id,codigo,tipo,categoria) VALUES (:mina_id, :codigo, :tipo, :categoria)');
+
+      $this->db->bind(':mina_id', $mina_id);
+      $this->db->bind(':codigo', $codigo);
+      $this->db->bind(':tipo', $tipo);
+      $this->db->bind(':categoria', $categoria);
+
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function deleteCategoriaPe($id) {
+      $this->db->query('DELETE FROM categ_peru WHERE id = :id');
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    public function deleteCategoriaCl($id) {
+      $this->db->query('DELETE FROM categ_chile WHERE id = :id');
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // ********  END EDITAR CATEGORIAS
+    // 
+    // ********  BEGIN EDITAR CENTROS DE COSTO
 
 
 

@@ -27,6 +27,17 @@
                                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="bi bi-reply-all-fill"></i> Cancelar</button>
                                         <button type="submit" name="eliminar_user" class="btn btn-danger"><i class="bi bi-person-fill-dash"></i> Eliminar</button>
                                     </div>
+                                    <div class="row my-4">
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck3" required>
+                                        <label class="form-check-label" for="invalidCheck3">
+                                            Acepto los cambios realizados, bajo mi Responsabilidad de Coordinador.
+                                        </label>
+                                        <div class="invalid-feedback">
+                                            Por favor, acepta los Términos y Condiciones.
+                                        </div>
+                                      </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

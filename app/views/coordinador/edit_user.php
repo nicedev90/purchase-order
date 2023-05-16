@@ -17,8 +17,12 @@
 
 <section class="section dashboard">
     <!-- Inicio tabla resumen Ordenes -->
+
     <div class="col-12">
         <div class="card recent-sales overflow-auto">
+            <div class="row my-3 col-12 col-md-6 mx-auto">
+                <?php submitAlert(); ?>
+            </div>
             <div class="card-body">
                 <h5 class="card-title">Lista usuarios</h5>
 

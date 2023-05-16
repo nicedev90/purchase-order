@@ -30,6 +30,7 @@ $pdf->textWhite();
 $pdf->Cell($w_os_type,7,strtoupper($pdf->setNameOs(strtoupper($data['items'][0]->tipo))), 0,1,'C', $fill_os);
 $pdf->Ln($blockSpace);
 
+
 // ******* seccion detalles de ORden de servicio
 	$w_title = floor($currentWidth/5);
 	$w_details = $currentWidth - $w_title*3.5;
@@ -101,7 +102,8 @@ $pdf->Ln($osBlockSpace);
 		$pdf->Cell(30,$headerTableHeight,utf8_decode('Valor Ref.'), 1,1,'C',true);
 
 		$pdf->displayItemsCompra($data['items']);
-	}
+
+	} 
 
 	if (strtoupper($data['items'][0]->tipo) == "FONDOS") {
 		$pdf->SetFont('Helvetica','',9);
@@ -129,42 +131,75 @@ $pdf->Ln($osBlockSpace);
 		$pdf->bgWhite();
 		$pdf->textDark();
 		$pdf->Cell(40,$headerTableHeight,$suma_fondos . ' ', 1,1,'R',true);
+
 	}
+
 
 $pdf->Ln($osBlockSpace);
 
 // ***********  seccion de Observacion en Orden
-	if (count($data['observ']) > 0) {
-		$pdf->displayObs($data['observ'],$currentWidth);
+	$observaciones = [];
+
+	for ($i = 0; $i < count($data['observ']); $i++) {
+		$observaciones[$i] = $data['observ'][$i]->observaciones;
+	}
+
+	if (empty($observaciones[0])) {
+		$observaciones[0] = '-';
+		$pdf->displayObs($observaciones,$currentWidth);
+	} else {
+		$pdf->displayObs($observaciones,$currentWidth);
 	}
 
 $pdf->Ln($osBlockSpace);
+
 // ***********  seccion de Enlaces
-	// $refe = array('https://nicedev90.pro ', 'https://sodimac.com.pe/sodimac-pe/product/1163906/lana-de-vidrio-aislanglass-50mm/1163906/');
-	$links = [];
+	$enlaces = [];
 
 	for ($i = 0; $i < count($data['enlaces']); $i++) {
-		$links[$i] = $data['enlaces'][$i]->enlace;
+		$enlaces[$i] = $data['enlaces'][$i]->enlace;
 	}
 
-	if (count($links) > 0 ) {
-		$pdf->displayLinks($links,$currentWidth);
+	if (empty($enlaces[0])) {
+		$enlaces[0] = '-';
+		$pdf->displayLinks($enlaces,$currentWidth);
+	} else {
+		$pdf->displayLinks($enlaces,$currentWidth);
 	}
 
 $pdf->Ln($osBlockSpace);
-// ***********  seccion de Archivos Adjuntos
-	if (count($data['adjuntos']) > 0) {
-		$pdf->displayFiles($data['adjuntos'],$currentWidth);
+
+// ***********  seccion de Archivos Adjunto
+	$adjuntos = [];
+
+	for ($i = 0; $i < count($data['adjuntos']); $i++) {
+		$file = $data['adjuntos'][$i]->archivo;
+		$file = explode('/', $file);
+		$file = end($file); // get last element of array (the file name);
+		if (empty($file)) {
+			$adjuntos[$i] = '-';
+		} else {
+			$adjuntos[$i] = $file;
+		}
 	}
 
+	if (empty($adjuntos[0])) {
+		$adjuntos[0] = '-';
+		$pdf->displayFiles($adjuntos,$currentWidth);
+	} else {
+		$pdf->displayFiles($adjuntos,$currentWidth);
+	}
+
+$pdf->Ln($blockSpace);
+
+
+// ***********  seccion de revisiones
+// medidas para la sgte seccion revisiones
 	$row_title = floor($currentWidth/3.5);
 	$row_details = $currentWidth - $row_title;
 	$border_obs = TRUE;
 	$fill_obs = TRUE;
 
-$pdf->Ln($blockSpace);
-
-// ***********  seccion de Observaciones
 $pdf->SetFont('Helvetica','',8);
 $pdf->bgWhite();
 $pdf->textDark();
@@ -175,6 +210,7 @@ $pdf->Cell($row_title,7,utf8_decode('   Observaciones   2° Aprobación : '), $b
 $pdf->Cell($row_details,7,utf8_decode('  ' . $data['revision'][0]->obs_2), $border_obs,1,'L',$fill_obs);
 
 $pdf->Ln(15);
+
 
 // ***********  seccion de aprobaciones
 	if (strtoupper($data['items'][0]->tipo) == "COMPRA") {
@@ -194,4 +230,6 @@ $pdf->Cell($leftMarginSign,null,$signature,0,1,'C', FALSE);
 $filename = 'OS_n°_' . $data['items'][0]->num_os;
 // $pdf->Output('D', $filename . '.pdf', true);
 $pdf->Output();
+
+
 ?>

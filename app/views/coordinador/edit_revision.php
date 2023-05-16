@@ -31,8 +31,10 @@
               <!-- EDITAR TIPO FONDO -->
               <form class="row g-3 needs-validation" action="<?php echo URLROOT ?>/coordinadores/edit_revision" method="post" novalidate >
                 <div class="col-12 position-relative">
-                    
-                    <input type="hidden" name="tipo_fondo" value="<?php echo $data['areas'][0]->tipo ?>">
+                    <div class="row my-3 col-12 col-md-6 mx-auto">
+                        <?php submitAlert(); ?>
+                    </div>
+                  <input type="hidden" name="tipo_fondo" value="<?php echo $data['areas'][0]->tipo ?>">
 
                   <label for="validationTooltip01" class="form-label"><b>1° Área Supervisora</b></label>
                   <input name="area_fondo_1" type="text" class="form-control" id="cantidad" value="<?php echo $data['areas'][0]->area_1 ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo 1" required autocomplete="off">
