@@ -714,9 +714,12 @@
 
 
 
-
-
-
+    public function saveCaja($num_os,$obs) {
+      $this->db->query('INSERT INTO caja_chica_obs (num_os, observaciones) VALUES (:num_os, :obs)');
+      $this->db->bind(':num_os', $num_os);
+      $this->db->bind(':obs', $obs);
+      $this->db->execute();
+    }
 
 
 

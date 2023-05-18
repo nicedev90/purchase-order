@@ -203,164 +203,90 @@ const deleteItemRow = () => {
 	rowSelected.forEach(item => item.remove())
 }
 
-const addItem = () => {
+const addItem = (e) => {
 	
-	let num_item = 2
-	let first_item = lista.lastChild.id
-	if (first_item >=1) {
-		num_item = +first_item+1
-		console.log(num_item)
-	}
+	const formAddItem = document.querySelector('#formAddItem')
 
-	const orden = document.querySelector('#num_os')
-	const n_orden = orden.value
+	const thisBtn = e.target
+	const usuario = thisBtn.getAttribute('data-usuario')
+	const numero_os = thisBtn.getAttribute('data-numero')
+	const lista_items = document.querySelector('#lista_items')
 
-	const usuario = document.querySelector('#usuario')
-	const user = usuario.value
+	// iniciar el conteo de elementos en 0 ( existente 01 elemento)
+	let numItem = lista_items.childElementCount
+	numItem == 0 ? numItem = 1 : numItem++
 
-	const status = document.querySelector('#estado')
-	const estado = status.value
+	console.log(numItem)
+	console.log(numero_os)
+	console.log(usuario)
 
-	const mina = document.querySelector('#mina')
-	const n_mina = mina.value
+	let fecha = document.querySelector('#input_fecha')
+	let centro_costo = document.querySelector('#input_cc')
+	let proveedor = document.querySelector('#input_proveedor')
+	let descripcion = document.querySelector('#input_descripcion')
+	let documento = document.querySelector('#input_documento')
+	let total = document.querySelector('#input_total')
+	const alertaMsg = document.querySelector('#alerta')
 
-	const categoria = document.querySelector('#categoria')
-	const n_cat = categoria.value
+// let formatPounds = new Intl.NumberFormat(undefined, {
+// 	style: 'currency',
+// 	currency: 'PEN',
+// 	currencySign: 'accounting'
+// });
 
-	const tipo = document.querySelector('#tipo').value
-	console.log(tipo)
+// // returns "£67,123.45"
+// let pounds = formatPounds.format(total);
+// console.log(pounds)
 
-	const itemRow = document.createElement('div')
-	itemRow.setAttribute('id', num_item)
-	itemRow.classList.add('row','mb-3')
+	const itemRow = document.createElement('tr')
+	itemRow.classList.add('itemRow')
+	// console.log(itemRow)
 
-	// el array unidades  viene de la pagina crear.php
-	let lista_unidades = ''
-  for(let i=0; i < unidades.length; i++){	
-		lista_unidades += `<option value="${unidades[i]['unidad']}">${unidades[i]['unidad']} </option>`
-    // console.log(lista_unidades)
-	}
+	// comprobar que este lleno descripcion y proveedor
+	if (descripcion.value.length > 2 && proveedor.value.length > 2) {
+			let content = `
+	  	<td class="text-center btn btn-sm btn-ligth w-100">${numItem}</td>
+	    <td class="d-none d-md-table-cell" > ${fecha.value}</td>
+	    <td class="d-none d-md-table-cell">${centro_costo.value}</td>
+	    <td class="d-none d-md-table-cell">${proveedor.value}</td>
+	    <td class="d-none d-md-table-cell  " style="width: 420px;"> ${descripcion.value}</td>
+	    <td >${documento.value}</td>
+	    <td class="text-end">S/. ${total.value}</td>
+		`
+
+	  itemRow.innerHTML = content
+	  lista_items.append(itemRow) 
+	  console.log(itemRow)
 
 
+		descripcion.classList.contains('is-invalid') ? descripcion.classList.remove('is-invalid') : null
+		proveedor.classList.contains('is-invalid') ? proveedor.classList.remove('is-invalid') : null
 
-	let content
+		!alertaMsg.classList.contains('d-none') ? alertaMsg.classList.add('d-none') : null
+	  formAddItem.reset()
 
-	if (tipo == 'compra') {
-		content = `
-			<input type="hidden" name="item[${num_item}][usuario]" value="${user}">
-			<input type="hidden" name="item[${num_item}][num_os]" value="${n_orden}">
-			<input type="hidden" name="item[${num_item}][estado]" value="${estado}">
-			<input type="hidden" name="item[${num_item}][tipo]" value="${tipo}">
+	  setItemBtn()
 
-			<input type="hidden" name="item[${num_item}][mina]" value="${n_mina}">
-			<input type="hidden" name="item[${num_item}][categoria]" value="${n_cat}">
-
-      <div class="col-4 d-flex-col col-md-1 position-relative">
-        <label for="" class="d-md-none">Item</label>
-        <input type="text" name="item[${num_item}][item]" class="form-control-plaintext form-control-sm text-center" id="numItem" value="${num_item}" required readonly>
-      </div>
-
-      <div class="col-4 d-flex-col  col-md-1 position-relative">
-        <label for="" class="d-md-none">Cantidad</label>
-        <input name="item[${num_item}][cantidad]"  type="number" step="any" min="0"  class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" required autocomplete="off">
-        <div class="valid-tooltip">Correcto</div>
-      </div>
-                        
-      <div class="col-4 d-flex-col flex-col  col-md-1 position-relative">
-        <label for="" class="d-md-none">Unidad</label>
-        <select name="item[${num_item}][unidad]" class="unidades form-select form-select-sm" id="validationTooltip04" required>
-          <option selected disabled value="">Selecciona...</option>
-          	${lista_unidades}
-          </select>
-        </select>
-        <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
-      </div>
-
-      <div class="col-md-5 mt-2 mt-md-0 position-relative">
-        <label for="" class="d-md-none">Descripcion</label>
-        <input name="item[${num_item}][descripcion]" type="text" class="form-control form-control-sm" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
-        <div class="valid-tooltip"> Correcto </div>
-      </div>
-
-      <div class="col-md-2 mt-2 mt-md-0 position-relative">
-        <label for="" class="d-md-none">Proveedor</label>
-        <input name="item[${num_item}][proveedor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
-        <div class="valid-tooltip">  Correcto </div>
-      </div>
-
-      <div class="col-md-2 mt-2 mt-md-0 position-relative">
-        <label for="" class="d-md-none">Valor Referencial</label>
-        <input name="item[${num_item}][valor]" type="number" step="any" min="0"  class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
-        <div class="valid-tooltip">  Correcto </div>
-      </div>
-    `
 	} else {
-		content = `
-			<input type="hidden" name="item[${num_item}][usuario]" value="${user}">
-			<input type="hidden" name="item[${num_item}][num_os]" value="${n_orden}">
-			<input type="hidden" name="item[${num_item}][estado]" value="${estado}">
-			<input type="hidden" name="item[${num_item}][tipo]" value="${tipo}">
+		!descripcion.classList.contains('is-invalid') ? descripcion.classList.add('is-invalid') : null
+		!proveedor.classList.contains('is-invalid') ? proveedor.classList.add('is-invalid') : null
 
-			<input type="hidden" name="item[${num_item}][mina]" value="${n_mina}">
-			<input type="hidden" name="item[${num_item}][categoria]" value="${n_cat}">
+	  alertaMsg.classList.contains('d-none') ? alertaMsg.classList.remove('d-none') : null
+	  formAddItem.reset()
 
-      <div class="col-4 d-flex-col col-md-1 position-relative">
-        <label for="" class="d-md-none">Item</label>
-        <input type="text" name="item[${num_item}][item]" class="form-control-plaintext form-control-sm text-center" id="numItem" value="${num_item}" required readonly>
-      </div>
-
-      <div hidden class="col-4 d-flex-col  col-md-1 position-relative">
-        <label for="" class="d-md-none">Cantidad</label>
-        <input name="item[${num_item}][cantidad]"  type="number" step="any" min="0"  class="form-control form-control-sm" id="cantidad" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Introduce un número" autocomplete="off">
-        <div class="valid-tooltip">Correcto</div>
-      </div>
-                        
-      <div hidden class="col-4 d-flex-col flex-col  col-md-1 position-relative">
-        <label for="" class="d-md-none">Unidad</label>
-        <select name="item[${num_item}][unidad]" class="form-select form-select-sm" id="validationTooltip04">
-          <option selected value="">Selecciona...</option>
-          <option>Metro</option>
-          <option>Kilo</option>
-          <option>Litro</option>
-        </select>
-        <div class="invalid-tooltip"> Por favor selecciona una unidad. </div>
-      </div>
-
-      <div class="col-md-8 mt-2 mt-md-0 position-relative">
-        <label for="" class="d-md-none">Descripcion</label>
-        <input name="item[${num_item}][descripcion]" type="text" class="form-control form-control-sm" id="" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo descripción" required autocomplete="off">
-        <div class="valid-tooltip"> Correcto </div>
-      </div>
-
-      <div hidden class="col-md-2 mt-2 mt-md-0 position-relative">
-        <label for="" class="d-md-none">Proveedor</label>
-        <input name="item[${num_item}][proveedor]" type="text" class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" autocomplete="off">
-        <div class="valid-tooltip">  Correcto </div>
-      </div>
-
-      <div class="col-md-3 mt-2 mt-md-0 position-relative">
-        <label for="" class="d-md-none">Valor Referencial</label>
-        <input name="item[${num_item}][valor]" type="number" step="any" min="0"  class="form-control form-control-sm " id="validationTooltip02" value="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo valor" required autocomplete="off">
-        <div class="valid-tooltip">  Correcto </div>
-      </div>
-    `
 	}
- 
-  itemRow.innerHTML = content
-  lista.append(itemRow) 
-  // console.log(itemRow)
-  setItemBtn()
+
 }
 
 const setItemBtn = () => {
-	const selectItem = document.querySelectorAll('#numItem')
+	const selectItem = document.querySelectorAll('.itemRow')
 	selectItem.forEach(item => {
 		item.addEventListener('click', selectItemRow)
 	})
 }
 
 const selectItemRow = (e) => {
-	const row = e.target.parentElement.parentElement
+	const row = e.target.parentElement
 	row.classList.toggle('selected-row')
 	row.classList.toggle('itemSelected')
 	// console.log(row)

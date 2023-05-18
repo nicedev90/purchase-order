@@ -500,8 +500,6 @@
 					$update = $this->setRevision1($num_os,$observacion,$aprobacion);
 				}
 
-				
-
 				if ($update) {
 					redirect('encargados/editar' . '/' . $num_os);
 				}
@@ -1107,65 +1105,35 @@
     }
 
 
-    public function sustentar($num_os) {
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    public function sustentar($tipo,$num_os) {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+					$obs = $_POST['observaciones'];
+					
+					$this->encargado->saveCaja($num_os,$obs);
 
-				$num_os = $this->getNumOrden();
-				$data = $_POST['item'];
+				redirect('encargados/index');
 
-				$archivos = $_FILES['adjunto']['name'];
-
-					if (count($archivos) > 0) {
-	        	// array de archivos name="adjunto[]"
-	      		$files = $_FILES['adjunto'];
-	      		$urlFiles = $this->uploadFiles($files,$num_os);
-	        } else {
-	        	$files = '';
-	        }
-
-				$enlaces = $_POST['enlaces'];
-
-				$this->setEnlaces($enlaces);
-
-				// enviar aprobaciones
-        $tipoOs = $_POST['item'][1]['tipo'];
-        $revs = $this->getSupervisores($tipoOs);
-        $rev1 = $revs[0]->nombre;
-        $rev2 = $revs[1]->nombre;
-
-        $this->setRevision($num_os,$tipoOs,$rev1,$rev2);
-
-					// enviar observaciones
-					if (isset($_POST['observaciones'])) {
-	        	$obs = $_POST['observaciones'];
-
-	        	$this->setObservaciones($num_os,$obs);
-	        } 
-				
-				$enviarData = $this->enviarOrden($data);
-				// si enviarData es falso (return 0) redirigir al index, sino terminar la ejecucion die()
-				if ($enviarData == 0) {
-					// set index 'alerta' para mostrar modal SUCCESS en INDEX
-					$_SESSION['alerta'] = 'success';
-					redirect('encargados/index');
 				} else {
-					die('Algo salió mal.');
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
+					
+					$data = [
+						'tipo' => $tipo,
+						'num_os' => $num_os,
+						'pagename' => $method,
+						'controller' => $controller
+					];
+
+					$this->view('encargado/sustentar', $data);
 				}
-
+			// end userLoggedIn
 			} else {
-
-				$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
-				
-				$data = [
-					'num_os' => $num_os,
-					'pagename' => $method,
-					'controller' => $controller
-				];
-
-				$this->view('encargado/sustentar', $data);
+				$this->view('pages/login');
 			}
+
 		}
 
 

@@ -1,5 +1,4 @@
 <?php 
-
 $pdf = new Pdf;
 
 	$mt = 30;
@@ -230,7 +229,6 @@ $pdf->Cell($leftMarginSign,null,$signature,0,1,'C', FALSE);
 
 $filename = 'OS_n°_' . $data['items'][0]->num_os;
 // $pdf->Output('D', $filename . '.pdf', true);
-
 $pdf->Output();
 
 

@@ -1,4 +1,5 @@
 <?php 
+ob_end_clean();                           //limpia el buffer de salida para poder generar el pdf
 class Pdf extends FPDF{
   
   protected $angle = 0;
@@ -13,11 +14,12 @@ class Pdf extends FPDF{
   protected $textDark = "#4F585D";
 
   function Header() {
-    $header_img = URLROOT . '/img/header.png';
-    $watermark = URLROOT . '/img/marco_agua.png';
+    // copy('http://localhost/purchase-order/img/src/header.jpeg', '/tmp/localimage.jpg');
+    $header_img = URLROOT . '/img/src/header.jpeg';
+    $watermark = URLROOT . '/img/src/marco_agua.jpeg';
 
-    $this->Image($header_img,0,0,210,25,'PNG');
-    $this->Image($watermark, 0, 40, 0, 0,'PNG');
+    $this->Image($header_img,0,0,210,25,'JPEG');
+    $this->Image($watermark, 0, 40, 0, 0,'JPEG');
 
     // $mt = 35;  //margin top
     // $header = $this->Image($header_img,0,0,0,0,'PNG');
@@ -29,14 +31,14 @@ class Pdf extends FPDF{
   }
 
   function Footer() {
-    $footer_img = URLROOT . '/img/footer.png';
+    $footer_img = URLROOT . '/img/src/footer.jpeg';
 
     // ******* agregar solo imagen como footer
     // $this->SetY(-25);
     // $this->Image($footer_img,-3);
 
     // ****** agregar imagen como footer y paginacion
-    $footer = $this->Image($footer_img,0,285,210,12,'PNG');
+    $footer = $this->Image("$footer_img",0,285,210,12);
     $ml = 15;
     $mr = 10;
     $mb = 20; //margin bottom = altura de celda paginacion
@@ -59,7 +61,7 @@ class Pdf extends FPDF{
   function insertSignature($width) {
     $signWidth = floor(($width/3));
     $leftCorner = $signWidth*2 -10;
-    $firma = URLROOT . '/img/firma.png';
+    $firma = URLROOT . '/img/src/firma.jpeg';
     $this->Image($firma,$leftCorner,null,80,35);
   }
 

@@ -419,7 +419,7 @@
         <!-- FILA 8- botones  -->
         <div class="row d-md-flex flex-md-row flex-column-reverse p-2 justify-content-around justify-content-md-between justify-content-md-end align-items-center">
           <?php if (strtoupper($data['orden'][0]->estado)  == 'APROBADO') : ?>
-            <a href="<?php echo URLROOT; ?>/usuarios/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+            <a href="<?php echo URLROOT; ?>/encargados/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
             </a>
@@ -430,7 +430,7 @@
             </a>
 
           <?php elseif (strtoupper($data['orden'][0]->estado)  == 'RECHAZADO') : ?>
-            <a href="<?php echo URLROOT; ?>/usuarios/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+            <a href="<?php echo URLROOT; ?>/encargados/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
               <i class="bi bi-arrow-left mr-5"></i>
               <span>REGRESAR</span>
             </a>
@@ -439,11 +439,66 @@
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
+            <!-- SI LA ORDEN NO ESTA NI ACEPTADA NI RECHAZADA es decir esta  en proceso -->
           <?php else : ?>
-            <a href="<?php echo URLROOT; ?>/usuarios/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
-              <i class="bi bi-arrow-left mr-5"></i>
-              <span>REGRESAR</span>
-            </a>
+            <!-- row botones para sustentar -->
+            <?php if (strtoupper($data['aprob_1']) == 'APROBADO') : ?>
+              <div class="d-flex flex-column flex-md-row justify-content-md-around my-1 ">
+                <?php if(checkSedePeru()) : ?>
+                  <a href="<?php echo URLROOT . '/encargados/sustentar/doc/' . $data['orden'][0]->num_os ; ?>"  class="col-12 col-md-3 mt-4 p-3 btn btn-info fw-bold">
+                    <i class="bi bi-pencil-square mr-5"></i>
+                    <span> Rendicion Documentada </span>
+                  </a>
+
+                  <a href="<?php echo URLROOT . '/encargados/sustentar/nodoc/' . $data['orden'][0]->num_os ; ?>"  class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
+                    <i class="bi bi-pencil-square mr-5"></i>
+                    <span> Rendicion No Documentada </span>
+                  </a>
+                <?php endif; ?> 
+              </div>
+            <?php endif; ?>
+
+            <!-- row botones para aprobar -->
+            <div class="d-flex flex-column flex-md-row justify-content-md-between my-1 ">
+
+              <a href="<?php echo URLROOT; ?>/encargados/index" class="col-12 col-md-4 mt-4 p-3 btn btn-primary fw-bold">
+                <i class="bi bi-arrow-left mr-5"></i>
+                <span>REGRESAR</span>
+              </a>
+
+              <!-- Verificar si User es Revisor 1 y Aprob 1  -->
+              <?php if ($data['revisor1'] == $_SESSION['user_nombre']  &&  str_contains(strtoupper($data['aprob_1']), '-') ) : ?>
+                <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden1" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
+                  <i class="bi bi-pencil-square mr-5"></i>
+                  <span>1° REVISION </span>
+                </a>
+                <?php require APPROOT . '/views/encargado/partials/modal_aprobacion1.php'; ?>
+              <?php endif; ?>
+
+              <!-- mostrar status APROBADO -->
+              <?php if (strtoupper($data['aprob_1']) == 'APROBADO') : ?>
+                <div class="col-12 col-md-3 mt-4 p-3 btn btn-success fw-bold">
+                  <span>1° REV. - <?php echo $data['aprob_1'] ?></span>
+                </div>
+              <?php endif; ?>
+
+              <!-- mostar status RECHAZADO -->
+              <?php if (strtoupper($data['aprob_1']) == 'RECHAZADO') : ?>
+                <div class="col-12 col-md-3 mt-4 p-3 btn btn-danger fw-bold">
+                  <span> REVISADO 1 - <?php echo $data['aprob_1'] ?></span>
+                </div>
+              <?php endif; ?>
+
+              <!-- Verificar si User es Revisor 2 y si 1 Rev = APROBADO  -->
+              <?php if ($data['revisor2'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
+                <a href="" data-bs-toggle="modal" data-bs-target="#aprobar_orden2" class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
+                  <i class="bi bi-pencil-square mr-5"></i>
+                  <span>2° REVISION </span>
+                </a>
+                <?php require APPROOT . '/views/encargado/partials/modal_aprobacion2.php'; ?>
+              <?php endif; ?>
+
+            </div>
              
           <?php endif; ?> 
         </div>
