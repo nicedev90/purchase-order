@@ -48,13 +48,13 @@
     // 
     // ************ BEGIN HISTORIAL VIEW
     public function getAllOrdenesSedePe() {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo GROUP BY creado DESC');
+      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo GROUP BY o.num_os DESC');
       $res = $this->db->getSet();
       return $res;
     }
 
     public function getAllOrdenesSedeCl() {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo GROUP BY creado DESC');
+      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo GROUP BY o.num_os DESC');
       $res = $this->db->getSet();
       return $res;
     }
@@ -721,6 +721,13 @@
       $this->db->execute();
     }
 
+
+    public function getRevisorCajaPe($tipo) {
+      $this->db->query('SELECT usuario FROM supervisores WHERE tipo = :tipo');
+      $this->db->bind(':tipo', $tipo);
+      $revisor = $this->db->getSingle();
+      return $revisor;
+    }
 
 
 	}

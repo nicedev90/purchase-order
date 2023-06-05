@@ -476,22 +476,7 @@
             </a>
             <!-- SI LA ORDEN NO ESTA NI ACEPTADA NI RECHAZADA es decir esta  en proceso -->
           <?php else : ?>
-            <!-- row botones para sustentar -->
-            <?php if (strtoupper($data['aprob_1']) == 'APROBADO') : ?>
-              <div class="d-flex flex-column flex-md-row justify-content-md-around my-1 ">
-                <?php if(checkSedePeru()) : ?>
-                  <a href="<?php echo URLROOT . '/encargados/sustentar/doc/' . $data['orden'][0]->num_os ; ?>"  class="col-12 col-md-3 mt-4 p-3 btn btn-info fw-bold">
-                    <i class="bi bi-pencil-square mr-5"></i>
-                    <span> Rendicion Documentada </span>
-                  </a>
 
-                  <a href="<?php echo URLROOT . '/encargados/sustentar/nodoc/' . $data['orden'][0]->num_os ; ?>"  class="col-12 col-md-3 mt-4 p-3 btn btn-warning fw-bold">
-                    <i class="bi bi-pencil-square mr-5"></i>
-                    <span> Rendicion No Documentada </span>
-                  </a>
-                <?php endif; ?> 
-              </div>
-            <?php endif; ?>
 
             <!-- row botones para aprobar -->
             <div class="d-flex flex-column flex-md-row justify-content-md-between my-1 ">

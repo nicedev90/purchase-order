@@ -8,21 +8,30 @@
     <div class="card">
       <div class="card-body">
 
+        <!-- num_os , boton cancelar -->
         <div class="row md-flex-column p-2 justify-content-md-between align-items-md-center">
 
-          <div class="row col-md-9 d-md-flex justify-content-between align-items-md-center">
-            <div class="col-md-2 mt-md-0 p-2 mt-2 card-title fw-bold"> CAJA CHICA </div>
-            <div class="col-md-4 mt-md-0 p-2 mt-2 btn btn-info">  <?php echo $_SESSION['user_nombre'] ?>  -  TEC-1 </div>
-            <div class="col-md-4 mt-md-0 p-2 mt-2 btn btn-success rounded text-center">
-              Saldo Disponible:  S/ 1400 
+          <div class="row col-md-9 d-md-flex justify-content-between align-items-center">
+            <div class="col-md-5 mt-md-0 p-2 mt-2 card-title"> RENDICION DE CUENTA CAJA CHICA</div>
+            <div class="col-md-3 mt-md-0 p-2 mt-2 btn btn-info fw-bold"> <?php echo ($data['tipo'] == 'doc') ? 'DOCUMENTADO' : 'No Documentado' ; ?></div>
+            <div class="col-md-3 mt-md-0 p-2 mt-2 fw-bold bg-warning rounded text-center">
+              <b>N° - </b>
+              <b id="numero_orden"><?php echo $data['num_os']; ?></b>
+              <b> - 2023</b>
             </div>
           </div>  
 
-          <div class="row mt-md-0 mt-2 col-md-2"> 
-            <button id="btn-return" class="col-12 p-2 btn btn-danger">Cancelar</button>
+          <div class="row mt-md-0 mt-2 col-md-3"> 
+            <button id="btn-return" class="col-12 btn btn-danger fw-bold">Cancelar</button>
           </div>
         </div>
                 
+          
+          <!-- FILA 1  mina - categoria -->
+          <div class="row d-flex">
+            <input type="hidden" name="item[1][num_os]" id="num_os"  value="<?php echo $data['num_os']; ?>">
+            <input type="hidden" name="item[1][usuario]" id="usuario" value="<?php echo $_SESSION['user_usuario']; ?>">
+          </div>
 
           <!-- FILA 2 Filas para crear  Items -->
           <form  id="formAddItem" class="col-md-12 mt-4 mt-md-2 needs-validation" novalidate >
@@ -60,7 +69,7 @@
               <div class="valid-tooltip"> Correcto </div>
             </div>
 
-            <div class="col-md-2 mt-2 mt-md-0 position-relative ">
+            <div class="col-md-2 mt-2 mt-md-0 position-relative <?php echo ($data['tipo'] == 'doc') ? '' : 'd-none'; ?>">
               <label for="">N° Doc</label>
               <input type="text" class="form-control form-control-sm" id="input_documento" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Llena este campo proveedor" required autocomplete="off">
               <div class="valid-tooltip">  Correcto </div>
@@ -79,7 +88,7 @@
           <div class="row my-2">
 
             <div class="col-12 col-md-2 mt-3 ">
-              <button id="add_item" class="col-12 btn btn-sm btn-success"> + Agregar item</button>
+              <button id="add_item" class="col-12 btn btn-sm btn-success" data-numero="<?php echo $data['num_os']; ?>" data-usuario="<?php echo $_SESSION['user_usuario']; ?>"> + Agregar item</button>
             </div>
        
             <div class="col-12 col-md-2 mt-3 ">
@@ -131,7 +140,7 @@
 
 
 
-        <form action="<?php echo URLROOT . '/encargados/sustentar' ?>" class="col-md-12 mt-4 mt-md-2 needs-validation" novalidate method="POST" enctype="multipart/form-data">
+        <form action="<?php echo URLROOT . '/encargados/sustentar/' . $data['tipo'] . '/' . $data['num_os'] ?>" class="col-md-12 mt-4 mt-md-2 needs-validation" novalidate method="POST" enctype="multipart/form-data">
 
           <!-- FILA 5 OBSERVACIONES -->
           <div class="d-flex-col mt-3 alert alert-secondary p-2">
@@ -172,7 +181,7 @@
                     <span class="btn btn-primary">Cargar. <i class="bi bi-paperclip"></i> </span>
                   </label>
 
-                  <input type="file" name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
+                  <input type='file' name="adjunto[1]" id="adjunto1" class="item_adjunto" hidden>
 
                   <div id="file_name" class="btn col-12 text-sm col-md-4"></div>
 

@@ -18,6 +18,8 @@
 				$AllOrdenesSede = $this->getAllOrdenesSede();
 				$totalOrdenesSede = count($AllOrdenesSede);
 				$userOrdenes = $this->getOrdenesUser($user);
+				$revisorCaja = $this->getRevisorCaja(TIPO_REVISOR_CAJA);
+				$revisorCaja = $revisorCaja->usuario;
 
 				$data = [
 					'minas' => $minas,
@@ -26,7 +28,8 @@
 					'pagename' => $method,
 					'totalOrdenes' => $AllOrdenesSede,
 					'total' => $totalOrdenesSede,
-					'userOrdenes' => $userOrdenes
+					'userOrdenes' => $userOrdenes,
+					'revisorCaja' => $revisorCaja
 				];
 
 				$this->view('encargado/index', $data);
@@ -920,81 +923,83 @@
     }
 
     public function reportes_cc($tipo = null, $mina = null, $mes = null) {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
+	    	if (!is_null($tipo) && !is_null($mina) && !is_null($mes)) {
+	    		// Vista inicial 
+	    		$reporte = $this->getReporteMina($tipo,$mina,$mes);
 
-    	if (!is_null($tipo) && !is_null($mina) && !is_null($mes)) {
-    		// Vista inicial 
-    		$reporte = $this->getReporteMina($tipo,$mina,$mes);
+			    $minas = $this->getMinas();
+					$meses = [
+						'01' => 'Enero',
+						'02' => 'Febrero',
+						'03' => 'Marzo',
+						'04' => 'Abril',
+						'05' => 'Mayo',
+						'06' => 'Junio',
+						'07' => 'Julio',
+						'08' => 'Agosto',
+						'09' => 'Setiembre',
+						'10' => 'Octubre',
+						'11' => 'Noviembre',
+						'12' => 'Diciembre'
+					];
 
-		    $minas = $this->getMinas();
-				$meses = [
-					'01' => 'Enero',
-					'02' => 'Febrero',
-					'03' => 'Marzo',
-					'04' => 'Abril',
-					'05' => 'Mayo',
-					'06' => 'Junio',
-					'07' => 'Julio',
-					'08' => 'Agosto',
-					'09' => 'Setiembre',
-					'10' => 'Octubre',
-					'11' => 'Noviembre',
-					'12' => 'Diciembre'
-				];
+	  			$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
 
-  			$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
+					$data = [
+						'tipo' => $tipo,
+						'mina' => $mina,
+						'mes' => $mes,
+						'minas' => $minas,
+						'meses' => $meses,
+						'reporte' => $reporte,
+						'controller' => $controller,
+						'pagename' => $method
+					];
 
-				$data = [
-					'tipo' => $tipo,
-					'mina' => $mina,
-					'mes' => $mes,
-					'minas' => $minas,
-					'meses' => $meses,
-					'reporte' => $reporte,
-					'controller' => $controller,
-					'pagename' => $method
-				];
+					// echo "<pre>";
+					// print_r($data);
+					// die();
 
-				// echo "<pre>";
-				// print_r($data);
-				// die();
+					$this->view('encargado/reportes_cc', $data);
+	    	}
 
-				$this->view('encargado/reportes_cc', $data);
-    	}
+				// Vista inicial de la pagina
+				  $sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
+					$usuarios = $this->encargado->getAllUsers($sede);
 
-			// Vista inicial 
-			  $sede = ($_SESSION['user_sede'] == 'Peru') ? 1 : 2;
-				$usuarios = $this->encargado->getAllUsers($sede);
+			    $minas = $this->getMinas();
+					$meses = [
+						'01' => 'Enero',
+						'02' => 'Febrero',
+						'03' => 'Marzo',
+						'04' => 'Abril',
+						'05' => 'Mayo',
+						'06' => 'Junio',
+						'07' => 'Julio',
+						'08' => 'Agosto',
+						'09' => 'Setiembre',
+						'10' => 'Octubre',
+						'11' => 'Noviembre',
+						'12' => 'Diciembre'
+					];
 
-		    $minas = $this->getMinas();
-				$meses = [
-					'01' => 'Enero',
-					'02' => 'Febrero',
-					'03' => 'Marzo',
-					'04' => 'Abril',
-					'05' => 'Mayo',
-					'06' => 'Junio',
-					'07' => 'Julio',
-					'08' => 'Agosto',
-					'09' => 'Setiembre',
-					'10' => 'Octubre',
-					'11' => 'Noviembre',
-					'12' => 'Diciembre'
-				];
+	  			$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
 
-  			$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
+					$data = [
+						'minas' => $minas,
+						'meses' => $meses,
+						'usuarios' => $usuarios,
+						'controller' => $controller,
+						'pagename' => $method
+					];
 
-				$data = [
-					'minas' => $minas,
-					'meses' => $meses,
-					'usuarios' => $usuarios,
-					'controller' => $controller,
-					'pagename' => $method
-				];
-
-				$this->view('encargado/reportes_cc', $data);
-
+					$this->view('encargado/reportes_cc', $data);
+			} else {
+				$this->view('pages/login');
+			}
 
     }
 
@@ -1104,8 +1109,36 @@
 
     }
 
+    public function sustentar() {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+					$obs = $_POST['observaciones'];
+					
+					$this->encargado->saveCaja($num_os,$obs);
 
-    public function sustentar($tipo,$num_os) {
+				redirect('encargados/index');
+
+				} else {
+
+					$controller = strtolower(get_called_class());
+					$method = ucwords(__FUNCTION__);
+					
+					$data = [
+						'pagename' => $method,
+						'controller' => $controller
+					];
+
+					$this->view('encargado/sustentar', $data);
+				}
+			// end userLoggedIn
+			} else {
+				$this->view('pages/login');
+			}
+
+		}
+
+    public function sustentar1($tipo,$num_os) {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
 				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -1136,6 +1169,44 @@
 
 		}
 
+
+		public function rep_mi_caja() {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
+				$user = $_SESSION['user_usuario'];
+				$minas = $this->getMinas();
+				$controller = strtolower(get_called_class());
+
+				$ordenes = $this->getOrdenes();
+				$method = ucwords(__FUNCTION__);
+				$AllOrdenesSede = $this->getAllOrdenesSede();
+				$totalOrdenesSede = count($AllOrdenesSede);
+				$userOrdenes = $this->getOrdenesUser($user);
+
+
+				$data = [
+					'minas' => $minas,
+					'controller' => $controller,
+					'ordenes' => $ordenes,
+					'pagename' => $method,
+					'totalOrdenes' => $AllOrdenesSede,
+					'total' => $totalOrdenesSede,
+					'userOrdenes' => $userOrdenes,
+				];
+
+				$this->view('encargado/rep_mi_caja', $data);
+
+			} else {
+				$this->view('pages/login');
+			}
+		}
+
+		public function getRevisorCaja($tipo) {
+			if ($_SESSION['user_sede'] == 'Peru') {
+        return $this->encargado->getRevisorCajaPe($tipo);
+      } else {
+        return $this->encargado->getRevisorCajaCl($tipo);
+      }
+		}
 
 
 	}

@@ -16,7 +16,7 @@
   </div>
  
 <section class="section dashboard">
-      <div class="row">
+    <div class="row">
       <div class="col-lg-12">
         <div class="row">
 
@@ -125,6 +125,7 @@
 
 
     <!-- ======= INICIO FORMULARIO ======= -->
+  <div class="row col-12 mx-auto">
     <div class="card">
       <div class="card-body">
 
@@ -137,15 +138,15 @@
         <!-- FILA 1  mina - categoria -->
         <div class="row justify-content-md-around align-items-center "> 
 
-          <div class="d-flex col-md-6 mb-4 mb-md-0 justify-content-around">
-            <div class="row col-md-2">Tipo: </div>
-            <div class="d-flex justify-content-between justify-content-md-around col-md-10">
-              <div class="col-4 col-md-3 form-check ">
+          <div class="d-flex col-md-6 mb-4 mb-md-0 justify-content-between justify-content-md-around">
+            <div class="d-none d-md-block col-md-2">Tipo: </div>
+            <div class="d-flex col-12 justify-content-between justify-content-md-around col-md-10">
+              <div class="col-6 col-md-3 form-check ">
                 <input class="form-check-input" type="radio" name="tipo" id="tipoFondos" value="Fondos" required>
                 <label class="form-check-label fw-bold" for="tipoFondos"> <?= setTipoBySede() ?> </label>
               </div>
 
-              <div class="col-4 col-md-3 form-check ">
+              <div class="col-6 col-md-3 form-check ">
                 <input class="form-check-input" type="radio" name="tipo" id="tipoCompra" value="Compra" required>
                 <label class="form-check-label fw-bold" for="tipoCompra"> COMPRA </label>
               </div>
@@ -172,7 +173,57 @@
         
       </div>
     </div>
+  </div>
     <!-- ======= FIN FORMULARIO ======= -->
+
+    <!-- INICIO SECCION CAJA CHICA -->
+
+  <div class="row mx-auto justify-content-md-between">
+    <div class="card col-md-6">
+      <div class="card-body ">
+        <!-- FILA 0 -->
+        <div class="row px-4">
+          <div class="col-md-8 card-title"> Mi Caja Chica </div>
+        </div>
+
+        <!-- FILA 1   -->
+        <div class="row justify-content-md-around align-items-center "> 
+          <div class="row col-12 col-md-6 mx-auto">
+            <a href="<?php echo URLROOT; ?>/encargados/sustentar" class="p-2 fw-bold btn btn-primary" >Crear Caja Chica</a>
+          </div>
+
+          <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
+            <a href="<?php echo URLROOT; ?>/encargados/rep_mi_caja" class="p-2 fw-bold btn btn-warning" >Ver mi Caja Chica</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+<?php if ($_SESSION['user_usuario'] == $data['revisorCaja']) : ?>
+    <div class="card col-md-5 ">
+      <div class="card-body ">
+        <!-- FILA 0 -->
+        <div class="row px-4">
+          <div class="col-md-8 card-title"> Caja Chica Usuarios</div>
+        </div>
+
+        <!-- FILA 1   -->
+        <div class="row justify-content-md-around align-items-center "> 
+          <div class="row col-12 col-md-6 mx-auto">
+            <a href="<?php echo URLROOT; ?>/encargados/revisar_caja" class="p-2 fw-bold btn btn-primary" >Revisar Caja Chica</a>
+          </div>
+
+          <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
+            <a href="<?php echo URLROOT; ?>/encargados/lista_caja" class="p-2 fw-bold btn btn-warning" >Ver Reportes</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  <?php endif; ?>
+  </div>
+
+    <!-- FIN SECCION CAJA CHICA -->
 
     <!-- Inicio tabla resumen Ordenes -->
     <!-- <pre><?php print_r($data) ?></pre> -->

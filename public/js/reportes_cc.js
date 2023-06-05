@@ -4,7 +4,50 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	const btnFondos = document.querySelector('#btn_fondos')
 	btnFondos?.addEventListener('click', getReporteFondos)
-
+	
+echarts.init(document.querySelector("#pieChart")).setOption({
+                  title: {
+                    text: 'Cuentas',
+                    subtext: 'Personal Clonsa Ingeniería',
+                    left: 'center'
+                  },
+                  tooltip: {
+                    trigger: 'item'
+                  },
+                  legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                  },
+                  series: [{
+                    name: 'Cuenta',
+                    type: 'pie',
+                    radius: '70%',
+                    data: [{
+                        value: 1000,
+                        name: 'Usuario'
+                      },
+                      {
+                        value: 1000,
+                        name: 'Encargado'
+                      },
+                      {
+                        value: 600,
+                        name: 'Coordinador'
+                      },
+                      {
+                        value: 880,
+                        name: 'Administrador'
+                      },
+                    ],
+                    emphasis: {
+                      itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                      }
+                    }
+                  }]
+                });
 })
 
 
