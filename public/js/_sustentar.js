@@ -208,8 +208,6 @@ const addItem = (e) => {
 	const formAddItem = document.querySelector('#formAddItem')
 
 	const thisBtn = e.target
-	const usuario = thisBtn.getAttribute('data-usuario')
-	const numero_os = thisBtn.getAttribute('data-numero')
 	const lista_items = document.querySelector('#lista_items')
 
 	// iniciar el conteo de elementos en 0 ( existente 01 elemento)
@@ -217,17 +215,23 @@ const addItem = (e) => {
 	numItem == 0 ? numItem = 1 : numItem++
 
 	console.log(numItem)
-	console.log(numero_os)
-	console.log(usuario)
+
 
 	let fecha = document.querySelector('#input_fecha')
 	let centro_costo = document.querySelector('#input_cc')
+	nombre_mina = centro_costo.selectedOptions[0].text
+
 	let proveedor = document.querySelector('#input_proveedor')
 	let descripcion = document.querySelector('#input_descripcion')
 	let documento = document.querySelector('#input_documento')
 	let total = document.querySelector('#input_total')
 	const alertaMsg = document.querySelector('#alerta')
 
+	const wrapper_items = document.querySelector('#wrapper_items')
+
+	const num_caja = document.querySelector('#num_caja')
+	const usuario = document.querySelector('#usuario')
+		console.log(usuario.value)
 // let formatPounds = new Intl.NumberFormat(undefined, {
 // 	style: 'currency',
 // 	currency: 'PEN',
@@ -240,6 +244,8 @@ const addItem = (e) => {
 
 	const itemRow = document.createElement('tr')
 	itemRow.classList.add('itemRow')
+
+	const arrayRow = document.createElement('div')
 	// console.log(itemRow)
 
 	// comprobar que este lleno descripcion y proveedor
@@ -247,15 +253,30 @@ const addItem = (e) => {
 			let content = `
 	  	<td class="text-center btn btn-sm btn-ligth w-100">${numItem}</td>
 	    <td class="d-none d-md-table-cell" > ${fecha.value}</td>
-	    <td class="d-none d-md-table-cell">${centro_costo.value}</td>
+	    <td class="d-none d-md-table-cell">${nombre_mina}</td>
 	    <td class="d-none d-md-table-cell">${proveedor.value}</td>
 	    <td class="d-none d-md-table-cell  " style="width: 420px;"> ${descripcion.value}</td>
 	    <td >${documento.value}</td>
 	    <td class="text-end">S/. ${total.value}</td>
 		`
 
+		let contentArray = `
+			<input type="hidden" name=item[${numItem}][usuario] value="${usuario.value}">
+			<input type="hidden" name=item[${numItem}][item] value="${numItem}">
+			<input type="hidden" name=item[${numItem}][num_caja] value="${num_caja.value}">
+			<input type="hidden" name=item[${numItem}][fecha] value="${fecha.value}">
+			<input type="hidden" name=item[${numItem}][centro_costo] value="${centro_costo.value}">
+			<input type="hidden" name=item[${numItem}][descripcion] value="${descripcion.value}">
+			<input type="hidden" name=item[${numItem}][proveedor] value="${proveedor.value}">
+			<input type="hidden" name=item[${numItem}][documento] value="${documento.value}">
+			<input type="hidden" name=item[${numItem}][monto] value="${total.value}">
+		`
+
 	  itemRow.innerHTML = content
-	  lista_items.append(itemRow) 
+	  lista_items.append(itemRow)
+
+	  arrayRow.innerHTML = contentArray
+	  wrapper_items.append(arrayRow) 
 	  console.log(itemRow)
 
 

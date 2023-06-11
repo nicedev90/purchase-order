@@ -165,27 +165,44 @@
           
           <div class="d-md-flex alert alert-success text-dark ">
 
+
             <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
+              <?php 
+                $file = $data['adjuntos'][0]->archivo;
+                $file = explode('/', $file);
+                $file = end($file);
+              ?>
+              <div class="row col-md-4 ">
+                <span class="p-2 text-dark">
+                  <?php echo $file; ?>
+                  [ <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank">Ver archivo</a> ]
+                </span>
 
-              <div class="row col-md-4 p-4">
-                <img src="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" style="width:40%" class="img-thumbnail">
-                <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank"> Ver Completo  </a>
+                <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                  <?php 
+                    $adj = $data['adjuntos'][$i]->archivo;
+                    $adj = explode('/', $adj);
+                    $adj = end($adj);
+                  ?>
+                  <span class="p-2 text-dark">
+                    <?php echo $adj; ?>
+                    [ <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank">Ver archivo</a> ]
+                  </span>
+                <?php endfor; ?>
               </div>
-
-              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
-                <div class="row col-md-4 p-4">
-                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
-                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
-                </div>
-              <?php endfor; ?>
 
             <?php else : ?>
 
               <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
-                <div class="row col-md-4 p-4">
-                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
-                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
-                </div>
+                <?php 
+                  $adj = $data['adjuntos'][$i]->archivo;
+                  $adj = explode('/', $adj);
+                  $adj = end($adj);
+                ?>
+                <span class="p-2 text-dark">
+                  <?php echo $adj; ?>
+                  [ <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank">Ver archivo</a> ]
+                </span>
               <?php endfor; ?>
 
             <?php endif; ?>
@@ -420,27 +437,44 @@
           
 
           <div class="d-md-flex alert alert-success text-dark ">
-            <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
 
-              <div class="row col-md-4 p-4">
-                <img src="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" style="width:40%" class="img-thumbnail">
-                <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank"> Ver Completo  </a>
+            <?php if (str_contains($data['adjuntos'][0]->archivo, '.')) : ?>
+              <?php 
+                $file = $data['adjuntos'][0]->archivo;
+                $file = explode('/', $file);
+                $file = end($file);
+              ?>
+              <div class="row col-md-4 ">
+                <span class="p-2 text-dark">
+                  <?php echo $file; ?>
+                  [ <a href="<?= URLROOT . $data['adjuntos'][0]->archivo ?>" target="_blank">Ver archivo</a> ]
+                </span>
+
+                <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
+                  <?php 
+                    $adj = $data['adjuntos'][$i]->archivo;
+                    $adj = explode('/', $adj);
+                    $adj = end($adj);
+                  ?>
+                  <span class="p-2 text-dark">
+                    <?php echo $adj; ?>
+                    [ <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank">Ver archivo</a> ]
+                  </span>
+                <?php endfor; ?>
               </div>
-              <!-- mostrar todos los archivos adjuntos -->
-              <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
-                <div class="row col-md-4 p-4">
-                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
-                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
-                </div>
-              <?php endfor; ?>
 
             <?php else : ?>
 
               <?php for ($i = 1; $i <= count($data['adjuntos']) -1; $i++) : ?> 
-                <div class="row col-md-4 p-4">
-                  <img src="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" style="width:40%" class="img-thumbnail">
-                  <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank"> Ver Completo  </a>
-                </div>
+                <?php 
+                  $adj = $data['adjuntos'][$i]->archivo;
+                  $adj = explode('/', $adj);
+                  $adj = end($adj);
+                ?>
+                <span class="p-2 text-dark">
+                  <?php echo $adj; ?>
+                  [ <a href="<?= URLROOT . $data['adjuntos'][$i]->archivo ?>" target="_blank">Ver archivo</a> ]
+                </span>
               <?php endfor; ?>
 
             <?php endif; ?>
@@ -527,7 +561,7 @@
       </div>
     </div>
     <?php endif; ?>
-    <pre><?php print_r($data) ?></pre>
+    <pre><?php //print_r($data) ?></pre>
 
   </section>
 

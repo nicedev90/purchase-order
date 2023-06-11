@@ -199,6 +199,7 @@
 
       </div>
     </div>
+
 <?php if ($_SESSION['user_usuario'] == $data['revisorCaja']) : ?>
     <div class="card col-md-5 ">
       <div class="card-body ">
@@ -220,13 +221,14 @@
 
       </div>
     </div>
-  <?php endif; ?>
+<?php endif; ?>
+
   </div>
 
     <!-- FIN SECCION CAJA CHICA -->
 
     <!-- Inicio tabla resumen Ordenes -->
-    <!-- <pre><?php print_r($data) ?></pre> -->
+    <pre><?php print_r($data) ?></pre>
     <div class="col-12">
       <div class="card recent-sales overflow-auto">
         <div class="card-body">

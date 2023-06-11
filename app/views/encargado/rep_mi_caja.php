@@ -19,56 +19,40 @@
 
 
     <!-- Inicio tabla resumen Ordenes -->
-    <!-- <pre><?php print_r($data) ?></pre> -->
+    <pre><?php //print_r($data) ?></pre>
     <div class="col-12">
       <div class="card recent-sales overflow-auto">
         <div class="card-body">
-          <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
+          <h5 class="card-title">Historial Caja Chica <span>| Creadas</span>  -
+            Saldo Disponible : 
+            <button class="<?php echo ($data['saldo'] > 0) ? bgAprobado() : bgRechazado() ?>"> <?php echo setCurrency() . $data['saldo'] ?></button>
+          </h5>
           <table class="table table-hover table-borderless datatable">
             <thead>
               <tr>
-              <th scope="col">N°</th>
-              <th scope="col">Tipo</th>
-              <th scope="col" class="d-none d-md-table-cell">Creado por</th>
-              <th scope="col" class="d-none d-md-table-cell">Mina </th>
-              <th scope="col">Estado</th>
-              <th scope="col" class="d-none d-md-table-cell">Fecha</th>
+              <th scope="col" >N° Caja</th>
+              <th scope="col" class="d-none d-md-table-cell">Creado Por</th>
+              <th scope="col">Monto Total</th>
+              <th scope="col" class="d-none d-md-table-cell">Fecha Creación</th>
               <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
-              <?php foreach($data['ordenes'] as $orden): ?>
+              <?php foreach($data['totalCajas'] as $orden): ?>
               <tr>
-                <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                <td class="fw-bold">
-                  <?php if (strtoupper($orden->tipo) == 'FONDOS') : ?>
-                    <span class="<?= bgFondos() ?> btn-sm"><?php echo setName($orden->tipo); ?></span> 
-                  <?php else: ?>
-                    <span class="<?= bgCompra() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
-                  <?php endif; ?>
-                  
-                </td>
-                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->usuario); ?></th>
-                <td class="text-primary d-none d-md-table-cell"><?php echo utf8_encode($orden->mina_nombre); ?></td>
-                <td>
-                  <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-                    <span class="<?= bgAprobado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
-                  <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
-                    <span class="<?= bgRechazado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
-                  <?php else: ?>
-                    <span class="<?= bgEnProceso() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
-                  <?php endif; ?>
-                  
-                </td>
+                <td class="fw-bold"><?php echo utf8_encode($orden->num_caja); ?></td>
+
+                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->nombre); ?></th>
+                <td class="fw-bold"><?php echo setCurrency() . $orden->total; ?></td>
                 <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
                 <td class="d-flex justify-content-around">
                   <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
                   <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
                   <?php else: ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/editar/' . $orden->num_os ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> 
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles_caja/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/editar_caja/' . $orden->num_caja ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> 
                   <?php endif; ?>
                 </td>
                   

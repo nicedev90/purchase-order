@@ -713,20 +713,99 @@
     }
 
 
+    public function registrarCaja($data) {
+      foreach($data as $row) {
+        $this->db->query('INSERT INTO caja_chica (usuario,item,num_caja,fecha,centro_costo,descripcion,proveedor,documento,monto) 
+            VALUES (:usuario, :item, :num_caja, :fecha, :centro_costo, :descripcion, :proveedor, :documento, :monto)');
+        $this->db->bind(':usuario', $row['usuario']);
+        $this->db->bind(':item', $row['item']);
+        $this->db->bind(':num_caja', $row['num_caja']);
+        $this->db->bind(':fecha', $row['fecha']);
+        $this->db->bind(':centro_costo', $row['centro_costo']);
+        $this->db->bind(':descripcion', $row['descripcion']);
+        $this->db->bind(':proveedor', $row['proveedor']);
+        $this->db->bind(':documento', $row['documento']);
+        $this->db->bind(':monto', $row['monto']);
+        $this->db->execute();
+      }            
+    }
 
-    public function saveCaja($num_os,$obs) {
-      $this->db->query('INSERT INTO caja_chica_obs (num_os, observaciones) VALUES (:num_os, :obs)');
-      $this->db->bind(':num_os', $num_os);
+    public function registrarCajaObs($usuario, $num_caja, $obs) {
+      $this->db->query('INSERT INTO caja_chica_obs (usuario, num_caja, observaciones) VALUES (:usuario, :num_caja, :obs)');
+      $this->db->bind(':usuario', $usuario);
+      $this->db->bind(':num_caja', $num_caja);
       $this->db->bind(':obs', $obs);
       $this->db->execute();
     }
 
+    public function registrarCajaAdjuntos($enlaces) {
+      foreach($enlaces as $row) {
+        $this->db->query('INSERT INTO caja_chica_adj (usuario, num_caja, archivo) VALUES (:usuario, :num_caja, :archivo)');
+        $this->db->bind(':usuario', $row['usuario']);
+        $this->db->bind(':num_caja', $row['num_caja']);
+        $this->db->bind(':archivo', $row['archivo']);
+        $this->db->execute();
+      }
+    }
+
+
+    public function getTotalCajas($user) {
+      $this->db->query('SELECT c.usuario,c.num_caja,SUM(c.monto) as total, c.estado, DATE_FORMAT(c.creado, "%d-%b-%Y") AS creado, u.nombre, u.codigo FROM caja_chica c INNER JOIN usuarios u ON u.usuario = c.usuario WHERE c.usuario = :user GROUP BY creado');
+      $this->db->bind(':user', $user);
+      $totalCajas = $this->db->getSet();
+      return $totalCajas;
+    }
+
+    public function getDetalleCaja($num_caja, $user) {
+      $this->db->query('SELECT c.*,u.nombre, u.codigo  FROM caja_chica c INNER JOIN usuarios u ON u.usuario = c.usuario WHERE c.usuario = :user AND c.num_caja = :num_caja');
+      $this->db->bind(':num_caja', $num_caja);
+      $this->db->bind(':user', $user);
+      $caja = $this->db->getSet();
+      return $caja;
+    }
+
+    public function getObservacionesCaja($num_caja, $usuario) {
+      $this->db->query('SELECT * FROM caja_chica_obs WHERE num_caja = :num_caja AND usuario = :usuario');
+      $this->db->bind(':usuario', $usuario);
+      $this->db->bind(':num_caja', $num_caja);
+      $obs = $this->db->getSet();
+      return $obs;
+    }
+
+    public function getAdjuntosCaja($num_caja, $usuario) {
+      $this->db->query('SELECT * FROM caja_chica_adj WHERE num_caja = :num_caja AND usuario = :usuario');
+      $this->db->bind(':usuario', $usuario);
+      $this->db->bind(':num_caja', $num_caja);
+      $adjuntos = $this->db->getSet();
+      return $adjuntos;
+    }
+
+    public function getSaldoCaja($usuario) {
+      $this->db->query('SELECT saldo FROM saldos_pe WHERE usuario = :usuario');
+      $this->db->bind(':usuario', $usuario);
+      $saldo = $this->db->getSingle();
+      return $saldo->saldo;
+    }
 
     public function getRevisorCajaPe($tipo) {
       $this->db->query('SELECT usuario FROM supervisores WHERE tipo = :tipo');
       $this->db->bind(':tipo', $tipo);
       $revisor = $this->db->getSingle();
       return $revisor;
+    }
+
+    public function getNumCaja($usuario) {
+      $this->db->query('SELECT MAX(num_caja) AS numero from caja_chica WHERE usuario = :usuario');
+      $this->db->bind(':usuario', $usuario);
+      $num = $this->db->getSingle();
+
+      if (is_null($num->numero)) {
+        $num = 1 ;
+      } else {
+        $num = $num->numero +1 ;
+      }
+
+      return $num;
     }
 
 

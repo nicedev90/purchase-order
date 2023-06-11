@@ -1112,31 +1112,140 @@
     public function sustentar() {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
 				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-					$obs = $_POST['observaciones'];
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 					
-					$this->encargado->saveCaja($num_os,$obs);
+					$usuario = $_SESSION['user_usuario'];
+					$num_caja = $_POST['num_caja'];
 
-				redirect('encargados/index');
+					$cajaAdjuntos = $_FILES['adjunto']['name'];
+
+				  	if (count($cajaAdjuntos) > 0) {
+				  		$files = $_FILES['adjunto'];
+			      	$totalFiles = count($files['name']);
+
+			      	if(file_exists('../public/files/caja/' . $usuario)) {
+								$filesDir = '../public/files/caja/' . $usuario . '/' . $num_caja . '/';
+			      	} else {
+			    			mkdir('../public/files/caja/' . $usuario);
+			    			mkdir('../public/files/caja/' . $usuario . '/' . $num_caja);
+								$filesDir = '../public/files/caja/' . $usuario . '/' . $num_caja . '/';
+			      	}
+
+			      	$enlaces = [];
+			        // array de archivos, primer index = 1
+				        for ($i = 1; $i <= $totalFiles; $i++) {
+				        	$i_name = $files['name'][$i];
+									$i_tmp = $files['tmp_name'][$i];
+
+									move_uploaded_file($i_tmp, $filesDir . $i_name);
+
+									$urlAdjunto[$i] = '/files/caja/' . $usuario . '/' . $num_caja . '/' . $i_name;
+					        $enlaces[$i]['usuario'] = $usuario;
+					        $enlaces[$i]['num_caja'] = $num_caja;
+					        $enlaces[$i]['archivo'] = $urlAdjunto[$i];
+				        }
+
+			        $this->encargado->registrarCajaAdjuntos($enlaces);
+
+			      }
+
+
+
+					$obs = $_POST['observaciones'];
+
+					$this->encargado->registrarCajaObs($usuario, $num_caja, $obs);
+					
+					$data = $_POST['item'];
+					$this->encargado->registrarCaja($data);
+
+					redirect('encargados/rep_mi_caja');
 
 				} else {
+
+					$num_caja = $this->encargado->getNumCaja($_SESSION['user_usuario']);
+					$minas = $this->getMinas();
+					$saldo = $this->encargado->getSaldoCaja($_SESSION['user_usuario']);
 
 					$controller = strtolower(get_called_class());
 					$method = ucwords(__FUNCTION__);
 					
 					$data = [
+						'saldo' => $saldo,
+						'minas' => $minas,
 						'pagename' => $method,
-						'controller' => $controller
+						'controller' => $controller,
+						'num_caja' => $num_caja
 					];
+
+
+					// echo "<pre>";
+					// print_r( $num_caja);
+					// die();
 
 					$this->view('encargado/sustentar', $data);
 				}
 			// end userLoggedIn
 			} else {
-				$this->view('pages/login');
+				redirect('pages/login');
 			}
 
 		}
+
+    public function rep_mi_caja() {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+
+				$totalCajas = $this->encargado->getTotalCajas($_SESSION['user_usuario']);
+				$saldo = $this->encargado->getSaldoCaja($_SESSION['user_usuario']);
+				
+				$data = [
+					'saldo' => $saldo,
+					'totalCajas' => $totalCajas,
+					'pagename' => ucwords(__FUNCTION__),
+					'controller' => strtolower(get_called_class())
+				];
+
+
+				// echo "<pre>";
+				// print_r( $num_caja);
+				// die();
+
+				$this->view('encargado/rep_mi_caja', $data);
+				
+			} else {
+				redirect('pages/login');
+			}
+
+		}
+
+
+    public function detalles_caja($num_caja = null) {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+
+				$caja = $this->encargado->getDetalleCaja($num_caja, $_SESSION['user_usuario']);
+				$observ = $this->encargado->getObservacionesCaja($num_caja, $_SESSION['user_usuario']);
+				$adjuntos = $this->encargado->getAdjuntosCaja($num_caja, $_SESSION['user_usuario']);
+				
+				$data = [
+					'caja' => $caja,
+					'adjuntos' => $adjuntos,
+					'observ' => $observ,
+					'pagename' => ucwords(__FUNCTION__),
+					'controller' => strtolower(get_called_class())
+				];
+
+
+				// echo "<pre>";
+				// print_r( $num_caja);
+				// die();
+
+				$this->view('encargado/detalles_caja', $data);
+				
+			} else {
+				redirect('pages/login');
+			}
+
+		}
+
 
     public function sustentar1($tipo,$num_os) {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
@@ -1170,7 +1279,7 @@
 		}
 
 
-		public function rep_mi_caja() {
+		public function rep_mi_caja12() {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
 				$user = $_SESSION['user_usuario'];
 				$minas = $this->getMinas();

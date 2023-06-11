@@ -11,10 +11,10 @@
         <div class="row md-flex-column p-2 justify-content-md-between align-items-md-center">
 
           <div class="row col-md-9 d-md-flex justify-content-between align-items-md-center">
-            <div class="col-md-2 mt-md-0 p-2 mt-2 card-title fw-bold"> CAJA CHICA </div>
-            <div class="col-md-4 mt-md-0 p-2 mt-2 btn btn-info">  <?php echo $_SESSION['user_nombre'] ?>  -  TEC-1 </div>
-            <div class="col-md-4 mt-md-0 p-2 mt-2 btn btn-success rounded text-center">
-              Saldo Disponible:  S/ 1400 
+            <div class="col-md-3 mt-md-0 p-2 mt-2 card-title fw-bold"> CAJA CHICA - <?php echo $data['num_caja'] ?> </div>
+            <div class="col-md-4 mt-md-0 p-2 mt-2 btn btn-info">  <?php echo $_SESSION['user_nombre'] . ' - ' . $_SESSION['user_codigo'] ?> </div>
+            <div class="col-md-3 mt-md-0 p-2 mt-2 btn btn-success rounded text-center">
+              Saldo: <span id="saldo-user"><?php echo setCurrency() . $data['saldo'] ?> </span>
             </div>
           </div>  
 
@@ -38,9 +38,9 @@
               <label for="">C. Costo</label>
               <select id="input_cc" class="form-control form-control-sm" required>
                 <option selected disabled value="">Selecciona...</option>
-
-                <option value="2"> 1</option>
-                <option value="">Yanacocha</option>
+                <?php foreach($data['minas'] as $mina): ?>
+                  <option value="<?php echo $mina->id; ?>" > <?php echo $mina->nombre; ?></option>
+                <?php endforeach; ?>
 
               </select>
             </div>
@@ -107,25 +107,7 @@
             </thead>
 
             <tbody id="lista_items" style="font-size: 14px;">
-              <tr>
-                <td class="text-center">01</td>
-                <td class="d-none d-md-table-cell" > 01-01-2023</td>
-                <td class="d-none d-md-table-cell">YANACOCHA</td>
-                <td >CONSORCIO KUNTURWASI</td>
-                <td class="d-none d-md-table-cell  " style="width: 420px;"> MOVILIDAD OFICINA-NOTARIA-PARURO-OFICINA</td>
-                <td class="d-none d-md-table-cell">F -34234525</td>
-                <td class="text-end">s/ 123 134.66</td>
-              </tr>
-              <tr>
-                <td class="text-center">02</td>
-                <td class="d-none d-md-table-cell" > 01-01-2023</td>
-                <td class="d-none d-md-table-cell">YANACOCHA</td>
-                <td > JC CLIMATIZACION Y CONFORT</td>
-                <td class="d-none d-md-table-cell " style="width: 420px;"> REVALIDACION CURSO MANEJO DE TAREAS SEGURAS -A.CONTREAS</td>
-                <td class="d-none d-md-table-cell">F -34234525</td>
-                <td class="text-end">s/ 3134.66</td>
 
-              </tr>
             </tbody>
           </table>
 
@@ -189,6 +171,11 @@
           <!-- FILA 8 BOTON DE ENVIAR -->
           <div class="row col-12 col-md-5 mx-auto">
             <button name="save" class="p-3 fw-bold btn btn-primary" type="submit">ENVIAR</button>
+          </div>
+          <div id="wrapper_items">
+            <input id="num_caja" type="hidden" name="num_caja" value="<?php echo $data['num_caja'] ?>">
+            <input id="usuario" type="hidden" name="usuario" value="<?php echo $_SESSION['user_usuario'] ?>">
+
           </div>
         </form>
 
