@@ -809,5 +809,63 @@
     }
 
 
+    public function setItemCaja($id,$fecha,$centro_costo,$descripcion,$proveedor,$documento,$monto) {
+      $this->db->query('UPDATE caja_chica SET fecha = :fecha,
+        centro_costo = :centro_costo,
+        descripcion = :descripcion,
+        proveedor = :proveedor,
+        documento = :documento,
+        monto = :monto 
+        WHERE id = :id');
+      
+      $this->db->bind(':fecha', $fecha);
+      $this->db->bind(':centro_costo', $centro_costo);
+      $this->db->bind(':descripcion', $descripcion);
+      $this->db->bind(':proveedor', $proveedor);
+      $this->db->bind(':documento', $documento);
+      $this->db->bind(':monto', $monto);
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+
+    }
+
+
+    public function updateCajaStatus($usuario, $num_caja, $aprobacion) {
+      $this->db->query('UPDATE caja_chica SET estado = :aprobacion  WHERE num_caja = :num_caja AND usuario = :usuario');
+
+      $this->db->bind(':aprobacion', $aprobacion);
+      $this->db->bind(':usuario', $usuario);
+      $this->db->bind(':num_caja', $num_caja);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+
+    }
+
+    public function setCajaRevision($usuario, $num_caja, $observacion) {
+      $this->db->query('INSERT INTO caja_chica_rev (num_caja, usuario, observacion) VALUES (:num_caja, :usuario, :observacion)');
+
+      $this->db->bind(':observacion', $observacion);
+      $this->db->bind(':usuario', $usuario);
+      $this->db->bind(':num_caja', $num_caja);
+
+      if ($this->db->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+
 	}
 ?>

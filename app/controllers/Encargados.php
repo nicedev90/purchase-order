@@ -1246,6 +1246,70 @@
 
 		}
 
+    public function editar_caja($num_caja = null) {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+
+				// click en el boton editar item
+				if (isset($_POST['edit_item'])) {
+					$id = $_POST['id'];
+					$fecha = $_POST['fecha'];
+					$centro_costo = $_POST['centro_costo'];
+					$descripcion = $_POST['descripcion'];
+					$proveedor = $_POST['proveedor'];
+					$documento = $_POST['documento'];
+					$monto = $_POST['monto'];
+
+					$updated = $this->encargado->setItemCaja($id,$fecha,$centro_costo,$descripcion,$proveedor,$documento,$monto);
+
+					if ($updated) {
+						redirect('encargados/editar_caja/' . $num_caja);
+					}
+				}
+
+				// click en form aprobacion
+				if (isset($_POST['btn_revisar'])) {
+
+					$observacion = $_POST['observacion'];
+					$aprobacion = $_POST['aprobacion'];
+					$num_caja = $_POST['num_caja'];
+					$usuario = $_POST['usuario'];
+
+					$revisado = $this->encargado->setCajaRevision($usuario, $num_caja, $observacion);
+					$upCaja = $this->encargado->updateCajaStatus($usuario,$num_caja,$aprobacion);
+
+					if ($revisado) {
+						redirect('encargados/rep_mi_caja');
+					}
+				} 
+
+				$revisorCaja = $this->getRevisorCaja(TIPO_REVISOR_CAJA);
+				$revisorCaja = $revisorCaja->usuario;
+
+				$caja = $this->encargado->getDetalleCaja($num_caja, $_SESSION['user_usuario']);
+				$observ = $this->encargado->getObservacionesCaja($num_caja, $_SESSION['user_usuario']);
+				$adjuntos = $this->encargado->getAdjuntosCaja($num_caja, $_SESSION['user_usuario']);
+				
+				$data = [
+					'caja' => $caja,
+					'adjuntos' => $adjuntos,
+					'observ' => $observ,
+					'revisorCaja' => $revisorCaja,
+					'pagename' => ucwords(__FUNCTION__),
+					'controller' => strtolower(get_called_class())
+				];
+
+
+				// echo "<pre>";
+				// print_r( $num_caja);
+				// die();
+
+				$this->view('encargado/editar_caja', $data);
+				
+			} else {
+				redirect('pages/login');
+			}
+
+		}
 
     public function sustentar1($tipo,$num_os) {
 			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 

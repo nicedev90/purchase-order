@@ -19,7 +19,7 @@
     <div class="card">
       <div class="card-body">
 
-        <!-- FILA 0 MINA CATEGORIA -->
+        <!-- FILA 0 -->
         <div class="row d-md-flex justify-content-md-start justify-content-around align-items-center card-title">
           <div class="row d-md-flex justify-content-md-between ">
 
@@ -37,6 +37,7 @@
           </div>
         </div>
 
+        <!-- FILA 1 -->
         <div class="row d-md-flex justify-content-md-start justify-content-around align-items-center card-title">
           <div class="row d-md-flex justify-content-md-between ">
 
@@ -52,6 +53,42 @@
               <?php endif; ?>
             </div>
 
+
+          </div>
+        </div>
+
+        <!-- FILA 2 -->
+        <table class="my-4 table table-hover" >
+          <thead class="table-dark">
+            <tr>
+              <th >Item</th>
+              <th class="d-none d-md-table-cell">Fecha</th>
+              <th class="d-none d-md-table-cell">C. Costo</th>
+              <th >Proveedor</th>
+              <th class="d-none d-md-table-cell " style="width: 420px;">Descripcion</th>
+              <th class="d-none d-md-table-cell " >Documento</th>
+              <th >Total PEN</th>
+            </tr>
+          </thead>
+          <tbody id="lista_items" style="font-size: 14px;">
+            <?php foreach($data['caja'] as $orden) : ?>
+              <tr>
+                <td class="text-center"><?php echo $orden->item ?></td>
+                <td class="d-none d-md-table-cell" > <?php echo fixedFecha($orden->fecha); ?></td>
+                <td class="d-none d-md-table-cell"><?php echo $orden->centro_costo ?></td>
+                <td ><?php echo $orden->proveedor ?></td>
+                <td class="d-none d-md-table-cell  " style="width: 420px;"> <?php echo $orden->descripcion ?></td>
+                <td class="d-none d-md-table-cell"><?php echo $orden->documento ?></td>
+                <td class="text-end"><?php echo setCurrency() . $orden->monto ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+
+        <!-- FILA 3 -->
+        <div class="row d-md-flex justify-content-md-start justify-content-around align-items-center card-title">
+          <div class="row d-md-flex justify-content-md-end ">
+
             <div class="row d-md-flex align-items-center justify-content-center col-md-6 col-12">
               <?php 
                 $total = 0; 
@@ -66,37 +103,6 @@
 
           </div>
         </div>
-
-
-
-          <!-- FILA 4 - lista de items -->
-          <table class="my-4 table table-hover" >
-            <thead class="table-dark">
-              <tr>
-                <th >Item</th>
-                <th class="d-none d-md-table-cell">Fecha</th>
-                <th class="d-none d-md-table-cell">C. Costo</th>
-                <th >Proveedor</th>
-                <th class="d-none d-md-table-cell " style="width: 420px;">Descripcion</th>
-                <th class="d-none d-md-table-cell " >Documento</th>
-                <th >Total PEN</th>
-              </tr>
-            </thead>
-
-            <tbody id="lista_items" style="font-size: 14px;">
-              <?php foreach($data['caja'] as $orden) : ?>
-                <tr>
-                  <td class="text-center"><?php echo $orden->item ?></td>
-                  <td class="d-none d-md-table-cell" > <?php echo fixedFecha($orden->fecha); ?></td>
-                  <td class="d-none d-md-table-cell"><?php echo $orden->centro_costo ?></td>
-                  <td ><?php echo $orden->proveedor ?></td>
-                  <td class="d-none d-md-table-cell  " style="width: 420px;"> <?php echo $orden->descripcion ?></td>
-                  <td class="d-none d-md-table-cell"><?php echo $orden->documento ?></td>
-                  <td class="text-end"><?php echo setCurrency() . $orden->monto ?></td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
 
         <!-- FILA 4 - observaciones  -->
         <div class="row d-md-flex-col px-4  my-0 justify-content-start card-title">
@@ -167,7 +173,7 @@
               <span>REGRESAR</span>
             </button>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['caja'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/caja_chica_pdf/' . $data['caja'][0]->num_caja ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>
@@ -178,7 +184,7 @@
               <span>REGRESAR</span>
             </button>
 
-            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/crear_pdf/' . $data['caja'][0]->num_os ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
+            <a href="<?php echo URLROOT . '/' . $data['controller'] . '/caja_chica_pdf/' . $data['caja'][0]->num_caja ?>" target="_blank" class="col-12 col-md-4 mt-4 p-3 btn btn-info fw-bold">
               <i class="bi bi-printer"></i>
               <span>IMPRIMIR</span>
             </a>

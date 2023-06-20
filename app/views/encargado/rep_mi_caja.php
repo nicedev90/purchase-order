@@ -47,9 +47,9 @@
                 <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
                 <td class="d-flex justify-content-around">
                   <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles_caja/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
                   <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles_caja/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
                   <?php else: ?>
                     <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles_caja/' . $orden->num_caja ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
                     <a href="<?php echo URLROOT . '/' . $data['controller'] . '/editar_caja/' . $orden->num_caja ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> 
@@ -67,6 +67,16 @@
 
 
 </section>
+
+
+
+
+  <div class="row d-md-flex flex-md-row justify-content-md-start justify-content-center">
+    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/index'; ?>" class="col-10 col-md-4 m-2 m-md-3 p-3 p-md-2 btn btn-primary fw-bold">
+      <i class="bi bi-arrow-left mr-5"></i>
+      <span>REGRESAR</span>
+    </a> 
+  </div>
 
 </main><!-- End #main -->
 
