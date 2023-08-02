@@ -243,7 +243,6 @@
 
 
 <!-- Success Modal -->
-
 <div class="modal fade" id="<?= createdAlert() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
   <div class="modal-dialog">
     <div class="modal-content">

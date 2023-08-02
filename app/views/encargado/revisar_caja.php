@@ -17,13 +17,12 @@
 
 
     <!-- Inicio tabla resumen Ordenes -->
-    <pre><?php //print_r($data) ?></pre>
+    <pre><?php print_r($data) ?></pre>
     <div class="col-12">
       <div class="card recent-sales overflow-auto">
         <div class="card-body">
-          <h5 class="card-title">Historial Caja Chica <span>| Creadas</span>  -
-            Saldo Disponible : 
-            <button class="<?php echo ($data['saldo'] > 0) ? bgAprobado() : bgRechazado() ?>"> <?php echo setCurrency() . $data['saldo'] ?></button>
+          <h5 class="card-title">LISTA DE CAJA CHICA DE TODOS LOS USUARIOS  -
+
           </h5>
           <table class="table table-hover table-borderless datatable">
             <thead>
@@ -36,7 +35,7 @@
               </tr>
             </thead>
             <tbody>
-              <?php foreach($data['totalCajas'] as $orden): ?>
+              <?php foreach($data['totalCajasSede'] as $orden): ?>
               <tr>
                 <td class="fw-bold"><?php echo utf8_encode($orden->num_caja); ?></td>
 

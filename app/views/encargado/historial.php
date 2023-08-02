@@ -21,10 +21,10 @@
 
       <div class="row d-md-flex flex-md-row justify-content-md-end justify-content-center">
 
-        <button id="btn-return" class="col-10 col-md-6 m-2 m-md-3 p-3 p-md-2 btn btn-primary fw-bold">
+<!--         <button id="btn-return" class="col-10 col-md-6 m-2 m-md-3 p-3 p-md-2 btn btn-primary fw-bold">
           <i class="bi bi-arrow-left mr-5"></i>
           <span>REGRESAR</span>
-        </button>
+        </button> -->
 
       </div>
 
@@ -55,7 +55,7 @@
                   <?php endif; ?>
                   
                 </td>
-                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->usuario); ?></th>
+                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->nombre_usuario); ?></th>
                 <td class="text-primary d-none d-md-table-cell"><?php echo utf8_encode($orden->mina_nombre); ?></td>
                 <td>
                   <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
@@ -64,6 +64,9 @@
                     <span class="<?= bgRechazado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
                   <?php else: ?>
                     <span class="<?= bgEnProceso() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                    <?php if (strtoupper($orden->rev) == "APROBADO") : ?>
+                      <span class="btn btn-primary btn-sm"> 1° Rev. </span>
+                    <?php endif; ?>
                   <?php endif; ?>
                   
                 </td>

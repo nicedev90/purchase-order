@@ -215,7 +215,7 @@
           </div>
 
           <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
-            <a href="<?php echo URLROOT; ?>/encargados/lista_caja" class="p-2 fw-bold btn btn-warning" >Ver Reportes</a>
+            <a href="<?php echo URLROOT; ?>/encargados/reportes_caja" class="p-2 fw-bold btn btn-warning" >Ver Reportes</a>
           </div>
         </div>
 
@@ -228,7 +228,7 @@
     <!-- FIN SECCION CAJA CHICA -->
 
     <!-- Inicio tabla resumen Ordenes -->
-    <pre><?php print_r($data) ?></pre>
+
     <div class="col-12">
       <div class="card recent-sales overflow-auto">
         <div class="card-body">
@@ -257,7 +257,7 @@
                   <?php endif; ?>
                   
                 </td>
-                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->usuario); ?></th>
+                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->nombre_usuario); ?></th>
                 <td class="text-primary d-none d-md-table-cell"><?php echo utf8_encode($orden->mina_nombre); ?></td>
                 <td>
                   <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
@@ -266,6 +266,10 @@
                     <span class="<?= bgRechazado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
                   <?php else: ?>
                     <span class="<?= bgEnProceso() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                    <?php if (strtoupper($orden->rev) == "APROBADO") : ?>
+                      <span class="btn btn-primary btn-sm"> 1° Rev. </span>
+                    <?php endif; ?>
+
                   <?php endif; ?>
                   
                 </td>
@@ -293,50 +297,53 @@
 
 </section>
 
+
+<?php
+  echo "<pre>";
+  // print_r($data);
+  echo "</pre>";
+?>
 </main><!-- End #main -->
 
 <!-- warning Modal -->
 <div class="modal fade" id="warning_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body d-flex p-4 flex-column align-items-center justify-content-center">
+       <span class="card-title text-secondary  fs-3"> Falta completar campos.</span>
+        <div style=" display: flex; align-items: center;justify-content: center; border-radius: 50%; width:10rem; height:10rem; background:#FFF2CA; ">
+          <!-- <i class="bi bi-check-circle-fill "></i -->
+          <i class="bi bi-exclamation-triangle text-warning"  style="font-size:5rem;"></i>
+        </div>
       </div>
-      <div class="modal-body">
-        falta llenar camposs
-      </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
-
 
 
 <!-- Success Modal -->
-
-<div class="modal fade" id="<?= createdAlert() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+<div class="modal modal-lg fade" id="<?= createdAlert() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        LA ORDEN SE CREO CON EXITO
+      <div class="modal-body d-flex p-4 flex-column align-items-center justify-content-center">
+       <span class="card-title text-success fs-3"> Orden creada correctamente.</span>
+        <div style=" display: flex; align-items: center;justify-content: center; border-radius: 50%; width:20rem; height:20rem; padding:0.2rem; background:#E0F8E9; ">
+          <i class="bi bi-check-circle-fill " style="font-size:10rem;color:#2ECA6A;"></i>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
+
     </div>
   </div>
 </div>
 
 
-<script src="<?php echo URLROOT; ?>/js/init_new.js"></script>
+<script src="<?php echo URLROOT; ?>/js/_index_enc.js"></script>
 
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/footer.php'; ?>

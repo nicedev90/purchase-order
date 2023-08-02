@@ -69,10 +69,6 @@
     </div>
     <!-- ======= FIN FORMULARIO ======= -->
 
-    <!-- Inicio tabla resumen Ordenes -->
-    <pre><?php // print_r($data) ?></pre>
-
-
     <?php if (isset($data['tipo']) && strtoupper($data['tipo']) == 'FONDOS') : ?>
 
     <div class="col-12">
@@ -244,7 +240,11 @@
 
 
 </section>
-
+<?php
+  echo "<pre>";
+  print_r($data);
+  echo "</pre>";
+?>
 </main><!-- End #main -->
 
 <!-- warning Modal -->
@@ -267,7 +267,6 @@
 </div>
 
 <!-- Success Modal -->
-
 <div class="modal fade" id="<?= createdAlert() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -285,8 +284,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 

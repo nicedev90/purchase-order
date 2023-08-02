@@ -20,13 +20,25 @@
     }
 
     public function getOrdenesPe() {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo GROUP BY creado DESC LIMIT 5');
+      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,
+        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
+        FROM os_peru o 
+        INNER JOIN minas_pe m ON o.mina = m.codigo 
+        INNER JOIN revision_pe rev ON o.num_os = rev.num_os
+        INNER JOIN usuarios u ON o.usuario = u.usuario 
+         GROUP BY creado DESC LIMIT 5');
       $ordenes = $this->db->getSet();
       return $ordenes;
     }
 
     public function getOrdenesCl() {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo GROUP BY creado DESC LIMIT 5');
+      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,
+        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
+        FROM os_chile o 
+        INNER JOIN minas_cl m ON o.mina = m.codigo 
+        INNER JOIN revision_cl rev ON o.num_os = rev.num_os
+        INNER JOIN usuarios u ON o.usuario = u.usuario 
+        GROUP BY creado DESC LIMIT 5');
       $ordenes = $this->db->getSet();
       return $ordenes;
     }
@@ -48,13 +60,25 @@
     // 
     // ************ BEGIN HISTORIAL VIEW
     public function getAllOrdenesSedePe() {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo GROUP BY o.num_os DESC');
+      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, 
+        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
+        FROM os_peru o 
+        INNER JOIN minas_pe m ON o.mina = m.codigo 
+        INNER JOIN revision_pe rev ON o.num_os = rev.num_os 
+        INNER JOIN usuarios u ON o.usuario = u.usuario 
+        GROUP BY o.num_os DESC');
       $res = $this->db->getSet();
       return $res;
     }
 
     public function getAllOrdenesSedeCl() {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo GROUP BY o.num_os DESC');
+      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, 
+        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
+        FROM os_chile o 
+        INNER JOIN minas_cl m ON o.mina = m.codigo 
+        INNER JOIN revision_cl rev ON o.num_os = rev.num_os 
+        INNER JOIN usuarios u ON o.usuario = u.usuario 
+        GROUP BY o.num_os DESC');
       $res = $this->db->getSet();
       return $res;
     }
@@ -865,7 +889,11 @@
     }
 
 
-
+    public function getTotalCajasPe() {
+      $this->db->query('SELECT c.usuario,c.num_caja,SUM(c.monto) as total, c.estado, DATE_FORMAT(c.creado, "%d-%b-%Y") AS creado, u.nombre, u.codigo FROM caja_chica c INNER JOIN usuarios u ON u.usuario = c.usuario GROUP BY creado');
+      $cajas = $this->db->getSet();
+      return $cajas;
+    }
 
 	}
 ?>

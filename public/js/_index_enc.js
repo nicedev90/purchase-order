@@ -2,6 +2,29 @@ window.addEventListener('DOMContentLoaded', () => {
 	const btnInit = document.querySelector('#btn_init')
 	btnInit?.addEventListener('click', create)
 
+	// let allInputOs = document.querySelectorAll('.input_os')
+	// allInputOs.foreach( input => {
+	// 	let sede_user = document.querySelector('#sede_user')
+		
+	// 	fetch('https://jsonplaceholder.typicode.com/posts')
+	// 	.then((res) => res.json())
+	// 	.then((data) => {
+	// 		let output = '<h2>Posts </h2>'
+	// 		data.forEach(function (post) {
+	// 			output += `
+	// 				<div>
+	// 					<h3>${post.title}</h3>
+	// 					<p>Id ${post.body}</p>
+	// 				</div>
+
+	// 			`
+	// 		})
+
+	// 		document.querySelector('#output').innerHTML = output
+	// 		// console.log(data)
+	// 	})
+	// })
+
 	checkModal()
 })
 

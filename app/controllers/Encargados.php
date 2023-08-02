@@ -1381,6 +1381,38 @@
       }
 		}
 
+		public function getTotalCajasSede() {
+			if ($_SESSION['user_sede'] == 'Peru') {
+        return $this->encargado->getTotalCajasPe();
+      } else {
+        return $this->encargado->getTotalCajasCl();
+      }
+		}
+
+    public function revisar_caja() {
+			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+
+				$totalCajasSede = $this->getTotalCajasSede();
+				
+				$data = [
+					'totalCajasSede' => $totalCajasSede,
+					'pagename' => ucwords(__FUNCTION__),
+					'controller' => strtolower(get_called_class())
+				];
+
+
+				// echo "<pre>";
+				// print_r( $num_caja);
+				// die();
+
+				$this->view('encargado/revisar_caja', $data);
+				
+			} else {
+				redirect('pages/login');
+			}
+
+		}
+
 
 	}
 ?>
