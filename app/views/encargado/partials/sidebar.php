@@ -85,9 +85,11 @@
     </a>
   </li><!-- End Profile Page Nav -->
 
+  <li class="nav-heading">REPORTES</li>
+
   <li class="nav-item">
     <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/reportes_cc'?>">
-      <i class="bi bi-person"></i>
+      <i class="bi bi-reception-4"></i>
       <span>Reportes Minas</span>
     </a>
   </li><!-- End Profile Page Nav -->
@@ -102,8 +104,8 @@
   <?php if (checkSedePeru()): ?>
   <li class="nav-item">
     <a class="nav-link collapsed" href="<?php echo URLROOT . '/' . $data['controller'] . '/reportes_caja'?>">
-      <i class="bi bi-person"></i>
-      <span>Reportes Caja Chica</span>
+      <i class="bi bi-shop"></i>
+      <span>Reportes Rendiciones</span>
     </a>
   </li><!-- End Profile Page Nav -->
   <?php endif; ?>

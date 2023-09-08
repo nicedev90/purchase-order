@@ -8,7 +8,7 @@
     }
 
     public function index() {
-      if (userLoggedIn() && $_SESSION['user_rol'] == 'Administrador') {
+      if ( adminLoggedIn() ) {
 
         $sede = $_SESSION['user_sede'];
 

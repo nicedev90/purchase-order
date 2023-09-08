@@ -1,30 +1,49 @@
 <?php 
 	class Usuarios extends Controller {
 		private $usuario;
+		private $encargado;
+		private $coordinador;
 
 		public function __construct() {
 			$this->usuario = $this->model('Usuario');
+			$this->encargado = $this->model('Encargado');
+			$this->coordinador = $this->model('Coordinador');
 		}
 
 		// ************ BEGIN INDEX VIEW
 		public function index() {
-			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
-				$user = $_SESSION['user_usuario'];
-				$minas = $this->getMinas();
-				$controller = strtolower(get_called_class());
+			if ( usuarioLoggedIn() ) {
 
-				$ordenes = $this->getOrdenes($user);
-				$method = ucwords(__FUNCTION__);
-				$AllOrdenesUser = $this->getAllOrdenesUser($user);
-				$totalOrdenes = count($AllOrdenesUser);
+				$minas = $this->getMinas();
+
+				$ordenes_user = $this->getOrdenesByUserIndex($_SESSION['user_usuario']);
+
+				if ($ordenes_user) {
+					$ordenes_aprobadas = 0;
+
+	          foreach($ordenes_user as $orden) {
+	            if (strtoupper($orden->estado) == "APROBADO") {
+	              $ordenes_aprobadas++;
+	            }
+	          }
+
+					$total_ordenes_user = count($ordenes_user);
+					$ultima_orden = current($ordenes_user)->num_os;
+
+				} else {
+					$ordenes_aprobadas = 0;
+					$total_ordenes_user = 0;
+					$ultima_orden = 0;
+				}
 
 				$data = [
 					'minas' => $minas,
-					'controller' => $controller,
-					'ordenes' => $ordenes,
-					'pagename' => $method,
-					'totalOrdenes' => $AllOrdenesUser,
-					'total' => $totalOrdenes
+					'ordenes_aprobadas' => $ordenes_aprobadas,
+					'ordenes_user' => $total_ordenes_user,
+					'ordenes' => $ordenes_user,
+					'ultima_orden' => $ultima_orden,
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
 				];
 
 				$this->view('usuario/index', $data);
@@ -34,41 +53,58 @@
 			}			
 		}
 
-		public function getMinas() {
-	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$minas = $this->usuario->getMinasPe();
+	  public function getOrdenesByUserIndex($user) {
+	  	if ( userFromSede_1() ) {
+				$ordenes = $this->encargado->readOrdenesByUser($user, 'os_peru', 'o', 'creado', 'DESC', 5);
+				return $ordenes;
+			} else if ( userFromSede_2() ) {
+				$ordenes = $this->encargado->readOrdenesByUser($user, 'os_chile', 'o', 'creado', 'DESC', 5);
+				return $ordenes;
+			}
+	  }
+
+	  public function getOrdenesByUserHistorial($user) {
+	  	if ( userFromSede_1() ) {
+				$ordenes = $this->encargado->readOrdenesByUser($user, 'os_peru', 'o', 'creado', 'DESC');
+				return $ordenes;
+			} else if ( userFromSede_2() ) {
+				$ordenes = $this->encargado->readOrdenesByUser($user, 'os_chile', 'o', 'creado', 'DESC');
+				return $ordenes;
+			}
+	  }
+
+
+	  public function getMinas() {
+	  	if ( userFromSede_1() ) {
+				$minas = $this->encargado->readMinas('minas_pe');
 				return $minas;
-			} else {
-				$minas = $this->usuario->getMinasCl();
+			} else if ( userFromSede_2() ) {
+				$minas = $this->encargado->readMinas('minas_cl');
 				return $minas;
 			}
 	  }
 
-	  public function getOrdenes($user) {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				$ordenes = $this->usuario->getOrdenesPe($user);
-				return $ordenes;
-			} else {
-				$ordenes = $this->usuario->getOrdenesCl($user);
-				return $ordenes;
-			}
-		}
+	  // public function getOrdenes($user) {
+		// 	if ($_SESSION['user_sede'] == 'Peru') {
+		// 		$ordenes = $this->usuario->getOrdenesPe($user);
+		// 		return $ordenes;
+		// 	} else {
+		// 		$ordenes = $this->usuario->getOrdenesCl($user);
+		// 		return $ordenes;
+		// 	}
+		// }
 		// ************ END INDEX VIEW
 		// 
 		// ************ BEGIN HISTORIAL VIEW
 		public function historial() {
-			if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') {
-				$user = $_SESSION['user_usuario'];
+			if ( usuarioLoggedIn() ) {
 
-				$controller = strtolower(get_called_class());
-				$AllOrdenesUser = $this->getAllOrdenesUser($user);
-				$method = ucwords(__FUNCTION__);
+				$AllOrdenesUser = $this->getOrdenesByUserHistorial($_SESSION['user_usuario']);
 
 				$data = [
-					'controller' => $controller,
 					'ordenes' => $AllOrdenesUser,
-					'pagename' => $method
-					
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
 				];
 
 				$this->view('usuario/historial', $data);
@@ -78,15 +114,15 @@
 			}			
 		}
 
-		public function getAllOrdenesUser($user) {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				$ordenes = $this->usuario->getAllOrdenesUserPe($user);
-				return $ordenes;
-			} else {
-				$ordenes = $this->usuario->getAllOrdenesUserCl($user);
-				return $ordenes;
-			}
-		}
+		// public function getAllOrdenesUser($user) {
+		// 	if ($_SESSION['user_sede'] == 'Peru') {
+		// 		$ordenes = $this->usuario->getAllOrdenesUserPe($user);
+		// 		return $ordenes;
+		// 	} else {
+		// 		$ordenes = $this->usuario->getAllOrdenesUserCl($user);
+		// 		return $ordenes;
+		// 	}
+		// }
 		// ************ END HISTORIAL VIEW
 		// 
 		// ************ BEGIN DETALLES VIEW
@@ -671,54 +707,89 @@
 	  // 
     // ************ VISTAS SIDEBAR
     public function config_general() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 
+    	if ( usuarioLoggedIn() ) { 
     		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+		    	$nombre = $_POST['nombre'];
+
+		      $updated = $this->coordinador->updateProfile($_SESSION['user_id'], $nombre);
+
+					if ($updated) {
+						$_SESSION['success_alert'] = 'success_modal';
+						$_SESSION['msg_success'] = 'Actualizado correctamente.';
+						redirect('usuarios/config_general');
+						exit();
+
+					} else {
+						$_SESSION['warning_alert'] = 'warning_modal';
+						$_SESSION['msg_warning'] = 'Ocurrió un error.';
+						redirect('usuarios/config_general');
+						exit();
+					}
+
 				} else {
 
-					$id = $_SESSION['user_id'];
-					$dataUser = $this->usuario->getDataUser($id);
-
-					$controller = strtolower(get_called_class());
-					$method = ucwords(__FUNCTION__);
-
+					$dataUser = $this->coordinador->getDataUser($_SESSION['user_id']);
 
 					$data = [
 						'dataUser' => $dataUser,
-
-						'controller' => $controller,
-						'pagename' => $method
+						'controller' => strtolower(get_called_class()),
+						'pagename' => ucwords(__FUNCTION__)
 					];
 
 					$this->view('usuario/config_general', $data);
 				}
-    	}
+
+    	} else {
+				$this->view('pages/login');
+			}
     }
 
     public function config_seguridad() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 
+    	if ( usuarioLoggedIn() ) { 
     		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+					$password = $_POST['password'];
+					$password_confirm = $_POST['password_confirm'];
+
+					if ($password == $password_confirm) {
+						$password = password_hash($password, PASSWORD_DEFAULT);
+						$updatedPass = $this->coordinador->updateUserPassword($_SESSION['user_id'], $password);
+
+						if ($updatedPass) {
+							$_SESSION['success_alert'] = 'success_modal';
+							$_SESSION['msg_success'] = 'Contraseña actualizada.';
+							redirect('usuarios/config_seguridad');
+							exit();
+						}
+
+					} else {
+						$_SESSION['warning_alert'] = 'warning_modal';
+						$_SESSION['msg_warning'] = 'Contraseñas no coinciden.';
+						redirect('usuarios/config_seguridad');
+						exit();
+					}
+
 				} else {
 
-					$id = $_SESSION['user_id'];
-					$dataUser = $this->usuario->getDataUser($id);
-
-					$controller = strtolower(get_called_class());
-					$method = ucwords(__FUNCTION__);
+					$dataUser = $this->coordinador->getDataUser($_SESSION['user_id']);
 
 					$data = [
 						'dataUser' => $dataUser,
-						'controller' => $controller,
-						'pagename' => $method
+						'controller' => strtolower(get_called_class()),
+						'pagename' => ucwords(__FUNCTION__)
 					];
 
 					$this->view('usuario/config_seguridad', $data);
 				}
-    	}
+
+    	} else {
+				$this->view('pages/login');
+			}
     }
+
 
     public function version() {
     	if (userLoggedIn() && $_SESSION['user_rol'] == 'Usuario') { 

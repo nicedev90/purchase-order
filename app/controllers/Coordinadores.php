@@ -197,93 +197,95 @@
 	  // 
     // ************ BEGIN CONFIG PERFIL USUARIO
     public function config_general() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') { 
+    	if ( coordinadorLoggedIn() ) { 
     		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-					  $user_id = $_POST['user_id'];
-		    		$nombre = $_POST['nombre'];
+					
+		    	$nombre = $_POST['nombre'];
 
-		      	$updated = $this->coordinador->updateProfile($user_id,$nombre);
+		      $updated = $this->coordinador->updateProfile($_SESSION['user_id'], $nombre);
 
-		      	if ($updated) {
-		      		$_SESSION['alerta'] = 'success';
-							$_SESSION['mensaje'] = 'Usuario Actualizado';
-							redirect('coordinadores/config_general');
-						}
-
-				} else {
-
-					$id = $_SESSION['user_id'];
-					$dataUser = $this->coordinador->getDataUser($id);
-
-					$controller = strtolower(get_called_class());
-					$method = ucwords(__FUNCTION__);
-
-
-					$data = [
-						'dataUser' => $dataUser,
-						'controller' => $controller,
-						'pagename' => $method
-					];
-
-					$this->view('coordinador/config_general', $data);
-				}
-    	}
-    }
-
-    public function config_seguridad() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') { 
-    		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-					$password = $_POST['password'];
-					$password_confirm = $_POST['password_confirm'];
-					$user_id = $_POST['user_id'];
-
-					if ($password == $password_confirm) {
-						$password = password_hash($password, PASSWORD_DEFAULT);
-						$updatedPass = $this->coordinador->updateUserPassword($user_id,$password);
-
-						if ($updatedPass) {
-							$_SESSION['alerta'] = 'success';
-							$_SESSION['mensaje'] = 'Contraseña actualizada';
-							redirect('coordinadores/config_seguridad');
-						}
+					if ($updated) {
+						$_SESSION['success_alert'] = 'success_modal';
+						$_SESSION['msg_success'] = 'Actualizado correctamente.';
+						redirect('coordinadores/config_seguridad');
+						exit();
 
 					} else {
-						$_SESSION['alerta'] = 'danger';
-						$_SESSION['mensaje'] = 'Contraseñas no coinciden';
+						$_SESSION['warning_alert'] = 'warning_modal';
+						$_SESSION['msg_warning'] = 'Ocurrió un error.';
 						redirect('coordinadores/config_seguridad');
+						exit();
 					}
 
 				} else {
 
-					$id = $_SESSION['user_id'];
-					$dataUser = $this->coordinador->getDataUser($id);
-
-					$controller = strtolower(get_called_class());
-					$method = ucwords(__FUNCTION__);
+					$dataUser = $this->coordinador->getDataUser($_SESSION['user_id']);
 
 					$data = [
 						'dataUser' => $dataUser,
-						'controller' => $controller,
-						'pagename' => $method
+						'controller' => strtolower(get_called_class()),
+						'pagename' => ucwords(__FUNCTION__)
+					];
+
+					$this->view('coordinador/config_general', $data);
+				}
+
+    	} else {
+				$this->view('pages/login');
+			}
+    }
+
+    public function config_seguridad() {
+    	if ( coordinadorLoggedIn() ) { 
+    		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+					$password = $_POST['password'];
+					$password_confirm = $_POST['password_confirm'];
+
+					if ($password == $password_confirm) {
+						$password = password_hash($password, PASSWORD_DEFAULT);
+						$updatedPass = $this->coordinador->updateUserPassword($_SESSION['user_id'], $password);
+
+						if ($updatedPass) {
+							$_SESSION['success_alert'] = 'success_modal';
+							$_SESSION['msg_success'] = 'Contraseña actualizada.';
+							redirect('coordinadores/config_seguridad');
+							exit();
+						}
+
+					} else {
+						$_SESSION['warning_alert'] = 'warning_modal';
+						$_SESSION['msg_warning'] = 'Contraseñas no coinciden.';
+						redirect('coordinadores/config_seguridad');
+						exit();
+					}
+
+				} else {
+
+					$dataUser = $this->coordinador->getDataUser($_SESSION['user_id']);
+
+					$data = [
+						'dataUser' => $dataUser,
+						'controller' => strtolower(get_called_class()),
+						'pagename' => ucwords(__FUNCTION__)
 					];
 
 					$this->view('coordinador/config_seguridad', $data);
 				}
-    	}
+    	} else {
+				$this->view('pages/login');
+			}
     }
 	  // ************ END CONFIG PERFIL USUARIO
 	  // 
     // ************ BEGIN CONFIG PERFIL USUARIO
     public function version() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') { 
-  			$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
+    	if ( coordinadorLoggedIn() ) { 
 
 				$data = [
-					'controller' => $controller,
-					'pagename' => $method
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
 				];
 
 				$this->view('coordinador/version', $data);
@@ -292,15 +294,14 @@
     }
 
 	  public function registros() {
-	  	if (userLoggedIn() && $_SESSION['user_rol'] == 'Coordinador') { 
-				$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
+	  	if ( coordinadorLoggedIn() ) { 
 
 				$userLogs = $this->coordinador->getUserLog($_SESSION['user_usuario']);
+
 				$data = [
 					'logs' => $userLogs,
-					'controller' => $controller,
-					'pagename' => $method
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
 				];
 
 				$this->view('coordinador/registros', $data);

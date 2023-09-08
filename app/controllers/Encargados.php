@@ -1,35 +1,42 @@
 <?php 
 	class Encargados extends Controller {
 		private $encargado;
+		private $coordinador;
 
 		public function __construct() {
 			$this->encargado = $this->model('Encargado');
+			$this->coordinador = $this->model('Coordinador');
 		}
 
 		// ************ BEGIN INDEX VIEW
 		public function index() {
-			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
-				$user = $_SESSION['user_usuario'];
-				$minas = $this->getMinas();
-				$controller = strtolower(get_called_class());
 
-				$ordenes = $this->getOrdenes();
-				$method = ucwords(__FUNCTION__);
-				$AllOrdenesSede = $this->getAllOrdenesSede();
-				$totalOrdenesSede = count($AllOrdenesSede);
-				$userOrdenes = $this->getOrdenesUser($user);
+			if ( encargadoLoggedIn() ) {
+
+				$minas = $this->getMinas();
+				$ordenes = $this->getOrdenesBySedeIndex();
+				$countTotalOrdenesSede = $this->getCountOrdenesBySede();
+				$countTotal_aprobados = $this->getCountOrdenesBySede_aprobado('Aprobado');
+
+				$ordenes_user = $this->getOrdenesByUser($_SESSION['user_usuario']);
+				$total_ordenes_user = count($ordenes_user) > 0 ? count($ordenes_user) : 0;
+
 				$revisorCaja = $this->getRevisorCaja(TIPO_REVISOR_CAJA);
-				$revisorCaja = $revisorCaja->usuario;
+
+				$ultima_orden_sede =  $this->getUltimaOrdenBySede();
+				$ultima_orden = current($ultima_orden_sede[0]);
+
 
 				$data = [
 					'minas' => $minas,
-					'controller' => $controller,
 					'ordenes' => $ordenes,
-					'pagename' => $method,
-					'totalOrdenes' => $AllOrdenesSede,
-					'total' => $totalOrdenesSede,
-					'userOrdenes' => $userOrdenes,
-					'revisorCaja' => $revisorCaja
+					'total' => $countTotalOrdenesSede,
+					'total_aprobado' => $countTotal_aprobados,
+					'ordenes_user' => $total_ordenes_user,
+					'revisorCaja' => $revisorCaja,
+					'ultima_orden' => $ultima_orden,
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
 				];
 
 				$this->view('encargado/index', $data);
@@ -39,32 +46,73 @@
 			}
 		}
 
+		public function getRevisorCaja($tipo) {
+			if ( userFromSede_1() ) {
+				$revisor = $this->encargado->readRevisorCaja($tipo);
+				return $revisor;
+			} else if ( userFromSede_2() ) {
+				$revisor = $this->encargado->readRevisorCaja($tipo);
+				return $revisor;
+			}
+		}
+
 	  public function getMinas() {
-	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$minas = $this->encargado->getMinasPe();
+	  	if ( userFromSede_1() ) {
+				$minas = $this->encargado->readMinas('minas_pe');
 				return $minas;
-			} else {
-				$minas = $this->encargado->getMinasCl();
+			} else if ( userFromSede_2() ) {
+				$minas = $this->encargado->readMinas('minas_cl');
 				return $minas;
 			}
 	  }
 
-		public function getOrdenes() {
-	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$ordenes = $this->encargado->getOrdenesPe();
+		public function getOrdenesBySedeIndex() {
+	  	if ( userFromSede_1() ) {
+				$ordenes = $this->encargado->readOrdenesBySede('os_peru', 'o', 'Aprobado', 'creado', 'DESC', 5);
 				return $ordenes;
-			} else {
-				$ordenes = $this->encargado->getOrdenesCl();
+			} else if ( userFromSede_2() ) {
+				$ordenes = $this->encargado->readOrdenesBySede('os_chile', 'o', 'Aprobado', 'creado', 'DESC', 5);
 				return $ordenes;
+			}
+		}
+
+		public function getUltimaOrdenBySede() {
+	  	if ( userFromSede_1() ) {
+				$last = $this->encargado->readOrdenesBySede('os_peru', 'o', 'All', 'creado', 'DESC', 1);
+				return $last;
+			} else if ( userFromSede_2() ) {
+				$last = $this->encargado->readOrdenesBySede('os_chile', 'o', 'All', 'creado', 'DESC', 1);
+				return $last;
+			}
+		}
+
+	  public function getCountOrdenesBySede() {
+	  	if ( userFromSede_1() ) {
+				$total = $this->encargado->readCountOrdenesBySede('os_peru', 'All');
+				return $total;
+			} else if ( userFromSede_2() ) {
+				$total = $this->encargado->readCountOrdenesBySede('os_chile', 'All');
+				return $total;
 			}
 	  }
 
-	  public function getOrdenesUser($user) {
-	  	if ($_SESSION['user_sede'] == 'Peru') {
-				$ordenes = $this->encargado->getOrdenesUserPe($user);
+	  public function getCountOrdenesBySede_aprobado($status) {
+	  	if ( userFromSede_1() ) {
+				$total = $this->encargado->readCountOrdenesBySede('os_peru', $status);
+				return $total;
+			} else if ( userFromSede_2() ) {
+				$total = $this->encargado->readCountOrdenesBySede('os_chile', $status);
+				return $total;
+			}
+	  }
+
+
+	  public function getOrdenesByUser($user) {
+	  	if ( userFromSede_1() ) {
+				$ordenes = $this->encargado->readOrdenesByUser($user, 'os_peru', 'o', 'creado', 'DESC');
 				return $ordenes;
-			} else {
-				$ordenes = $this->encargado->getOrdenesUserCl($user);
+			} else if ( userFromSede_2() ) {
+				$ordenes = $this->encargado->readOrdenesByUser($user, 'os_chile', 'o', 'creado', 'DESC');
 				return $ordenes;
 			}
 	  }
@@ -73,18 +121,14 @@
 		// 
 		// ************ BEGIN HISTORIAL VIEW
 		public function historial() {
-			if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') {
-				$user = $_SESSION['user_usuario'];
+			if ( encargadoLoggedIn() ) {
 
-				$controller = strtolower(get_called_class());
-				$AllOrdenesSede = $this->getAllOrdenesSede();
-				$method = ucwords(__FUNCTION__);
+				$AllOrdenesSede = $this->getOrdenesBySedeHistorial();
 
 				$data = [
-					'controller' => $controller,
 					'ordenes' => $AllOrdenesSede,
-					'pagename' => $method
-					
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
 				];
 
 				$this->view('encargado/historial', $data);
@@ -94,15 +138,17 @@
 			}			
 		}
 
-		public function getAllOrdenesSede() {
-			if ($_SESSION['user_sede'] == 'Peru') {
-				$ordenes = $this->encargado->getAllOrdenesSedePe();
+
+		public function getOrdenesBySedeHistorial() {
+	  	if ( userFromSede_1() ) {
+				$ordenes = $this->encargado->readOrdenesBySede('os_peru', 'o', 'All', 'creado', 'DESC', 50);
 				return $ordenes;
-			} else {
-				$ordenes = $this->encargado->getAllOrdenesSedeCl();
+			} else if ( userFromSede_2() ) {
+				$ordenes = $this->encargado->readOrdenesBySede('os_chile', 'o', 'All', 'creado', 'DESC', 50);
 				return $ordenes;
 			}
 		}
+
 		// ************ END HISTORIAL VIEW
 		// 
 		// ************ BEGIN DETALLES VIEW
@@ -754,53 +800,87 @@
     // 
     // ************ VISTAS SIDEBAR
     public function config_general() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+    	if ( encargadoLoggedIn() ) { 
     		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+		    	$nombre = $_POST['nombre'];
+
+		      $updated = $this->coordinador->updateProfile($_SESSION['user_id'], $nombre);
+
+					if ($updated) {
+						$_SESSION['success_alert'] = 'success_modal';
+						$_SESSION['msg_success'] = 'Actualizado correctamente.';
+						redirect('encargados/config_general');
+						exit();
+
+					} else {
+						$_SESSION['warning_alert'] = 'warning_modal';
+						$_SESSION['msg_warning'] = 'Ocurrió un error.';
+						redirect('encargados/config_general');
+						exit();
+					}
+
 				} else {
 
-					$id = $_SESSION['user_id'];
-					$dataUser = $this->encargado->getDataUser($id);
-
-					$controller = strtolower(get_called_class());
-					$method = ucwords(__FUNCTION__);
-
+					$dataUser = $this->coordinador->getDataUser($_SESSION['user_id']);
 
 					$data = [
 						'dataUser' => $dataUser,
-
-						'controller' => $controller,
-						'pagename' => $method
+						'controller' => strtolower(get_called_class()),
+						'pagename' => ucwords(__FUNCTION__)
 					];
 
 					$this->view('encargado/config_general', $data);
 				}
-    	}
+
+    	} else {
+				$this->view('pages/login');
+			}
     }
 
     public function config_seguridad() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
+    	if ( encargadoLoggedIn() ) { 
     		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+					$password = $_POST['password'];
+					$password_confirm = $_POST['password_confirm'];
+
+					if ($password == $password_confirm) {
+						$password = password_hash($password, PASSWORD_DEFAULT);
+						$updatedPass = $this->coordinador->updateUserPassword($_SESSION['user_id'], $password);
+
+						if ($updatedPass) {
+							$_SESSION['success_alert'] = 'success_modal';
+							$_SESSION['msg_success'] = 'Contraseña actualizada.';
+							redirect('encargados/config_seguridad');
+							exit();
+						}
+
+					} else {
+						$_SESSION['warning_alert'] = 'warning_modal';
+						$_SESSION['msg_warning'] = 'Contraseñas no coinciden.';
+						redirect('encargados/config_seguridad');
+						exit();
+					}
+
 				} else {
 
-					$id = $_SESSION['user_id'];
-					$dataUser = $this->encargado->getDataUser($id);
-
-					$controller = strtolower(get_called_class());
-					$method = ucwords(__FUNCTION__);
+					$dataUser = $this->coordinador->getDataUser($_SESSION['user_id']);
 
 					$data = [
 						'dataUser' => $dataUser,
-						'controller' => $controller,
-						'pagename' => $method
+						'controller' => strtolower(get_called_class()),
+						'pagename' => ucwords(__FUNCTION__)
 					];
 
 					$this->view('encargado/config_seguridad', $data);
 				}
-    	}
+
+    	} else {
+				$this->view('pages/login');
+			}
     }
 
     public function version() {
@@ -819,15 +899,14 @@
     }
 
     public function registros() {
-    	if (userLoggedIn() && $_SESSION['user_rol'] == 'Encargado') { 
-  			$controller = strtolower(get_called_class());
-				$method = ucwords(__FUNCTION__);
+    	if ( encargadoLoggedIn() ) { 
 
-				$userLogs = $this->encargado->getUserLog($_SESSION['user_usuario']);
+				$userLogs = $this->coordinador->getUserLog($_SESSION['user_usuario']);
+
 				$data = [
 					'logs' => $userLogs,
-					'controller' => $controller,
-					'pagename' => $method
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
 				];
 
 				$this->view('encargado/registros', $data);
@@ -1373,13 +1452,7 @@
 			}
 		}
 
-		public function getRevisorCaja($tipo) {
-			if ($_SESSION['user_sede'] == 'Peru') {
-        return $this->encargado->getRevisorCajaPe($tipo);
-      } else {
-        return $this->encargado->getRevisorCajaCl($tipo);
-      }
-		}
+
 
 		public function getTotalCajasSede() {
 			if ($_SESSION['user_sede'] == 'Peru') {

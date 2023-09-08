@@ -7,81 +7,145 @@
 		}
 
     // ************ BEGIN INDEX VIEW
-    public function getMinasPe() {
-      $this->db->query('SELECT * FROM minas_pe');
+    public function readMinas($_table) {
+
+      if ($_table) { 
+        $stmt = 'SELECT * FROM ' . $_table;
+      } 
+
+      $this->db->query($stmt);
       $minas = $this->db->getSet();
       return $minas;
     }
 
-    public function getMinasCl() {
-      $this->db->query('SELECT * FROM minas_cl');
-      $minas = $this->db->getSet();
-      return $minas;
-    }
 
-    public function getOrdenesPe() {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,
-        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
-        FROM os_peru o 
-        INNER JOIN minas_pe m ON o.mina = m.codigo 
-        INNER JOIN revision_pe rev ON o.num_os = rev.num_os
-        INNER JOIN usuarios u ON o.usuario = u.usuario 
-         GROUP BY creado DESC LIMIT 5');
-      $ordenes = $this->db->getSet();
-      return $ordenes;
-    }
+    public function readOrdenesByUser($user, $sede_table, $alias_table, $_group, $_order, $_limit = null) {
 
-    public function getOrdenesCl() {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,
-        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
-        FROM os_chile o 
-        INNER JOIN minas_cl m ON o.mina = m.codigo 
-        INNER JOIN revision_cl rev ON o.num_os = rev.num_os
-        INNER JOIN usuarios u ON o.usuario = u.usuario 
-        GROUP BY creado DESC LIMIT 5');
-      $ordenes = $this->db->getSet();
-      return $ordenes;
-    }
+      if ($sede_table) {
 
-    public function getOrdenesUserPe($user) {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado');
+        if ($sede_table == 'os_peru') {
+          $minas_table = 'minas_pe';
+          $revision_table = 'revision_pe';
+
+        } else {
+          $minas_table = 'minas_cl';
+          $revision_table = 'revision_cl';
+
+        }
+
+        if ($_group) {
+          $group = ' GROUP BY ' . $alias_table . '.' . $_group;
+        } else {
+          $group = '';
+        }
+
+        if ($_order != 'DESC' && $_order != 'ASC') {
+          $order = ' ORDER BY ' . $alias_table . '.' . $_order;
+        } else {
+          $order = ' ' . $_order . ' ';
+        }
+
+        if ($_limit) {
+          $limit = ' LIMIT ' . $_limit;
+        } else {
+          $limit = '';
+        }
+
+        $stmt = 'SELECT o.num_os, o.tipo, o.usuario, o.estado, DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario';
+        $stmt .= ' FROM ' . $sede_table . ' ' . $alias_table;
+        $stmt .= ' INNER JOIN ' . $minas_table . ' m ON o.mina = m.codigo ';
+        $stmt .= ' INNER JOIN ' . $revision_table . ' rev ON o.num_os = rev.num_os ';
+        $stmt .= ' INNER JOIN usuarios u ON o.usuario = u.usuario ';
+        $stmt .= ' WHERE o.usuario = :user ';
+        $stmt .= $group . $order . $limit; ;
+
+      } 
+
+      $this->db->query($stmt);
+
       $this->db->bind(':user', $user);
       $ordenes = $this->db->getSet();
       return $ordenes;
     }
 
-    public function getOrdenesUserCl($user) {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado');
-      $this->db->bind(':user', $user);
-      $ordenes = $this->db->getSet();
-      return $ordenes;
-    }
+
     // ************ END INDEX VIEW
     // 
     // ************ BEGIN HISTORIAL VIEW
-    public function getAllOrdenesSedePe() {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, 
-        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
-        FROM os_peru o 
-        INNER JOIN minas_pe m ON o.mina = m.codigo 
-        INNER JOIN revision_pe rev ON o.num_os = rev.num_os 
-        INNER JOIN usuarios u ON o.usuario = u.usuario 
-        GROUP BY o.num_os DESC');
-      $res = $this->db->getSet();
-      return $res;
+    public function readOrdenesBySede($sede_table, $alias_table, $_where, $_group, $_order, $_limit) {
+
+        if ($sede_table == 'os_peru') {
+          $minas_table = 'minas_pe';
+          $revision_table = 'revision_pe';
+        } else {
+          $minas_table = 'minas_cl';
+          $revision_table = 'revision_cl';
+        }
+
+        if ($_where != 'All') {
+          $where = ' WHERE ' . $alias_table . '.estado = :_where ';
+        } else {
+          $where = null;
+        }
+
+        if ($_group) {
+          $group = ' GROUP BY ' . $alias_table . '.' . $_group;
+        } else {
+          $group = '';
+        }
+
+        if ($_order != 'DESC' && $_order != 'ASC') {
+          $order = ' ORDER BY ' . $alias_table . '.' . $_order;
+        } else {
+          $order = ' ' . $_order . ' ';
+        }
+
+        if ($_limit) {
+          $limit = ' LIMIT ' . $_limit;
+        } else {
+          $limit = '';
+        }
+
+      $stmt = 'SELECT o.num_os, o.tipo, o.usuario, o.estado, DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario ';
+      $stmt .= ' FROM ' . $sede_table . ' ' . $alias_table;
+      $stmt .= ' INNER JOIN ' . $minas_table . ' m ON o.mina = m.codigo ';
+      $stmt .= ' INNER JOIN ' . $revision_table . ' rev ON o.num_os = rev.num_os ';
+      $stmt .= ' INNER JOIN usuarios u ON o.usuario = u.usuario ';
+      $stmt .= $where . $group . $order . $limit;
+    
+      $this->db->query($stmt);
+
+      if ( !is_null($where) ) {
+        $this->db->bind(':_where', $_where);
+      }
+
+      $result = $this->db->getSet();
+      return $result;
     }
 
-    public function getAllOrdenesSedeCl() {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, 
-        m.nombre AS mina_nombre, rev.aprob_1 AS rev, u.nombre AS nombre_usuario
-        FROM os_chile o 
-        INNER JOIN minas_cl m ON o.mina = m.codigo 
-        INNER JOIN revision_cl rev ON o.num_os = rev.num_os 
-        INNER JOIN usuarios u ON o.usuario = u.usuario 
-        GROUP BY o.num_os DESC');
-      $res = $this->db->getSet();
-      return $res;
+
+    public function readCountOrdenesBySede($sede_table, $_where) {
+ 
+        if ($_where != 'All') {
+          $where = ' WHERE estado = :_where ';
+        } else {
+          $where = null;
+        }
+
+      $stmt = 'SELECT COUNT(DISTINCT num_os) AS total ';
+      $stmt .= ' FROM ' . $sede_table;
+      $stmt .= $where ;
+
+      $this->db->query($stmt);
+
+      if ( !is_null($where) ) {
+        $this->db->bind(':_where', $_where);
+      }
+
+      $result = $this->db->getSingle();
+      return $result->total;
     }
+
     // ************ END HISTORIAL VIEW
     //
     // ************ BEGIN DETALLES VIEW
@@ -655,25 +719,7 @@
 
     // ********  END CREAR PDF
     // 
-    // ********  BEGIN EDITAR USUARIO
-    public function getDataUser($id) {
-      $this->db->query('SELECT u.*, r.rol AS rol , s.sede AS sede FROM usuarios u 
-        INNER JOIN roles r ON u.rol_id = r.id 
-        INNER JOIN sedes s ON u.sede_id = s.id 
-        WHERE u.id = :id');
-      $this->db->bind(':id', $id);
-      $res = $this->db->getSingle();
-      return $res;
-    }
-    // ********  END EDITAR USUARIO
 
-
-    public function getUserLog($usuario) {
-      $this->db->query('SELECT * FROM logs WHERE usuario = :usuario');
-      $this->db->bind(':usuario', $usuario);
-      $res = $this->db->getSet();
-      return $res;  
-    }
 
 
     // ********  BEGIN GENERAR REPORTE MINA
@@ -811,11 +857,11 @@
       return $saldo->saldo;
     }
 
-    public function getRevisorCajaPe($tipo) {
+    public function readRevisorCaja($tipo) {
       $this->db->query('SELECT usuario FROM supervisores WHERE tipo = :tipo');
       $this->db->bind(':tipo', $tipo);
       $revisor = $this->db->getSingle();
-      return $revisor;
+      return $revisor->usuario;
     }
 
     public function getNumCaja($usuario) {

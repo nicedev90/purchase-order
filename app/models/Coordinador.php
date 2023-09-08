@@ -147,7 +147,7 @@
       }
     }
 
-    public function updateUserPassword($user_id,$password) {
+    public function updateUserPassword($user_id, $password) {
       $this->db->query('UPDATE usuarios SET password = :password WHERE id = :user_id');
       $this->db->bind(':user_id', $user_id);
       $this->db->bind(':password', $password);

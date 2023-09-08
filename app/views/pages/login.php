@@ -18,7 +18,7 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="<?php echo URLROOT; ?>/users/login" method="POST" class="sign-in-form" autocomplete="off" >
+                <form action="<?php echo URLROOT . '/pages/login' ?>" method="POST" class="sign-in-form" autocomplete="off" >
                     <?php showAlert(); ?>
                     <h2 class="title">Inicia Sesión </h2>
                     <div class="input-field">
@@ -46,7 +46,7 @@
                         </a>
                     </div>
                 </form>
-                <form action="<?php echo URLROOT; ?>/users/registrar" method="POST" class="sign-up-form"> 
+                <form action="<?php echo URLROOT . '/pages/registrar' ?>" method="POST" class="sign-up-form"> 
                     <h2 class="title">Registrate</h2> 
                     <div class="input-field">
                         <i class="fas fa-user"></i>

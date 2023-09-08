@@ -1,7 +1,9 @@
 <?php 
-	class Users extends Controller {	
+	class Pages extends Controller {	
+		private $page;
+
 		public function __construct() {
-			$this->model = $this->model('User');
+			$this->page = $this->model('Page');
 		}
 
 		public function index() {
@@ -9,7 +11,13 @@
 				$userView = strtolower($_SESSION['user_rol']);
 				$this->view($userView . '/index');
 			} else {
-				$this->view('pages/login');
+				
+				$data = [
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
+				];
+
+				$this->view('pages/login', $data);
 			}
 		}
 
@@ -29,10 +37,10 @@
 					array_push($error, 'Debe ingresar contraseña.');
 				}
 
-				$usuario_existe = $this->model->findUser($usuario);
+				$usuario_existe = $this->page->findUser($usuario);
 
 				if (empty($error) && $usuario_existe) {
-					$userLogged = $this->model->login($usuario, $password);
+					$userLogged = $this->page->login($usuario, $password);
 					$status = $this->loginStatus($userLogged);
 
 					if ($userLogged) {
@@ -40,32 +48,37 @@
 
 						if ($userActivo == "Activo") {
 							$this->createSession($userLogged);
-							$this->model->guardarLog($usuario,$password,$status);
+							$this->page->guardarLog($usuario,$password,$status);
 						} else {
 							// redirigir a login.php : Usuario no esta activo
 							$_SESSION['alerta'] = 'danger';
 							$_SESSION['mensaje'] = 'Usuario no esta Activo.';
-							redirect('users/login');
+							redirect('pages/login');
 						}
 
 					} else {
 						// redirigir a login.php : Contrasela incorrecta
 						$_SESSION['alerta'] = 'warning';
 						$_SESSION['mensaje'] = 'Contraseña Incorrecta';
-						$this->model->guardarLog($usuario,$password,$status);
-						redirect('users/login');
+						$this->page->guardarLog($usuario,$password,$status);
+						redirect('pages/login');
 					}
 					
 				} else {
 					// redirigir a login.php : Usuario no registrado
 					$_SESSION['alerta'] = 'danger';
 					$_SESSION['mensaje'] = 'Usuario no registrado';
-					redirect('users/login');
+					redirect('pages/login');
 				}
 
 			} else {
 				// cargar la vista login.php si no se ha enviado el FORM
-				$this->view('pages/login');
+				$data = [
+					'controller' => strtolower(get_called_class()),
+					'pagename' => ucwords(__FUNCTION__)
+				];
+
+				$this->view('pages/login', $data);
 			}
 
 		}
@@ -98,11 +111,13 @@
 		public function createSession($user) {
 			$_SESSION['user_id'] = $user->id;
 			$_SESSION['user_rol'] = $user->rol;
+			$_SESSION['user_rol_id'] = $user->rol_id;
 			$_SESSION['user_codigo'] = $user->codigo;
 			$_SESSION['user_nombre'] = $user->nombre;
 			$_SESSION['user_email'] = $user->email;
 			$_SESSION['user_usuario'] = $user->usuario;
 			$_SESSION['user_sede'] = $user->sede;
+			$_SESSION['user_sede_id'] = $user->sede_id;
 
 			if ($user->rol == 'Administrador') {
 				redirect('administrador/index');
@@ -124,14 +139,16 @@
 		public function logout() {
 			unset($_SESSION['user_id']);
 			unset($_SESSION['user_rol']);
+			unset($_SESSION['user_rol_id']);
 			unset($_SESSION['user_codigo']);
 			unset($_SESSION['user_nombre']);
 			unset($_SESSION['user_email']);
 			unset($_SESSION['user_usuario']);
 			unset($_SESSION['user_sede']);
+			unset($_SESSION['user_sede_id']);
 
 			session_destroy();
-			redirect('users/login');
+			redirect('pages/login');
 		}
 
 	}

@@ -1,8 +1,56 @@
 <?php 
 	session_start();
 
-	function userLoggedIn() {
-		if (isset($_SESSION['user_rol'])) {
+	// function userLoggedIn() {
+	// 	if (isset($_SESSION['user_rol'])) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// }
+
+	function userFromSede_1() {
+		if (isset($_SESSION['user_sede_id']) && $_SESSION['user_sede_id'] == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function userFromSede_2() {
+		if (isset($_SESSION['user_sede_id']) && $_SESSION['user_sede_id'] == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function adminLoggedIn() {
+		if (isset($_SESSION['user_rol_id']) && $_SESSION['user_rol_id'] == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function coordinadorLoggedIn() {
+		if (isset($_SESSION['user_rol_id']) && $_SESSION['user_rol_id'] == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function encargadoLoggedIn() {
+		if (isset($_SESSION['user_rol_id']) && $_SESSION['user_rol_id'] == 3) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function usuarioLoggedIn() {
+		if (isset($_SESSION['user_rol_id']) && $_SESSION['user_rol_id'] == 4) {
 			return true;
 		} else {
 			return false;
@@ -62,6 +110,34 @@
 		if (isset($_SESSION['alerta'])) {
 			echo 'success_modal';
 			unset($_SESSION['alerta']);
+		}
+	}
+
+	function success_alert() {
+		if (isset($_SESSION['success_alert'])) {
+			echo $_SESSION['success_alert'];
+			unset($_SESSION['success_alert']);
+		}
+	}
+
+	function warning_alert() {
+		if (isset($_SESSION['warning_alert'])) {
+			echo $_SESSION['warning_alert'];
+			unset($_SESSION['warning_alert']);
+		}
+	}
+
+	function msg_success() {
+		if (isset($_SESSION['msg_success'])) {
+			echo $_SESSION['msg_success'];
+			unset($_SESSION['msg_success']);
+		}
+	}
+
+	function msg_warning() {
+		if (isset($_SESSION['msg_warning'])) {
+			echo $_SESSION['msg_warning'];
+			unset($_SESSION['msg_warning']);
 		}
 	}
 

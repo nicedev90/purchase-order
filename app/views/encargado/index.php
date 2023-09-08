@@ -1,7 +1,5 @@
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/header.php'; ?>
-
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/topbar.php'; ?>
-
 <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/sidebar.php'; ?>
 
 <main id="main" class="main">
@@ -16,115 +14,10 @@
   </div>
  
 <section class="section dashboard">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="row">
 
-          <div class="col-lg-3">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">Total <span>| Ordenes de Servicio</span></h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                  </div>
+  <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/cards.php'; ?>
 
-                  <div class="ps-3">
-                    <h6><?php echo $data['total'] ?></h6>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/historial' ?>">
-                      <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Historial OS
-                        <i class="bi bi-folder"></i>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3">
-            <div class="card info-card customers-card">
-              <div class="card-body">
-                <h5 class="card-title">Última Orden <span>| Creada</span></h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-send-check-fill"></i>
-                  </div>
-                  <div class="ps-3">
-                      <?php 
-                        if (isset($data['ordenes'][0])) {
-                          $lastOrden = current($data['ordenes'][0]); 
-                        } else {
-                          $lastOrden = 0; 
-                        }
-                      ?>
-                    <h6>OS N° - <?php echo $lastOrden ?></h6>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $lastOrden ?>">
-                      <span class="text-primary pt-1 small pt-1 fw-bold"> Ver Detalles
-                        <i class="bi bi-folder"></i>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <h5 class="card-title">Ordenes Completas <span>|</span></h5>
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-clipboard2-check-fill"></i>
-                    </div>
-                    <div class="ps-3">
-                      <?php 
-                        if (isset($data['totalOrdenes'])) {
-                          $totalAprobados = 0; 
-
-                          foreach($data['totalOrdenes'] as $orden) {
-                            if (strtoupper($orden->estado) == "APROBADO") {
-                              $totalAprobados++;
-                            }
-                          }
-                        }
-                      ?>
-                      <h6><?php echo (isset($totalAprobados)) ? $totalAprobados : 0 ?></h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-lg-3">
-              <div class="card info-card customers-card">
-                <div class="card-body">
-                  <h5 class="card-title">Mis Ordenes <span>| </span></h5>
-                  <div class="d-flex align-items-center">
-
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-clipboard2-data-fill"></i>
-                    </div>
-                    <div class="ps-3">
-                      <?php 
-                        if (count($data['userOrdenes']) > 0) {
-                          $totalMisOrdenes = count($data['userOrdenes']); 
-                        }
-                      ?>
-                      <h6><?php echo (isset($totalMisOrdenes)) ? $totalMisOrdenes : 0 ?></h6>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-          </div>
-
-        </div>
-    </div>
-
-
-    <!-- ======= INICIO FORMULARIO ======= -->
+  <!-- ======= INICIO FORMULARIO ======= -->
   <div class="row col-12 mx-auto">
     <div class="card">
       <div class="card-body">
@@ -177,53 +70,55 @@
     <!-- ======= FIN FORMULARIO ======= -->
 
     <!-- INICIO SECCION CAJA CHICA -->
+    <?php if (checkSedePeru()): ?>
 
-  <div class="row mx-auto justify-content-md-between">
-    <div class="card col-md-6">
-      <div class="card-body ">
-        <!-- FILA 0 -->
-        <div class="row px-4">
-          <div class="col-md-8 card-title"> Mi Caja Chica </div>
-        </div>
-
-        <!-- FILA 1   -->
-        <div class="row justify-content-md-around align-items-center "> 
-          <div class="row col-12 col-md-6 mx-auto">
-            <a href="<?php echo URLROOT; ?>/encargados/sustentar" class="p-2 fw-bold btn btn-primary" >Crear Caja Chica</a>
+    <div class="row mx-auto justify-content-md-between">
+      <div class="card col-md-6">
+        <div class="card-body ">
+          <!-- FILA 0 -->
+          <div class="row px-4">
+            <div class="col-md-8 card-title"> Rendición de Cuentas </div>
           </div>
 
-          <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
-            <a href="<?php echo URLROOT; ?>/encargados/rep_mi_caja" class="p-2 fw-bold btn btn-warning" >Ver mi Caja Chica</a>
-          </div>
-        </div>
+          <!-- FILA 1   -->
+          <div class="row justify-content-md-around align-items-center "> 
+            <div class="row col-12 col-md-6 mx-auto">
+              <a href="<?php echo URLROOT; ?>/encargados/sustentar" class="p-2 fw-bold btn btn-primary" >Crear Rendición</a>
+            </div>
 
+            <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
+              <a href="<?php echo URLROOT; ?>/encargados/rep_mi_caja" class="p-2 fw-bold btn btn-warning" >Ver Mis Rendiciones</a>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
 
-<?php if ($_SESSION['user_usuario'] == $data['revisorCaja']) : ?>
-    <div class="card col-md-5 ">
-      <div class="card-body ">
-        <!-- FILA 0 -->
-        <div class="row px-4">
-          <div class="col-md-8 card-title"> Caja Chica Usuarios</div>
-        </div>
-
-        <!-- FILA 1   -->
-        <div class="row justify-content-md-around align-items-center "> 
-          <div class="row col-12 col-md-6 mx-auto">
-            <a href="<?php echo URLROOT; ?>/encargados/revisar_caja" class="p-2 fw-bold btn btn-primary" >Revisar Caja Chica</a>
+    <?php if ($_SESSION['user_usuario'] == $data['revisorCaja']) : ?>
+      <div class="card col-md-5 ">
+        <div class="card-body ">
+          <!-- FILA 0 -->
+          <div class="row px-4">
+            <div class="col-md-8 card-title"> Caja Chica Usuarios</div>
           </div>
 
-          <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
-            <a href="<?php echo URLROOT; ?>/encargados/reportes_caja" class="p-2 fw-bold btn btn-warning" >Ver Reportes</a>
-          </div>
-        </div>
+          <!-- FILA 1   -->
+          <div class="row justify-content-md-around align-items-center "> 
+            <div class="row col-12 col-md-6 mx-auto">
+              <a href="<?php echo URLROOT; ?>/encargados/revisar_caja" class="p-2 fw-bold btn btn-primary" >Revisar Caja Chica</a>
+            </div>
 
+            <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
+              <a href="<?php echo URLROOT; ?>/encargados/reportes_caja" class="p-2 fw-bold btn btn-warning" >Ver Reportes</a>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-<?php endif; ?>
+    <?php endif; ?>
 
-  </div>
+    </div>
+    <?php endif; ?>
 
     <!-- FIN SECCION CAJA CHICA -->
 
@@ -247,6 +142,7 @@
             </thead>
             <tbody>
               <?php foreach($data['ordenes'] as $orden): ?>
+                <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
               <tr>
                 <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
                 <td class="fw-bold">
@@ -286,6 +182,7 @@
                 </td>
                   
               </tr>
+                <?php endif; ?>
               <?php endforeach; ?>
             </tbody>
           </table>
@@ -323,7 +220,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Success Modal -->
 <div class="modal modal-lg fade" id="<?= createdAlert() ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">

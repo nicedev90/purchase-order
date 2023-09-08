@@ -6,50 +6,7 @@
 			$this->db = new Database;
 		}
 
-    // ************ BEGIN INDEX VIEW
-		public function getMinasPe() {
-			$this->db->query('SELECT * FROM minas_pe');
-			$minas = $this->db->getSet();
-			return $minas;
-		}
 
-		public function getMinasCl() {
-			$this->db->query('SELECT * FROM minas_cl');
-			$minas = $this->db->getSet();
-			return $minas;
-		}
-
-    public function getOrdenesPe($user) {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
-      $this->db->bind(':user', $user);
-      $ordenes = $this->db->getSet();
-      return $ordenes;
-    }
-
-    public function getOrdenesCl($user) {
-      $this->db->query('SELECT o.num_os,o.tipo,o.usuario,o.estado,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado,m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC LIMIT 5');
-      $this->db->bind(':user', $user);
-      $ordenes = $this->db->getSet();
-      return $ordenes;
-    }
-    // ************ END INDEX VIEW
-    // 
-    // ************ BEGIN HISTORIAL VIEW
-    public function getAllOrdenesUserPe($user) {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_peru o INNER JOIN minas_pe m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC');
-      $this->db->bind(':user', $user);
-      $res = $this->db->getSet();
-      return $res;
-    }
-
-    public function getAllOrdenesUserCl($user) {
-      $this->db->query('SELECT o.*,DATE_FORMAT(o.creado, "%d-%b-%Y") AS creado, m.nombre AS mina_nombre FROM os_chile o INNER JOIN minas_cl m ON o.mina = m.codigo WHERE usuario = :user GROUP BY creado DESC');
-      $this->db->bind(':user', $user);
-      $res = $this->db->getSet();
-      return $res;
-    }
-    // ************ END HISTORIAL VIEW
-    // 
     // ************ BEGIN DETALLES VIEW
     public function getOrdenDataPe($num_os) {
       $this->db->query('SELECT o.*, 

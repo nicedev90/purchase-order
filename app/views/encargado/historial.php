@@ -20,12 +20,10 @@
     <div class="col-12">
 
       <div class="row d-md-flex flex-md-row justify-content-md-end justify-content-center">
-
 <!--         <button id="btn-return" class="col-10 col-md-6 m-2 m-md-3 p-3 p-md-2 btn btn-primary fw-bold">
           <i class="bi bi-arrow-left mr-5"></i>
           <span>REGRESAR</span>
         </button> -->
-
       </div>
 
       <div class="card recent-sales overflow-auto">
