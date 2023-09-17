@@ -1,11 +1,6 @@
-input.css
-package.json
-package-lock.json
-tailwind.config.js
-node_modules
+
 # public/files/cl/*
 # public/files/pe/*
-*.sh
-*.phar
+#*.sh
 # evitar carga de archivos con informacion privada
 app/config/config.php
