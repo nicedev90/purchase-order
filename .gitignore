@@ -4,3 +4,4 @@
 #*.sh
 # evitar carga de archivos con informacion privada
 app/config/config.php
+public/files

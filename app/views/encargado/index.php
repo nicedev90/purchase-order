@@ -67,140 +67,90 @@
       </div>
     </div>
   </div>
-    <!-- ======= FIN FORMULARIO ======= -->
+  <!-- ======= FIN FORMULARIO ======= -->
 
-    <!-- INICIO SECCION CAJA CHICA -->
-    <?php if (checkSedePeru()): ?>
+  <!-- INICIO SECCION CAJA CHICA -->
+  <?php require APPROOT . '/views/' . strtolower($_SESSION['user_rol']) . '/partials/caja_chica.php'; ?>
+  <!-- FIN SECCION CAJA CHICA -->
 
-    <div class="row mx-auto justify-content-md-between">
-      <div class="card col-md-6">
-        <div class="card-body ">
-          <!-- FILA 0 -->
-          <div class="row px-4">
-            <div class="col-md-8 card-title"> Rendición de Cuentas </div>
-          </div>
-
-          <!-- FILA 1   -->
-          <div class="row justify-content-md-around align-items-center "> 
-            <div class="row col-12 col-md-6 mx-auto">
-              <a href="<?php echo URLROOT; ?>/encargados/sustentar" class="p-2 fw-bold btn btn-primary" >Crear Rendición</a>
-            </div>
-
-            <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
-              <a href="<?php echo URLROOT; ?>/encargados/rep_mi_caja" class="p-2 fw-bold btn btn-warning" >Ver Mis Rendiciones</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    <?php if ($_SESSION['user_usuario'] == $data['revisorCaja']) : ?>
-      <div class="card col-md-5 ">
-        <div class="card-body ">
-          <!-- FILA 0 -->
-          <div class="row px-4">
-            <div class="col-md-8 card-title"> Caja Chica Usuarios</div>
-          </div>
-
-          <!-- FILA 1   -->
-          <div class="row justify-content-md-around align-items-center "> 
-            <div class="row col-12 col-md-6 mx-auto">
-              <a href="<?php echo URLROOT; ?>/encargados/revisar_caja" class="p-2 fw-bold btn btn-primary" >Revisar Caja Chica</a>
-            </div>
-
-            <div class="row col-12 col-md-6 pt-md-0 pt-4 mx-auto">
-              <a href="<?php echo URLROOT; ?>/encargados/reportes_caja" class="p-2 fw-bold btn btn-warning" >Ver Reportes</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    <?php endif; ?>
-
-    </div>
-    <?php endif; ?>
-
-    <!-- FIN SECCION CAJA CHICA -->
-
-    <!-- Inicio tabla resumen Ordenes -->
-
-    <div class="col-12">
-      <div class="card recent-sales overflow-auto">
-        <div class="card-body">
-          <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
-          <table class="table table-hover table-borderless datatable">
-            <thead>
-              <tr>
-              <th scope="col">N°</th>
-              <th scope="col">Tipo</th>
-              <th scope="col" class="d-none d-md-table-cell">Creado por</th>
-              <th scope="col" class="d-none d-md-table-cell">Mina </th>
-              <th scope="col">Estado</th>
-              <th scope="col" class="d-none d-md-table-cell">Fecha</th>
-              <th scope="col">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach($data['ordenes'] as $orden): ?>
-                <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-              <tr>
-                <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
-                <td class="fw-bold">
-                  <?php if (strtoupper($orden->tipo) == 'FONDOS') : ?>
-                    <span class="<?= bgFondos() ?> btn-sm"><?php echo setName($orden->tipo); ?></span> 
-                  <?php else: ?>
-                    <span class="<?= bgCompra() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
-                  <?php endif; ?>
-                  
-                </td>
-                <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->nombre_usuario); ?></th>
-                <td class="text-primary d-none d-md-table-cell"><?php echo utf8_encode($orden->mina_nombre); ?></td>
-                <td>
-                  <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-                    <span class="<?= bgAprobado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
-                  <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
-                    <span class="<?= bgRechazado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
-                  <?php else: ?>
-                    <span class="<?= bgEnProceso() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
-                    <?php if (strtoupper($orden->rev) == "APROBADO") : ?>
-                      <span class="btn btn-primary btn-sm"> 1° Rev. </span>
-                    <?php endif; ?>
-
-                  <?php endif; ?>
-                  
-                </td>
-                <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
-                <td class="d-flex justify-content-around">
-                  <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
-                  <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
-                  <?php else: ?>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
-                    <a href="<?php echo URLROOT . '/' . $data['controller'] . '/editar/' . $orden->num_os ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> 
-                  <?php endif; ?>
-                </td>
-                  
-              </tr>
+  <!-- Inicio tabla resumen Ordenes -->
+  <div class="col-12">
+    <div class="card recent-sales overflow-auto">
+      <div class="card-body">
+        <h5 class="card-title">Últimas Ordenes <span>| Creadas</span></h5>
+        <table class="table table-hover table-borderless datatable">
+          <thead>
+            <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Tipo</th>
+            <th scope="col" class="d-none d-md-table-cell">Creado por</th>
+            <th scope="col" class="d-none d-md-table-cell">Mina </th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="d-none d-md-table-cell">Fecha</th>
+            <th scope="col">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($data['ordenes'] as $orden): ?>
+              <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
+            <tr>
+              <td class="fw-bold"><?php echo utf8_encode($orden->num_os); ?></th>
+              <td class="fw-bold">
+                <?php if (strtoupper($orden->tipo) == 'FONDOS') : ?>
+                  <span class="<?= bgFondos() ?> btn-sm"><?php echo setName($orden->tipo); ?></span> 
+                <?php else: ?>
+                  <span class="<?= bgCompra() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->tipo)); ?></span> 
                 <?php endif; ?>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        </div>
+                
+              </td>
+              <td class="fw-bold d-none d-md-table-cell"><?php echo utf8_encode($orden->nombre_usuario); ?></th>
+              <td class="text-primary d-none d-md-table-cell"><?php echo utf8_encode($orden->mina_nombre); ?></td>
+              <td>
+                <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
+                  <span class="<?= bgAprobado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
+                  <span class="<?= bgRechazado() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                <?php else: ?>
+                  <span class="<?= bgEnProceso() ?> btn-sm"><?php echo utf8_encode(strtoupper($orden->estado)); ?></span>
+                  <?php if (strtoupper($orden->rev) == "APROBADO") : ?>
+                    <span class="btn btn-primary btn-sm"> 1° Rev. </span>
+                  <?php endif; ?>
+
+                <?php endif; ?>
+                
+              </td>
+              <td class="d-none d-md-table-cell"><?php echo fixedFecha($orden->creado); ?></td>
+              <td class="d-flex justify-content-around">
+                <?php if (strtoupper($orden->estado) == 'APROBADO') : ?>
+                  <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                <?php elseif (strtoupper($orden->estado) == 'RECHAZADO') : ?>
+                  <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                <?php else: ?>
+                  <a href="<?php echo URLROOT . '/' . $data['controller'] . '/detalles/' . $orden->num_os ?>" class="btn btn-warning btn-sm"><i class="bi bi-search"></i></a>
+                  <a href="<?php echo URLROOT . '/' . $data['controller'] . '/editar/' . $orden->num_os ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a> 
+                <?php endif; ?>
+              </td>
+                
+            </tr>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
       </div>
     </div>
-    <!-- Fin tabla resumen Ordenes -->
-
+  </div>
+  <!-- Fin tabla resumen Ordenes -->
 
 </section>
 
-
 <?php
   echo "<pre>";
-  // print_r($data);
+  print_r($data);
   echo "</pre>";
 ?>
 </main><!-- End #main -->
+
+
 
 <!-- warning Modal -->
 <div class="modal fade" id="warning_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
@@ -238,7 +188,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="<?php echo URLROOT; ?>/js/_index_enc.js"></script>
 

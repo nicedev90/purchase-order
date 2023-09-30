@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	// 	.then((res) => res.json())
 	// 	.then((data) => {
 	// 		let output = '<h2>Posts </h2>'
-	// 		data.forEach(function (post) {
+	// 		data.forEach( post => {
 	// 			output += `
 	// 				<div>
 	// 					<h3>${post.title}</h3>
@@ -52,8 +52,8 @@ const create = (e) => {
 		location.href = `${urlRoot}/${controller}/${method}/${tipo}/${id}`
 	} else {
 
-		const warningModal = document.querySelector('#warning_modal')
-		const modalWarning = new bootstrap.Modal(warningModal)
+		let warningModal = document.querySelector('#warning_modal')
+		let modalWarning = new bootstrap.Modal(warningModal)
 		modalWarning.show()
 	}
 }

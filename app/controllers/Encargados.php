@@ -13,27 +13,19 @@
 
 			if ( encargadoLoggedIn() ) {
 
-				$minas = $this->getMinas();
-				$ordenes = $this->getOrdenesBySedeIndex();
-				$countTotalOrdenesSede = $this->getCountOrdenesBySede();
-				$countTotal_aprobados = $this->getCountOrdenesBySede_aprobado('Aprobado');
-
 				$ordenes_user = $this->getOrdenesByUser($_SESSION['user_usuario']);
 				$total_ordenes_user = count($ordenes_user) > 0 ? count($ordenes_user) : 0;
-
-				$revisorCaja = $this->getRevisorCaja(TIPO_REVISOR_CAJA);
 
 				$ultima_orden_sede =  $this->getUltimaOrdenBySede();
 				$ultima_orden = current($ultima_orden_sede[0]);
 
-
 				$data = [
-					'minas' => $minas,
-					'ordenes' => $ordenes,
-					'total' => $countTotalOrdenesSede,
-					'total_aprobado' => $countTotal_aprobados,
+					'minas' => $minas = $this->getMinas(),
+					'ordenes' => $this->getOrdenesBySedeIndex(),
+					'total' => $this->getCountOrdenesBySede(),
+					'total_aprobado' =>  $this->getCountOrdenesBySede_aprobado('Aprobado'),
 					'ordenes_user' => $total_ordenes_user,
-					'revisorCaja' => $revisorCaja,
+					'revisorCaja' => $this->getRevisorCaja(TIPO_REVISOR_CAJA),
 					'ultima_orden' => $ultima_orden,
 					'controller' => strtolower(get_called_class()),
 					'pagename' => ucwords(__FUNCTION__)
@@ -47,12 +39,26 @@
 		}
 
 		public function getRevisorCaja($tipo) {
+
+			$_where = array(
+				array('t1', 'tipo', $tipo),
+			);
+
+			$_cols = array(
+				array('t1', 'usuario'),
+			);
+
+			// $_where = array(
+			// 	array('t1', 'tipo', $tipo, ' AND '),
+			// 	array('t1', 'sede', 'Peru'),
+			// );
+
 			if ( userFromSede_1() ) {
-				$revisor = $this->encargado->readRevisorCaja($tipo);
-				return $revisor;
+				$revisor = $this->encargado->read('single', 'supervisores', $_cols, $_where, null, null);
+				return $revisor->usuario;
 			} else if ( userFromSede_2() ) {
-				$revisor = $this->encargado->readRevisorCaja($tipo);
-				return $revisor;
+				$revisor = $this->encargado->read('single', 'supervisores', $_cols, $_where, null, null);
+				return $revisor->usuario;
 			}
 		}
 
@@ -77,11 +83,58 @@
 		}
 
 		public function getUltimaOrdenBySede() {
+
+      $_cols = array(
+        array('t1', 'num_os', null),
+        array('t1', 'tipo', null),
+        array('t1', 'usuario', null),
+        array('t1', 'estado', null),
+        array(null, "DATE_FORMAT(t1.creado, '%d-%b-%Y')", 'creado'),
+        array('t2', 'nombre', 'mina_nombre'),
+        array('t3', 'aprob_1', 'rev'),
+        array('t4', 'nombre', 'nombre_usuario'),
+      );
+
+      $_where = array(
+        array('t1', 'estado', 'Aprobado'),
+      );
+
+
+      $_group = array('t1', 'creado');
+
+      // $_order = array('ASC', 't1', 'creado');
+      // $_order = array('DESC', 't1', 'creado');
+      $_order = array('DESC', null, null);
+
+
+      $_limit = array(1, null, null);
+      // $_limit = array(5, 10, null);
+      // $_limit = array(10, 5, 'OFFSET');
+
 	  	if ( userFromSede_1() ) {
-				$last = $this->encargado->readOrdenesBySede('os_peru', 'o', 'All', 'creado', 'DESC', 1);
+
+				$_from = array('os_peru', 't1');
+
+	      $_joins = array(
+	        array('minas_pe', 't2', 'codigo', 't1', 'mina'),
+	        array('revision_pe', 't3', 'num_os', 't1', 'num_os'),
+	        array('usuarios', 't4', 'usuario', 't1', 'usuario'),
+	      );
+
+				$last = $this->encargado->readJoin('set', $_from, $_joins, $_cols, $_where, $_group, $_order, $_limit);
 				return $last;
+
 			} else if ( userFromSede_2() ) {
-				$last = $this->encargado->readOrdenesBySede('os_chile', 'o', 'All', 'creado', 'DESC', 1);
+
+				$_from = array('os_chile', 't1');
+
+	      $_joins = array(
+	        array('minas_cl', 't2', 'codigo', 't1', 'mina'),
+	        array('revision_cl', 't3', 'num_os', 't1', 'num_os'),
+	        array('usuarios', 't4', 'usuario', 't1', 'usuario'),
+	      );
+
+				$last = $this->encargado->readJoin('set', $_from, $_joins, $_cols, $_where, $_group, $_order, $_limit);
 				return $last;
 			}
 		}

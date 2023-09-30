@@ -37,7 +37,6 @@
 
         <!-- FILA 1 encabezado num Orden - TIPO -->
         <div class="row d-md-flex justify-content-md-start justify-content-around align-items-center card-title ">
-
           <div class="d-flex col-md-4 py-2 justify-content-start ">
             <div class="col-md-6"><?= $data['pagename'] . ' Orden :'?></div>
             <div class="col-md-6 p-1 fw-bold btn btn-warning"> <?= 'N° - ' . $data['orden'][0]->num_os . ' - 2023'; ?></div>
@@ -51,8 +50,6 @@
               <div class="col-md-6 p-1 <?= bgCompra() ?>"> <?= strtoupper($data['orden'][0]->tipo); ?></div>
             <?php endif; ?>
           </div>
-
-
         </div>
 
         <!-- FILA 2 encabezado de tabla de ITEMS -->
@@ -80,7 +77,6 @@
               </a> -->
 
               <a href="" data-bs-toggle="modal" data-bs-target="#edit_modal_<?= $orden->id ?>" class=" btn btn-success fw-bold">
-                
                 <i class="bi bi-pencil-square"></i>  
               </a>
 
@@ -113,7 +109,7 @@
             </div>
 
           </div>
-          <?php require APPROOT . '/views/encargado/partials/modal_edit_item.php'; ?>
+          <?php require APPROOT . '/views/encargado/partials/_mod_editar_item.php'; ?>
 
 
         <?php endforeach; ?>
@@ -129,7 +125,7 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"><?= $obs->observaciones ?></textarea>
                 <!-- <div class="col-md-10 btn btn-light text-center"><?= $obs->observaciones ?> </div> -->
               </div>
-              <?php require APPROOT . '/views/encargado/partials/modal_edit_obs.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_obs.php'; ?>
             <?php endforeach; ?>
             </div>
           <?php endif; ?>
@@ -146,7 +142,7 @@
                 <a href="<?= $link->enlace ?>" target="_blank" class="col-md-1 btn btn-primary">Abrir <i class="bi bi-arrow-up"></i>  </a>
                 <div class="col-md-10 btn btn-light text-center"><?= $link->enlace ?> </div>
               </div>
-              <?php require APPROOT . '/views/encargado/partials/modal_edit_enlace.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_enlace.php'; ?>
             <?php endforeach; ?>
             </div>
           <?php endif; ?>
@@ -160,7 +156,7 @@
               Subir Archivo 
               <i class="bi bi-pencil-square"></i>
             </a>
-            <?php require APPROOT . '/views/encargado/partials/modal_subir_adjunto.php'; ?>
+            <?php require APPROOT . '/views/encargado/partials/_mod_editar_upload.php'; ?>
           </div>
           
           <div class="d-md-flex alert alert-success text-dark ">
@@ -247,7 +243,7 @@
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>1° REVISION </span>
               </a>
-              <?php require APPROOT . '/views/encargado/partials/modal_aprobacion1.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_rev1.php'; ?>
             <?php endif; ?>
 
             <?php if ($data['revisor1'] == $_SESSION['user_nombre']  && strtoupper($data['aprob_1']) == 'APROBADO') : ?>
@@ -269,7 +265,7 @@
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span>2° REVISION </span>
               </a>
-              <?php require APPROOT . '/views/encargado/partials/modal_aprobacion2.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_rev2.php'; ?>
             <?php endif; ?>
 
              
@@ -353,7 +349,6 @@
               </a> -->
 
               <a href="" data-bs-toggle="modal" data-bs-target="#edit_item_<?= $orden->id ?>" class=" btn btn-success fw-bold">
-                
                 <i class="bi bi-pencil-square"></i>  
               </a>
             </div>
@@ -370,7 +365,7 @@
 
           </div>
 
-          <?php require APPROOT . '/views/encargado/partials/modal_edit_item.php'; ?>
+          <?php require APPROOT . '/views/encargado/partials/_mod_editar_item.php'; ?>
 
         <?php endforeach; ?>
 
@@ -401,7 +396,7 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"><?= $obs->observaciones ?></textarea>
                 <!-- <div class="col-md-10 btn btn-light text-center"><?= $obs->observaciones ?> </div> -->
               </div>
-              <?php require APPROOT . '/views/encargado/partials/modal_edit_obs.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_obs.php'; ?>
             <?php endforeach; ?>
             </div>
           <?php endif; ?>
@@ -418,7 +413,7 @@
                 <a href="<?= $link->enlace ?>" target="_blank" class="col-md-1 btn btn-primary">Abrir <i class="bi bi-arrow-up"></i>  </a>
                 <div class="col-md-10 btn btn-light text-center"><?= $link->enlace ?> </div>
               </div>
-              <?php require APPROOT . '/views/encargado/partials/modal_edit_enlace.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_enlace.php'; ?>
             <?php endforeach; ?>
             </div>
           <?php endif; ?>
@@ -432,7 +427,7 @@
               Subir Archivo 
               <i class="bi bi-pencil-square"></i>
             </a>
-            <?php require APPROOT . '/views/encargado/partials/modal_subir_adjunto.php'; ?>
+            <?php require APPROOT . '/views/encargado/partials/_mod_editar_upload.php'; ?>
           </div>
           
 
@@ -526,7 +521,7 @@
                   <i class="bi bi-pencil-square mr-5"></i>
                   <span>1° REVISION </span>
                 </a>
-                <?php require APPROOT . '/views/encargado/partials/modal_aprobacion1.php'; ?>
+                <?php require APPROOT . '/views/encargado/partials/_mod_editar_rev1.php'; ?>
               <?php endif; ?>
 
               <!-- mostrar status APROBADO -->
@@ -549,7 +544,7 @@
                   <i class="bi bi-pencil-square mr-5"></i>
                   <span>2° REVISION </span>
                 </a>
-                <?php require APPROOT . '/views/encargado/partials/modal_aprobacion2.php'; ?>
+                <?php require APPROOT . '/views/encargado/partials/_mod_editar_rev2.php'; ?>
               <?php endif; ?>
 
             </div>
@@ -561,15 +556,16 @@
       </div>
     </div>
     <?php endif; ?>
-    <pre><?php //print_r($data) ?></pre>
 
   </section>
 
+<?php
+  echo "<pre>";
+  print_r($data);
+  echo "</pre>";
+?>
+
 </main>
-
-
-
-
 
 
 <script src="<?php echo URLROOT; ?>/js/form_usuario.js"></script>

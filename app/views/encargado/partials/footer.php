@@ -11,14 +11,14 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="<?php echo URLROOT; ?>/js/apexcharts/apexcharts.min.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/boostrap/bootstrap.bundle.min.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/chart.umd.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/echarts/echarts.min.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/quill/quill.min.js"></script>
+
+  <script src="<?php echo URLROOT; ?>/js/bootstrap.bundle.min.js"></script>
   <script src="<?php echo URLROOT; ?>/js/simple-datatables.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/tinymce/tinymce.min.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/php-email-form/validate.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/simple-datatables_quill.min.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/simple-datatables_tinymce.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0/dist/apexcharts.min.js"></script>
+
 
   <!-- Template Main JS File -->
   <script src="<?php echo URLROOT; ?>/js/main.js"></script>

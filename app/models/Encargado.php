@@ -6,6 +6,214 @@
 			$this->db = new Database;
 		}
 
+    public function read($type, $table, $_cols = [], $_where = [], $_order, $_limit) {
+
+      $cols = '';
+
+      foreach($_cols as $col) {
+        if (isset($col[2])) {
+          $cols .= $col[0] . '.' . $col[1] . ' AS ' . $col[2] . ', ';
+        } else {
+          $cols .= $col[0] . '.' . $col[1] . ', ';          
+        }
+      }
+
+      $fields = rtrim($cols, ', ');
+
+      if ($table) {
+        $from = ' FROM ' . $table . ' t1 ';
+      } 
+
+      if ($_where) {
+
+        $where = ' WHERE ';
+
+        foreach($_where as $value) {
+
+          if (isset($value[3])) {
+            $marker = ':' . $value[1];
+            $where .= $value[0] . '.' . $value[1] . ' = ' . $marker . $value[3];
+          } else {
+            $marker = ':' . $value[1];
+            $where .= $value[0] . '.' . $value[1] . ' = ' . $marker;
+          }
+
+        }
+
+      } else {
+        $where = null;
+      }
+
+      if ($_order) {
+        $order = ' ORDER BY ' . $_order;
+      } else {
+        $order = null;
+      }
+
+      if ($_limit) {
+        $limit = ' LIMIT ' . $_limit;
+      } else {
+        $limit = null;
+      }
+
+      $stmt = 'SELECT ' . $fields . $from . $where . $order;
+
+
+      $this->db->query($stmt);
+
+      if ($_where) {
+        foreach($_where as $value) {
+          $marker = ':' . $value[1];
+          $this->db->bind($marker, $value[2]);
+        }
+      }
+
+        // echo "<pre>";
+        // echo $stmt;
+        // echo "</pre>";
+        // die();
+
+      $result = '';
+      
+      if ( $type == 'single') {
+        $result = $this->db->getSingle();
+      } else if ( $type == 'set') {
+        $result = $this->db->getSet();
+      }
+      
+      return $result;
+    }
+
+    // public function readRevisorCaja1($tipo) {
+    //   $this->db->query('SELECT usuario FROM supervisores WHERE tipo = :tipo');
+    //   $this->db->bind(':tipo', $tipo);
+    //   $revisor = $this->db->getSingle();
+    //   return $revisor->usuario;
+    // }
+
+    public function readJoin($type, $_from = [], $_joins = [], $_cols = [], $_where = [], $_group = [], $_order = [], $_limit = []) {
+
+
+      if ($_from) {
+        $from = ' FROM ' . $_from[0] . ' ' . $_from[1];;
+      } 
+
+      if ($_joins) {
+
+        $joins = '';
+
+        foreach($_joins as $tab) {
+          $joins .= ' INNER JOIN ' . $tab[0] . ' ' . $tab[1] . ' ON ' . $tab[1] . '.' . $tab[2] . ' = ' . $tab[3] . '.' . $tab[4];
+        }
+
+      } else {
+        $joins = null;
+      }
+
+
+      $cols = '';
+
+      foreach($_cols as $col) {
+        if (isset($col[2])) {
+          if (is_null($col[0])) {
+            $cols .= $col[1] . ' AS ' . $col[2] . ', ';
+          } else {
+            $cols .= $col[0] . '.' . $col[1] . ' AS ' . $col[2] . ', ';
+          }
+
+        } else {
+          $cols .= $col[0] . '.' . $col[1] . ', ';          
+        }
+      }
+
+      $fields = rtrim($cols, ', ');
+
+
+      if ($_where) {
+
+        $where = ' WHERE ';
+
+        foreach($_where as $value) {
+
+          if (isset($value[3])) {
+            $marker = ':' . $value[1];
+            $where .= $value[0] . '.' . $value[1] . ' = ' . $marker . $value[3];
+          } else {
+            $marker = ':' . $value[1];
+            $where .= $value[0] . '.' . $value[1] . ' = ' . $marker;
+          }
+
+        }
+
+      } else {
+        $where = null;
+      }
+
+
+      if ($_group) {
+        $group = ' GROUP BY ' . $_group[0] . '.' . $_group[1];
+      } else {
+        $group = null;
+      }
+
+      if ($_order) {
+        if ( $_order[1] && $_order[2] ) {
+          $order = ' ORDER BY ' . $_order[1] . '.' . $_order[2] . ' ' . $_order[0];
+        } else  {
+          $order = ' ' . $_order[0];
+
+        }
+      } else {
+        $order = null;
+      }
+
+
+
+      // limit 5, 10;
+      // limit 10 offset 5;
+      // To skip the first 5 countries and select the next 10 countries, you use the offset clause:
+      if ($_limit) {
+
+        if ( $_limit[1] && $_limit[2] ) {
+          $limit = ' LIMIT ' . $_limit[0] . ' '. $_limit[2] . ' ' . $_limit[1];
+        } else if ( $_limit[1] ) {
+          $limit = ' LIMIT ' . $_limit[0] . ', ' . $_limit[1];
+        } else {
+          $limit = ' LIMIT ' . $_limit[0];
+        }
+
+      } else {
+        $limit = null;
+      }
+
+
+      $stmt = 'SELECT ' . $fields . $from . $joins . $where . $group . $order . $limit;
+    
+      $this->db->query($stmt);
+
+      if ($_where) {
+        foreach($_where as $value) {
+          $marker = ':' . $value[1];
+          $this->db->bind($marker, $value[2]);
+        }
+      }
+
+        // echo "<pre>";
+        // echo $stmt;
+        // echo "</pre>";
+        // die();
+
+      if ( $type == 'single') {
+        $result = $this->db->getSingle();
+      } else if ( $type == 'set') {
+        $result = $this->db->getSet();
+      }
+      
+      return $result;
+    }
+
+
+
     // ************ BEGIN INDEX VIEW
     public function readMinas($_table) {
 

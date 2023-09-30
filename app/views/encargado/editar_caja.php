@@ -13,7 +13,6 @@
     </nav>
   </div>
 
-
   <section class="section dashboard">
 
     <div class="card">
@@ -32,7 +31,6 @@
               <div class="col-md-5 bg-light"> Usuario:  </div>
               <div class="col-md-7 btn btn-secondary"> <?php echo $data['caja'][0]->nombre . ' - ' . $data['caja'][0]->codigo  ?></div>
             </div>
-
 
           </div>
         </div>
@@ -75,7 +73,7 @@
                   <a href="" data-bs-toggle="modal" data-bs-target="#edit_caja_item_<?php echo $orden->id ?>" class=" btn btn-success fw-bold">
                     <?php echo $orden->item ?>
                   </a>
-                  <?php require APPROOT . '/views/encargado/partials/modal_edit_caja_item.php'; ?>
+                  <?php require APPROOT . '/views/encargado/partials/_mod_editar_caja_item.php'; ?>
                 </td>
                 <td class="d-none d-md-table-cell" > <?php echo fixedFecha($orden->fecha); ?></td>
                 <td class="d-none d-md-table-cell"><?php echo $orden->centro_costo ?></td>
@@ -118,7 +116,7 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"><?= $obs->observaciones ?></textarea>
                 <!-- <div class="col-md-10 btn btn-light text-center"><?= $obs->observaciones ?> </div> -->
               </div>
-              <?php require APPROOT . '/views/encargado/partials/modal_edit_obs.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_obs.php'; ?>
             <?php endforeach; ?>
             </div>
           <?php endif; ?>
@@ -135,7 +133,7 @@
                 <a href="<?= $link->enlace ?>" target="_blank" class="col-md-1 btn btn-primary">Abrir <i class="bi bi-arrow-up"></i>  </a>
                 <div class="col-md-10 btn btn-light text-center"><?= $link->enlace ?> </div>
               </div>
-              <?php require APPROOT . '/views/encargado/partials/modal_edit_enlace.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_enlace.php'; ?>
             <?php endforeach; ?>
             </div>
           <?php endif; ?>
@@ -149,7 +147,7 @@
               Subir Archivo 
               <i class="bi bi-pencil-square"></i>
             </a>
-            <?php require APPROOT . '/views/encargado/partials/modal_subir_adjunto.php'; ?>
+            <?php require APPROOT . '/views/encargado/partials/_mod_editar_upload.php'; ?>
           </div>
           
           <div class="d-md-flex alert alert-success text-dark ">
@@ -238,7 +236,7 @@
                 <i class="bi bi-pencil-square mr-5"></i>
                 <span> REVISION </span>
               </a>
-              <?php require APPROOT . '/views/encargado/partials/modal_revisar_caja.php'; ?>
+              <?php require APPROOT . '/views/encargado/partials/_mod_editar_caja_rev.php'; ?>
             <?php endif; ?>
 
              
@@ -250,15 +248,15 @@
     </div>
 
 
-    <pre><?php print_r($data) ?></pre>
-
   </section>
 
+<?php
+  echo "<pre>";
+  print_r($data);
+  echo "</pre>";
+?>
+
 </main>
-
-
-
-
 
 
 <script src="<?php echo URLROOT; ?>/js/form_usuario.js"></script>
