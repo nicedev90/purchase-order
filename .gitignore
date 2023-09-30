@@ -1,7 +1,7 @@
 
-# public/files/cl/*
-# public/files/pe/*
 #*.sh
 # evitar carga de archivos con informacion privada
 app/config/config.php
+public/.htaccess
+
 public/files
